@@ -5,7 +5,7 @@
 <overlay id="modifyheadersToolsOverlay"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     
-    <script type="application/x-javascript" src="chrome://modifyheaders/content/common.js"/>
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js"/>
 
 	<!-- Add a menu item to the 'tools' menu -->
 	<menupopup id="menu_ToolsPopup">

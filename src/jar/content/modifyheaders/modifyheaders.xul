@@ -29,6 +29,7 @@
 		<tabs id="modifyheaders-tabs">
 			<tab id="modifyheaders-headers-tab" label="&modifyheaders.tabs.headers.label;" flex="1" />
 			<tab id="modifyheaders-config-tab" label="&modifyheaders.tabs.config.label;" flex="1" />
+			<tab id="modifyheaders-help-tab" label="&modifyheaders.tabs.help.label;" flex="1" />
 		</tabs>
 		<tabpanels flex="1" id="modifyheaders-tab-panels">
 			<!-- modifyheaders interface -->
@@ -93,6 +94,11 @@
 			<!-- modifyheaders config -->
 			<tabpanel flex="1" id="modifyheaders-config-tab-panel">
 				<iframe flex="1" id="modifyheaders-config-tab-panel-iframe" src="chrome://modifyheaders/content/config/config.xul"/>
+			</tabpanel>
+			
+			<!-- modifyheaders help -->
+			<tabpanel flex="1" id="modifyheaders-help-tab-panel">
+				<iframe flex="1" id="modifyheaders-help-tab-panel-iframe" src="chrome://modifyheaders/locale/help.xul"/>
 			</tabpanel>
 		</tabpanels>
 	</tabbox>

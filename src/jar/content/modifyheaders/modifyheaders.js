@@ -1,10 +1,58 @@
 // Constants for use within the ModifyHeaders class
+const PREF_OPEN_NEW_TAB = "modifyheaders.config.openNewTab";
 const prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
 
 var oModifyHeaders;
 
 // This stops startModifyHeaders() from being run twice.
 var initialized = false;
+
+
+// Opens the modifyheaders interface in a new tab/window
+function openModifyHeaders() {
+
+	oModifyHeaders = new ModifyHeaders();
+
+	var openAsTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
+    
+    if (openAsTab) {
+        // Open modifyheaders in a new tab
+        gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/modifyheaders.xul');
+        setTimeout("gURLBar.focus();", 0);
+        //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
+        //var title = document.getElementById("modifyheaders.title").label
+        //gBrowser.selectedTab.setAttribute("label", title);
+    } else {
+        // Open Modify Headers in a global window
+        window.open("chrome://modifyheaders/content/modifyheaders.xul", "modifyheaders", "chrome,centerscreen,resizable");
+    }
+}
+
+// Inits the Config tab
+function initConfig() {
+
+	oModifyHeaders = new ModifyHeaders();
+
+	// Get the current value
+	var openNewTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
+	
+	// Set the checkbox
+	document.getElementById("modifyheaders-open-in-new-tab").checked = openNewTab;
+}
+
+// Toggles a preference that determines whether to open as a tab or window.
+function toggleOpenAsTab() {
+
+	oModifyHeaders = new ModifyHeaders();
+
+	// Get the current value
+	var openAsTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
+	
+	// Set the inverse of the current value for the preference
+	oModifyHeaders.setPreference("bool", PREF_OPEN_NEW_TAB, !openAsTab);
+}
+
+
 
 function startModifyHeaders() {
 	if (!initialized) {
