@@ -14,12 +14,11 @@
   onload="startModifyHeaders()"
   onunload="stopModifyHeaders()">
 
-	<!-- <script type="application/x-javascript" src="chrome://modifyheaders/content/headers/headers.js"/> -->
 	<script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js" />
 
 	<command id="addHeader" oncommand="oModifyHeaders.addHeader();"/>
 	<command id="editHeader" oncommand="oModifyHeaders.editHeader();"/>
-	<command id="deleteHeader" oncommand="oModifyHeaders.deleteHeader();"/>
+	<command id="deleteHeader" oncommand="oModifyHeaders.deleteHeader('&modifyheaders.options.headers.delete.mesg;');"/>
 	<command id="saveHeader" oncommand="oModifyHeaders.saveHeader();"/>
 	<command id="enableHeader" oncommand="oModifyHeaders.enableHeader();"/>
 	<command id="resetHeaderForm" oncommand="oModifyHeaders.clearForm();"/>
@@ -54,13 +53,13 @@
 					</groupbox>
 
 					<!-- List of headers that can be enabled/disabled -->
-					<hbox align="stretch" flex="1">
-						<tree id="modifyheaders-tree" flex="1">
+					<hbox align="stretch" flex="1" xxonkeypress="oModifyHeaders.listKeyControl(event);">
+						<tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1" ondblclick="oModifyHeaders.enableHeader();">
 							<treecols>
-								<treecol id="enabledcol" width="20"/>
 								<treecol id="actioncol" label="Action"/>
-								<treecol id="namecol" label="Name" flex="1"/>
+								<treecol id="namecol" label="Name" flex="1" sortActive="true"/>
 								<treecol id="valuecol" label="Value" flex="1"/>
+								<treecol id="enabledcol" width="22"/>
 							</treecols>
 							<treechildren/>
 						</tree>
@@ -68,10 +67,24 @@
 						<vbox>
 							<button label="&modifyheaders.options.headers.edit;" command="editHeader" flex="0"/>
 							<button label="&modifyheaders.options.headers.delete;" command="deleteHeader" flex="0"/>
-							<spacer orient="horizontal"/>
+							<separator orient="horizontal"/>
 							<button label="&modifyheaders.options.headers.enable;" command="enableHeader" flex="0"/>
+							<separator orient="horizontal"/>
 							<button label="&modifyheaders.options.headers.move.up;" command="moveRowUp"/>
 							<button label="&modifyheaders.options.headers.move.down;" command="moveRowDown"/>
+							<separator orient="horizontal"/>
+							<hbox>
+								<vbox>
+									<image src="chrome://modifyheaders/content/enabled.gif"/>
+								</vbox>
+								<description flex="1" value="Enabled"/>
+							</hbox>
+							<hbox>
+								<vbox>
+									<image src="chrome://modifyheaders/content/disabled.gif"/>
+								</vbox>
+								<description value="Disabled"/>
+							</hbox>
 						</vbox>
 					</hbox>
 				</vbox>

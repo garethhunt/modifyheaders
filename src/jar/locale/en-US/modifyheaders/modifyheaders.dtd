@@ -13,14 +13,6 @@
 
 <!-- Menu -->
 <!ENTITY modifyheaders.menu.label "Modify Headers">
-<!-- <!ENTITY modifyheaders.about.key "A">
-<!ENTITY modifyheaders.about.label "About...">
-<!ENTITY modifyheaders.default.key "D">
-<!ENTITY modifyheaders.default.label "Default">
-<!ENTITY modifyheaders.options.key "O">
-<!ENTITY modifyheaders.options.label "Options">
-<!ENTITY modifyheaders.options.menu.key "O">
-<!ENTITY modifyheaders.options.menu.label "Options..."> -->
 
 <!-- Tabs -->
 <!ENTITY modifyheaders.tabs.headers.label "Headers">
@@ -41,6 +33,7 @@
 <!ENTITY modifyheaders.options.headers.move.up "Move Up">
 <!ENTITY modifyheaders.options.headers.add "Add">
 <!ENTITY modifyheaders.options.headers.delete "Delete">
+<!ENTITY modifyheaders.options.headers.delete.mesg "Confirm header deletion.">
 <!ENTITY modifyheaders.options.headers.edit "Edit">
 <!ENTITY modifyheaders.options.headers.reset "Reset">
 <!ENTITY modifyheaders.options.headers.save "Save">

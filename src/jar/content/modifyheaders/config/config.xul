@@ -10,7 +10,6 @@
 
     <groupbox>
         <caption label="&modifyheaders.options.general.label;"/>
-        <checkbox id="modifyheaders-options-general-uncheck-onclose" label="&modifyheaders.options.general.uncheck.onclose;" persist="checked"/>
         <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.options.general.open.in.tab;" persist="checked"/>
     </groupbox>
 </page>

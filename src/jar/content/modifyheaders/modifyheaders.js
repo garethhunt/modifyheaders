@@ -116,12 +116,22 @@ ModifyHeaders.prototype = {
     
         if (topic == 'http-on-modify-request') {
             subject.QueryInterface(Components.interfaces.nsIHttpChannel);
-            //subject.setRequestHeader("x-up-calling-line-id", "27824998448", false);
-            //subject.setRequestHeader("x-up-calling-line-id", "27829944778", false);
             
 			for (var i=0; i < this.rowCount; i++) {
 				if (this.rows[i]["enabled"]) {
-					subject.setRequestHeader(this.rows[i]["name"], this.rows[i]["value"], false);
+					var headerName = this.rows[i]["name"];
+					
+					// This is the default for action = Modify
+					var headerValue = this.rows[i]["value"];
+					var headerAppend = false;
+					
+					if (this.rows[i]["action"] == "Add") {
+						headerAppend = true;
+					} else if (this.rows[i]["action"] == "Filter") {
+						headerValue = "";
+					}
+					
+					subject.setRequestHeader(headerName, headerValue, headerAppend);
 				}
 			}
         }
@@ -212,8 +222,8 @@ ModifyHeaders.prototype = {
     addHeader: function() {
     
     	// Values
-    	// TODO Make the enabled default value a preference
-	    var enabled = false;
+    	// TODO Make the enabled default value a preference, true for now
+	    var enabled = true;
 	    var action = document.getElementById("action-menulist").selectedItem.label;
 	    var name = document.getElementById("headername-text-box").value;
     	var value = document.getElementById("headervalue-text-box").value;
@@ -243,25 +253,30 @@ ModifyHeaders.prototype = {
     	this.rows.push(header);
     },
     
-    deleteHeader: function() {
+    deleteHeader: function(mesg) {
     
-        var deleteIndex = this.treeSelection.currentIndex;
+    	//if (confirm("Are you sure you wish to delete this header?")) {
+    	if (confirm(mesg)) {
+    
+	        var deleteIndex = this.treeSelection.currentIndex;
 
-        this.clearPreferences();
-        this.rows.splice(deleteIndex, 1);
-        this.savePreferences();
-        
-        // Notify the treeBoxObject that a row has been deleted
-        // Select the next row if there is one
-        this.treeBox.rowCountChanged(deleteIndex, -1);
-        this.treeSelection.select(deleteIndex);
+    	    this.clearPreferences();
+        	this.rows.splice(deleteIndex, 1);
+	        this.savePreferences();
+
+	        // Notify the treeBoxObject that a row has been deleted
+	        // Select the next row if there is one
+	        this.treeBox.rowCountChanged(deleteIndex, -1);
+	        this.treeSelection.select(deleteIndex);
+        }
     },
     
     editHeader: function() {
         var selectedRowIndex = this.treeSelection.currentIndex;
         
+        // Set the form values to the value of the selected item
         if (selectedRowIndex > -1) {
-            //this.actionMenuList = this.rows[selectedRowIndex]["action"];
+            this.actionMenuList.label = this.rows[selectedRowIndex]["action"];
             this.nameTextbox.value = this.rows[selectedRowIndex]["name"];
             this.valueTextbox.value = this.rows[selectedRowIndex]["value"];
             
@@ -276,7 +291,7 @@ ModifyHeaders.prototype = {
     saveHeader: function() {
     
     	if (this.editedRowID != null) {
-	    	//this.rows[this.editedRowID]["action"] = this.actionMenuList.selectedItem.label;
+	    	this.rows[this.editedRowID]["action"] = this.actionMenuList.selectedItem.label;
     		this.rows[this.editedRowID]["name"] = this.nameTextbox.value;
     		this.rows[this.editedRowID]["value"] = this.valueTextbox.value;
 
