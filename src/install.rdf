@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+    <Description about="urn:mozilla:install-manifest">
+        <em:aboutURL>chrome://modifyheaders/content/about/about.xul</em:aboutURL>
+        <em:creator>Gareth Hunt</em:creator>
+        <em:description>Add, modify and filter http request headers</em:description>
+        <em:homepageURL>http://www.garethhunt.com/</em:homepageURL>
+        <!-- <em:iconURL>chrome://modifyheaders/content/logo.gif</em:iconURL> -->
+        <em:iconURL></em:iconURL>
+        <em:id>{b749fc7c-e949-447f-926c-3f4eed6accfe}</em:id>
+        <em:name>Modify Headers</em:name>
+        <em:optionsURL>chrome://modifyheaders/content/options/options.xul</em:optionsURL>
+        <em:version>0.1</em:version>
+        <em:file>
+            <Description about="urn:mozilla:extension:file:modifyheaders.jar">
+                <em:locale>locale/en-US/modifyheaders/</em:locale>
+                <em:package>content/modifyheaders/</em:package>
+                <em:skin>skin/classic/modifyheaders/</em:skin>
+            </Description>
+        </em:file>
+        <em:targetApplication>
+            <Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:maxVersion>1.0</em:maxVersion>
+                <em:minVersion>1.0</em:minVersion>
+            </Description>
+        </em:targetApplication>
+        <em:targetApplication>
+            <Description>
+                <em:id>{86c18b42-e466-45a9-ae7a-9b95ba6f5640}</em:id>
+                <em:maxVersion>1.7+</em:maxVersion>
+                <em:minVersion>1.7</em:minVersion>
+            </Description>
+        </em:targetApplication>
+    </Description>
+</RDF>

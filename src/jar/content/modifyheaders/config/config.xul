@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://modifyheaders/content/config/config.css" type="text/css"?>
+
+<!DOCTYPE page SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
+
+<!-- <page onload="parent.modifyheaders_initializeConfig()"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"> -->
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <groupbox>
+        <caption label="&modifyheaders.options.general.label;"/>
+        <checkbox id="modifyheaders-options-general-uncheck-onclose" label="&modifyheaders.options.general.uncheck.onclose;" persist="checked"/>
+        <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.options.general.open.in.tab;" persist="checked"/>
+    </groupbox>
+</page>

@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://modifyheaders/skin/modifyheaders.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
+
+<window title="&modifyheaders.extension.name;"
+  id="modifyheaders-window"
+  windowtype="global:modifyheaders"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  width="750"
+  height="500"
+  onload="startModifyHeaders()"
+  onunload="stopModifyHeaders()">
+
+	<!-- <script type="application/x-javascript" src="chrome://modifyheaders/content/headers/headers.js"/> -->
+	<script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js" />
+
+	<command id="addHeader" oncommand="oModifyHeaders.addHeader();"/>
+	<command id="editHeader" oncommand="oModifyHeaders.editHeader();"/>
+	<command id="deleteHeader" oncommand="oModifyHeaders.deleteHeader();"/>
+	<command id="saveHeader" oncommand="oModifyHeaders.saveHeader();"/>
+	<command id="enableHeader" oncommand="oModifyHeaders.enableHeader();"/>
+	<command id="resetHeaderForm" oncommand="oModifyHeaders.clearForm();"/>
+	<command id="moveRowUp" oncommand="oModifyHeaders.moveRowUp();"/>
+	<command id="moveRowDown" oncommand="oModifyHeaders.moveRowDown();"/>
+
+	<tabbox flex="1" id="modifyheaders-tabbox">
+		<tabs id="modifyheaders-tabs">
+			<tab id="modifyheaders-headers-tab" label="&modifyheaders.tabs.headers.label;" flex="1" />
+			<tab id="modifyheaders-config-tab" label="&modifyheaders.tabs.config.label;" flex="1" />
+		</tabs>
+		<tabpanels flex="1" id="modifyheaders-tab-panels">
+			<!-- modifyheaders interface -->
+			<tabpanel flex="1" id="modifyheaders-headers-tab-panel">
+			
+				<vbox flex="1">
+					<groupbox>
+						<hbox>
+							<menulist id="action-menulist">
+								<menupopup>
+									<menuitem label="&modifyheaders.dialog.header.action.add;"/>
+									<menuitem label="&modifyheaders.dialog.header.action.modify;"/>
+									<menuitem label="&modifyheaders.dialog.header.action.filter;"/>
+								</menupopup>
+							</menulist>
+							<textbox id="headername-text-box" flex="1"/>
+							<textbox id="headervalue-text-box" flex="1"/>
+							<button id="add-header-button" label="&modifyheaders.options.headers.add;" command="addHeader" flex="0" hidden="false"/>
+							<button id="save-header-button" label="&modifyheaders.options.headers.save;" command="saveHeader" flex="0" hidden="true"/>
+							<button id="reset-form-button" label="&modifyheaders.options.headers.reset;" command="resetHeaderForm" flex="0" hidden="false"/>
+						</hbox>
+					</groupbox>
+
+					<!-- List of headers that can be enabled/disabled -->
+					<hbox align="stretch" flex="1">
+						<tree id="modifyheaders-tree" flex="1">
+							<treecols>
+								<treecol id="enabledcol" width="20"/>
+								<treecol id="actioncol" label="Action"/>
+								<treecol id="namecol" label="Name" flex="1"/>
+								<treecol id="valuecol" label="Value" flex="1"/>
+							</treecols>
+							<treechildren/>
+						</tree>
+						
+						<vbox>
+							<button label="&modifyheaders.options.headers.edit;" command="editHeader" flex="0"/>
+							<button label="&modifyheaders.options.headers.delete;" command="deleteHeader" flex="0"/>
+							<spacer orient="horizontal"/>
+							<button label="&modifyheaders.options.headers.enable;" command="enableHeader" flex="0"/>
+							<button label="&modifyheaders.options.headers.move.up;" command="moveRowUp"/>
+							<button label="&modifyheaders.options.headers.move.down;" command="moveRowDown"/>
+						</vbox>
+					</hbox>
+				</vbox>
+			</tabpanel>
+			
+			<!-- modifyheaders config -->
+			<tabpanel flex="1" id="modifyheaders-config-tab-panel">
+				<iframe flex="1" id="modifyheaders-config-tab-panel-iframe" src="chrome://modifyheaders/content/config/config.xul"/>
+			</tabpanel>
+		</tabpanels>
+	</tabbox>
+	
+
+</window>

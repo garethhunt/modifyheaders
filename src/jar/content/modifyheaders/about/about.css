@@ -1,0 +1,41 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#modifyheaders-about-details
+{
+    background-color: #ffffff;
+    color: #000000;
+}
+
+#modifyheaders-about-dialog
+{
+    padding: 0;
+}
+
+#modifyheaders-about-separator
+{
+    margin-top: 0;
+}
+
+.name
+{
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.title
+{
+    font-weight: bold;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.url
+{
+    color: #0000ff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.url:hover
+{
+    color: #ff0000;
+}

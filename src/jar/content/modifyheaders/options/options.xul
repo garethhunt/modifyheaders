@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://modifyheaders/content/options/options.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
+
+<dialog buttons="accept, cancel"
+        id="modifyheaders-options-dialog"
+        ondialogaccept="modifyheaders_saveOptions()"
+        title="&modifyheaders.options.title;"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/common.js"/>
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/options/options.js"/>
+
+    <stringbundleset id="stringbundleset">
+        <stringbundle id="modifyheaders-string-bundle" src="chrome://modifyheaders/locale/modifyheaders.properties"/>
+    </stringbundleset>
+
+    <hbox flex="1">
+        <listbox id="modifyheaders-page-list" onselect="modifyheaders_changePage(this)">
+            <listitem label="&modifyheaders.options.general.label;" selected="true" value="chrome://modifyheaders/content/options/pages/general.xul"/>
+            <listitem label="&modifyheaders.options.headers.label;" value="chrome://modifyheaders/content/options/pages/headers.xul"/>
+        </listbox>
+        <vbox flex="1">
+            <iframe flex="1" id="modifyheaders-options-iframe" src="chrome://modifyheaders/content/options/pages/general.xul"/>
+        </vbox>
+    </hbox>
+</dialog>

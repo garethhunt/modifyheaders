@@ -1,0 +1,12 @@
+#
+# build.debug - Copies the extension code to the correct extension directory in your Firefox profile
+#
+build.debug=true
+build.basedir=.
+build.srcdir=${build.basedir}/src
+build.targetdir=${build.basedir}/target
+
+build.mozilla.firefox.home=C:/Program Files/Mozilla Firefox
+build.mozilla.firefox.extension.name=modifyheaders
+build.mozilla.firefox.extension.uuid={b749fc7c-e949-447f-926c-3f4eed6accfe}
+build.mozilla.firefox.extension.home=${user.home}/Application Data/Mozilla/Firefox/Profiles/default.1kt/extensions

@@ -1,0 +1,55 @@
+<!-- Common -->
+<!ENTITY modifyheaders.key "A">
+<!ENTITY modifyheaders.label "Header">
+<!ENTITY modifyheaders.extension.name "Modify Headers">
+<!ENTITY modifyheaders.extension.version "0.1">
+<!ENTITY modifyheaders.author.name "Gareth Hunt">
+
+<!-- About -->
+<!ENTITY modifyheaders.about.author.label "Author">
+<!ENTITY modifyheaders.about.home.page "Home Page">
+<!ENTITY modifyheaders.about.title "About Modify Headers">
+<!ENTITY modifyheaders.about.url "http://www.garethhunt.com/">
+
+<!-- Menu -->
+<!ENTITY modifyheaders.menu.label "Modify Headers">
+<!-- <!ENTITY modifyheaders.about.key "A">
+<!ENTITY modifyheaders.about.label "About...">
+<!ENTITY modifyheaders.default.key "D">
+<!ENTITY modifyheaders.default.label "Default">
+<!ENTITY modifyheaders.options.key "O">
+<!ENTITY modifyheaders.options.label "Options">
+<!ENTITY modifyheaders.options.menu.key "O">
+<!ENTITY modifyheaders.options.menu.label "Options..."> -->
+
+<!-- Tabs -->
+<!ENTITY modifyheaders.tabs.headers.label "Headers">
+<!ENTITY modifyheaders.tabs.config.label "Configuration">
+
+<!-- Config -->
+
+<!-- Options -->
+<!ENTITY modifyheaders.options.title "Modify Headers Options">
+<!ENTITY modifyheaders.options.general.label "General">
+<!ENTITY modifyheaders.options.general.uncheck.onclose "Deselect all selected headers when browser is closed?">
+<!ENTITY modifyheaders.options.general.open.in.tab "Open Modify Headers in a new tab?">
+<!ENTITY modifyheaders.options.headers.action.label "Action">
+<!ENTITY modifyheaders.options.headers.headername.label "Header">
+<!ENTITY modifyheaders.options.headers.headervalue.label "Value">
+<!ENTITY modifyheaders.options.headers.enable "Enable/Disable">
+<!ENTITY modifyheaders.options.headers.move.down "Move Down">
+<!ENTITY modifyheaders.options.headers.move.up "Move Up">
+<!ENTITY modifyheaders.options.headers.add "Add">
+<!ENTITY modifyheaders.options.headers.delete "Delete">
+<!ENTITY modifyheaders.options.headers.edit "Edit">
+<!ENTITY modifyheaders.options.headers.reset "Reset">
+<!ENTITY modifyheaders.options.headers.save "Save">
+<!ENTITY modifyheaders.options.headers.label "Headers">
+
+<!-- Add/Edit/Delete Headers dialog -->
+<!ENTITY modifyheaders.dialog.header.action.label "Action">
+<!ENTITY modifyheaders.dialog.header.action.add "Add">
+<!ENTITY modifyheaders.dialog.header.action.modify "Modify">
+<!ENTITY modifyheaders.dialog.header.action.filter "Filter">
+<!ENTITY modifyheaders.dialog.header.name.label "Name">
+<!ENTITY modifyheaders.dialog.header.value.label "Value">

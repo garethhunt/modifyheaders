@@ -1,0 +1,20 @@
+Todo:
+
+* Fix image updating issue. When header is enabled/disabled, the tree image is not changed until
+  the mouse moves over the tree control. - DONE
+  
+* Implement the move up/down buttons. - DONE
+
+* Implement the form reset button. - DONE
+
+* Remove the additional form control I was using for debugging. - DONE
+
+* Implement the Add/Modify/Filter behaviour.
+
+* Remove unnecessary code from the source code base.
+
+* Stretch the tree to fit - DONE
+
+* Implement preferences tab, saving and retrieving preferences
+
+* Add confirmation when deleting a header from the list
