@@ -1,20 +1,11 @@
-Todo:
+-- Todo --
 
-* Fix image updating issue. When header is enabled/disabled, the tree image is not changed until
-  the mouse moves over the tree control. - DONE
-  
-* Implement the move up/down buttons. - DONE
+* Remove unnecessary code from the source code.
 
-* Implement the form reset button. - DONE
+* Implement preferences tab, saving and retrieving preferences.
 
-* Remove the additional form control I was using for debugging. - DONE
+* Implement preference for opening as a new window or as a tab.
 
-* Implement the Add/Modify/Filter behaviour.
+* Add preference to enable or disable headers by default when added.
 
-* Remove unnecessary code from the source code base.
-
-* Stretch the tree to fit - DONE
-
-* Implement preferences tab, saving and retrieving preferences
-
-* Add confirmation when deleting a header from the list
+* Add a help tab.

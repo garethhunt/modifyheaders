@@ -1,0 +1,31 @@
+-- Release Notes --
+
+Release 0.2
+
+* Add confirmation when deleting a header from the list.
+
+* Implemented the Add/Modify/Filter behaviour. (previously was just Add).
+
+* Fixed edit bug, where action column was not changed.
+
+* Double click to Enable/Disable headers.
+
+* Default status for newly added header is now Enabled.
+
+* Added key for enabled/disabled.
+
+* Moved enabled column to RHS.
+
+* Hidden tree column picker.
+
+--
+Release 0.1:
+
+* Fix image updating issue. When header is enabled/disabled, the tree image is not changed until
+  the mouse moves over the tree control.
+
+* Stretch the tree to fit
+
+* Implement the move up/down buttons.
+
+* Implement the form reset button.
