@@ -4,12 +4,13 @@
 
 <!DOCTYPE page SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 
-<!-- <page onload="parent.modifyheaders_initializeConfig()"
-      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"> -->
-<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<page onload="initConfig()"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
+	<script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js" />
+    
     <groupbox>
         <caption label="&modifyheaders.options.general.label;"/>
-        <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.options.general.open.in.tab;" persist="checked"/>
+        <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.options.general.open.in.tab;" onclick="toggleOpenAsTab();"/>
     </groupbox>
 </page>
