@@ -2,7 +2,7 @@
 <!ENTITY modifyheaders.key "A">
 <!ENTITY modifyheaders.label "Header">
 <!ENTITY modifyheaders.extension.name "Modify Headers">
-<!ENTITY modifyheaders.extension.version "0.1">
+<!ENTITY modifyheaders.extension.version "0.2">
 <!ENTITY modifyheaders.author.name "Gareth Hunt">
 
 <!-- About -->
@@ -11,12 +11,16 @@
 <!ENTITY modifyheaders.about.title "About Modify Headers">
 <!ENTITY modifyheaders.about.url "http://www.garethhunt.com/">
 
+<!-- Help -->
+<!ENTITY modifyheaders.help.title "Modify Headers">
+
 <!-- Menu -->
 <!ENTITY modifyheaders.menu.label "Modify Headers">
 
 <!-- Tabs -->
 <!ENTITY modifyheaders.tabs.headers.label "Headers">
 <!ENTITY modifyheaders.tabs.config.label "Configuration">
+<!ENTITY modifyheaders.tabs.help.label "Help">
 
 <!-- Config -->
 
