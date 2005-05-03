@@ -23,7 +23,7 @@
         chrome:displayName="Modify headers"
         chrome:author="Gareth Hunt"
         chrome:authorURL="http://www.garethhunt.com/"
-        chrome:settingsURL="chrome://modifyheaders/content/options/options.xul"
+        chrome:settingsURL="chrome://modifyheaders/content/config/config.xul"
         chrome:extension="true"
         chrome:description="Add, modify and filter http request headers."
         chrome:name="modifyheaders">
