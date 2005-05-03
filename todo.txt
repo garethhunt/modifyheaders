@@ -2,10 +2,4 @@
 
 * Remove unnecessary code from the source code.
 
-* Implement preferences tab, saving and retrieving preferences.
-
-* Implement preference for opening as a new window or as a tab.
-
 * Add preference to enable or disable headers by default when added.
-
-* Add a help tab.
