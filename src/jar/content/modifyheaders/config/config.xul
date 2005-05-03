@@ -4,8 +4,9 @@
 
 <!DOCTYPE page SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 
-<page onload="initConfig()"
-      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<window onload="initConfig()"
+	title="&modifyheaders.config.title;"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js" />
     
@@ -13,4 +14,4 @@
         <caption label="&modifyheaders.options.general.label;"/>
         <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.options.general.open.in.tab;" onclick="toggleOpenAsTab();"/>
     </groupbox>
-</page>
+</window>
