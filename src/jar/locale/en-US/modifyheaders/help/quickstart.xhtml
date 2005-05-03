@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"[
+    <!ENTITY % brandDTD SYSTEM "chrome://global/locale/brand.dtd" >
+    %brandDTD;
+    <!ENTITY % platformDTD SYSTEM "chrome://help/locale/platformStrings.dtd" >
+    %platformDTD;
+]>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Modifyheaders Help</title>
+		<link rel="stylesheet" type="text/css" href="chrome://modifyheaders/skin/modifyheadersHelp.css"/>
+	</head>
+	<body>
+		<h3>Quick Start: Adding your first header</h3>
+		
+		<p>Follow the instructions below to quickly modify a header for any request:</p>
+		
+		<ol>
+			<li>From the left hand drop-down, select <b>modify</b></li>
+			<li>In the first text box, enter <b>user-agent</b></li>
+			<li>In the second text box, enter <b>My-UA-String</b></li>
+			<li>Click the <b>add</b> button</li>
+		</ol>
+		
+		<p>The new header is added to the list of headers.  It is automatically saved to your preferences so that
+			every time you open the modifyheaders dialog it will be available.</p>
+			
+		<p>Notice that a green circle is displayed on the right.  This indicates that the header is enabled and
+		will be sent with every request while the modifyheaders dialog is open.  To disable the header, highlight
+		the line of that header and click the <b>Enable/Disable</b> button.</p>
+		
+		<p>Alternatively for convenience, double click on that line and it will toggle the headers status.  A
+		red circle indicates the header is disabled.</p>
+	</body>
+</html>
