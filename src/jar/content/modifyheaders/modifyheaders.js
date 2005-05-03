@@ -405,6 +405,37 @@ ModifyHeaders.prototype = {
 		this.treeBox.rowCountChanged(this.treeSelection.currentIndex, 0);
     },
     
+    enableAllHeaders: function() {
+    	var tempSelectedIndex = this.treeSelection.currentIndex;
+    
+    	for (var i=0; i<this.rows.length; i++) {
+    		this.rows[i]["enabled"] = true;
+		
+			// Notify the treeBoxObject that a row has been edited
+			this.treeSelection.select(i);
+			this.treeBox.rowCountChanged(i, 0);
+    	}
+    	
+    	// Revert to the previous selectedIndex
+    	this.treeSelection.select(tempSelectedIndex);
+		this.savePreferences();
+    },
+    
+    disableAllHeaders: function() {
+    	var tempSelectedIndex = this.treeSelection.currentIndex;
+    
+    	for (var i=0; i<this.rows.length; i++) {
+    		this.rows[i]["enabled"] = false;
+		
+			// Notify the treeBoxObject that a row has been edited
+			this.treeSelection.select(i);
+			this.treeBox.rowCountChanged(i, 0);
+    	}
+    	
+    	// Revert to the previous selectedIndex
+    	this.treeSelection.select(tempSelectedIndex);
+		this.savePreferences();
+    },
     
     moveRowDown: function() {
     
