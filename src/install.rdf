@@ -12,7 +12,7 @@
         <em:iconURL></em:iconURL>
         <em:id>{b749fc7c-e949-447f-926c-3f4eed6accfe}</em:id>
         <em:name>Modify Headers</em:name>
-        <em:optionsURL>chrome://modifyheaders/content/options/options.xul</em:optionsURL>
+        <em:optionsURL>chrome://modifyheaders/content/config/config.xul</em:optionsURL>
         <em:version>0.2.0</em:version>
         <em:file>
             <Description about="urn:mozilla:extension:file:modifyheaders.jar">
