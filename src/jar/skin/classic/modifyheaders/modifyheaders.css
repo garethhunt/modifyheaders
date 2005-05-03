@@ -1,23 +1,5 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-/* .header-disabled {
-    color: red;
-    background-color: white;
+body {
+	font-family: arial;
 }
-
-.header-disabled-selected {
-    color: red;
-    background-color: gray;
-}
-
-.header-enabled {
-    color: white;
-    background-color: green;
-}
-
-.header-enabled-selected {
-    color: white;
-    background-color: darkgreen;
-} */
-
-
