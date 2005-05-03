@@ -23,6 +23,7 @@
 <!ENTITY modifyheaders.tabs.help.label "Help">
 
 <!-- Config -->
+<!ENTITY modifyheaders.config.title "Modify Headers Configuration">
 
 <!-- Options -->
 <!ENTITY modifyheaders.options.title "Modify Headers Options">
@@ -33,6 +34,8 @@
 <!ENTITY modifyheaders.options.headers.headername.label "Header">
 <!ENTITY modifyheaders.options.headers.headervalue.label "Value">
 <!ENTITY modifyheaders.options.headers.enable "Enable/Disable">
+<!ENTITY modifyheaders.options.headers.enable.all "Enable All">
+<!ENTITY modifyheaders.options.headers.disable.all "Disable All">
 <!ENTITY modifyheaders.options.headers.move.down "Move Down">
 <!ENTITY modifyheaders.options.headers.move.up "Move Up">
 <!ENTITY modifyheaders.options.headers.add "Add">
