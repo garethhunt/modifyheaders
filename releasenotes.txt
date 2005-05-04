@@ -1,6 +1,15 @@
 -- Release Notes --
 
-Release 0.2
+Release 0.3, 4 May 2005:
+
+* Added help function in separate tab, includes link to bugzilla
+
+* Fixed bug 9910: scroll bar masks enable/disable indicators.
+
+* Fixed bug 9911: enable all/disable all
+
+--
+Release 0.2, 1 March 2005:
 
 * Add confirmation when deleting a header from the list.
 
