@@ -24,16 +24,20 @@
         <em:targetApplication>
             <Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:maxVersion>1.0</em:maxVersion>
                 <em:minVersion>1.0</em:minVersion>
+                <em:maxVersion>1.0+</em:maxVersion>
             </Description>
         </em:targetApplication>
-        <em:targetApplication>
+        <!--
+            Need to add the install.js to the installation.  Will uncomment when this is done.
+            If anyone wishes to write the install.js - feel free, contributions welcome.
+          -->
+        <!-- <em:targetApplication>
             <Description>
                 <em:id>{86c18b42-e466-45a9-ae7a-9b95ba6f5640}</em:id>
-                <em:maxVersion>1.7+</em:maxVersion>
                 <em:minVersion>1.7</em:minVersion>
+                <em:maxVersion>1.8</em:maxVersion>
             </Description>
-        </em:targetApplication>
+        </em:targetApplication> -->
     </Description>
 </RDF>
