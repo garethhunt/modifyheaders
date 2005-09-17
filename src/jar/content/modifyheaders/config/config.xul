@@ -12,6 +12,7 @@
     
     <groupbox>
         <caption label="&modifyheaders.options.general.label;"/>
+        <checkbox id="modifyheaders-always-on" label="&modifyheaders.options.general.always.on;" onclick="toggleAlwaysOn();"/>
         <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.options.general.open.in.tab;" onclick="toggleOpenAsTab();"/>
     </groupbox>
 </window>

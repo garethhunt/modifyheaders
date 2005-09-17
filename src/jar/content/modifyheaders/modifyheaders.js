@@ -1,21 +1,16 @@
 // Constants for use within the ModifyHeaders class
-const PREF_OPEN_NEW_TAB = "modifyheaders.config.openNewTab";
-const prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
+const modifyheadersService = Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders);
 
 var oModifyHeaders;
 
 // This stops startModifyHeaders() from being run twice.
+// TODO Place this as a property of the oModifyHeaders class
 var initialized = false;
-
 
 // Opens the modifyheaders interface in a new tab/window
 function openModifyHeaders() {
 
-	oModifyHeaders = new ModifyHeaders();
-
-	var openAsTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
-    
-    if (openAsTab) {
+    if (modifyheadersService.openAsTab) {
         // Open modifyheaders in a new tab
         gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/modifyheaders.xul');
         setTimeout("gURLBar.focus();", 0);
@@ -31,44 +26,41 @@ function openModifyHeaders() {
 // Inits the Config tab
 function initConfig() {
 
-	oModifyHeaders = new ModifyHeaders();
+	// oModifyHeaders = new ModifyHeaders();
 
 	// Get the current value
-	var openNewTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
+	// var openNewTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
 	
 	// Set the checkbox
-	document.getElementById("modifyheaders-open-in-new-tab").checked = openNewTab;
+	// document.getElementById("modifyheaders-open-in-new-tab").checked = openNewTab;
+	document.getElementById("modifyheaders-always-on").checked = modifyheadersService.alwaysOn;
+	document.getElementById("modifyheaders-open-in-new-tab").checked = modifyheadersService.openAsTab;
+}
+
+function toggleAlwaysOn() {
+    var alwaysOn = modifyheadersService.alwaysOn;
+    modifyheadersService.alwaysOn = !alwaysOn;
 }
 
 // Toggles a preference that determines whether to open as a tab or window.
 function toggleOpenAsTab() {
-
-	oModifyHeaders = new ModifyHeaders();
-
-	// Get the current value
-	var openAsTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
-	
-	// Set the inverse of the current value for the preference
-	oModifyHeaders.setPreference("bool", PREF_OPEN_NEW_TAB, !openAsTab);
+    var openAsTab = modifyheadersService.openAsTab;
+    modifyheadersService.openAsTab = !openAsTab;
 }
-
-
 
 function startModifyHeaders() {
 	if (!initialized) {
 		oModifyHeaders = new ModifyHeaders();
 		oModifyHeaders.start();
-		var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-		observerService.addObserver(oModifyHeaders,"http-on-modify-request",false);
 		
 		initialized = true;
+		modifyheadersService.windowOpen = true;
 	}
 }
 
 function stopModifyHeaders() {
-    var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-    observerService.removeObserver(oModifyHeaders,"http-on-modify-request");
     oModifyHeaders = null;
+	modifyheadersService.windowOpen = false;
 }
 
 
@@ -87,14 +79,14 @@ ModifyHeaders.prototype = {
     saveButton: null,
 
 	// The names of the preference variables
-	prefCount: "modifyheaders.headers.count",
+	/* prefCount: "modifyheaders.headers.count",
 	prefAction: "modifyheaders.headers.action",
 	prefEnabled: "modifyheaders.headers.enabled",
 	prefName: "modifyheaders.headers.name",
-	prefValue: "modifyheaders.headers.value",
+	prefValue: "modifyheaders.headers.value", */
 
     // nsITreeView interface properties
-    rows: new Array(),
+    //rows: new Array(),
     treeSelection: null, // nsiTreeSelection
     treeBox: null, // The tree
     
@@ -102,7 +94,8 @@ ModifyHeaders.prototype = {
     
     // Getters and Setters
     set rowCount(i) { throw "rowCount is a readonly property"; },
-    get rowCount() { return this.rows.length; },
+    //get rowCount() { return this.rows.length; },
+    get rowCount() { return modifyheadersService.count; },
     
     set selection(s) { this.treeSelection = s; },
     get selection() { return this.treeSelection; },
@@ -115,25 +108,23 @@ ModifyHeaders.prototype = {
 //    drop: function(row, orientation) { /* do nothing */ return false; },
     getCellProperties: function(row, columnID, properties) { /* do nothing */ },
     getCellText: function(row, columnID) {
-		var key = columnID.substring(0, columnID.lastIndexOf("col"));
-		if (this.rows[row] == null) {
-		    return null;
-		} else {
-		    return this.rows[row][key];
-		}
+        if (columnID == "actioncol") {
+            return modifyheadersService.getHeaderAction(row);
+        } else if (columnID == "namecol") {
+            return modifyheadersService.getHeaderName(row);
+        } else if (columnID == "valuecol") {
+            return modifyheadersService.getHeaderValue(row);
+        }
 	},
 //    getCellValue: function(row, columnID) { /* return null; */ },
     getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
     getImageSrc: function(rowIndex, columnID) {
     	if (columnID == "enabledcol") {
-    		var imageSrc;
-    	
-    		if (this.rows[rowIndex]["enabled"]) {
-    			imageSrc = "chrome://modifyheaders/content/enabled.gif";
+    		if (modifyheadersService.isHeaderEnabled(rowIndex)) {
+    			return "chrome://modifyheaders/content/enabled.gif";
     		} else {
-    			imageSrc = "chrome://modifyheaders/content/disabled.gif";
+    			return "chrome://modifyheaders/content/disabled.gif";
     		}
-    		return imageSrc;
     	}
     	
     	return null;
@@ -160,7 +151,7 @@ ModifyHeaders.prototype = {
     
     
     // Observer interface method
-    observe: function(subject,topic,data) {
+    /* observe: function(subject,topic,data) {
     
         if (topic == 'http-on-modify-request') {
             subject.QueryInterface(Components.interfaces.nsIHttpChannel);
@@ -183,11 +174,9 @@ ModifyHeaders.prototype = {
 				}
 			}
         }
-    },
+    }, */
     
     start: function() {
-        this.initializeHeaders();
-        
         // Initialize the form controls
         this.headersTree = document.getElementById("modifyheaders-tree");
         this.actionMenuList = document.getElementById("action-menulist");
@@ -203,7 +192,7 @@ ModifyHeaders.prototype = {
     /*
      * Get the specified preference.  If it doesn't exist, create it and return the default value.
      */
-    getPreference: function(type, name) {
+    /* getPreference: function(type, name) {
         var prefValue;
     
         if (prefService.prefHasUserValue(name)) {
@@ -230,9 +219,9 @@ ModifyHeaders.prototype = {
         }
         
         return prefValue;
-    },
+    }, */
     
-    setPreference: function(type, name, value) {
+    /* setPreference: function(type, name, value) {
             if (type=='bool') {
                 prefService.setBoolPref(name, value);
             } else if (type=='char') {
@@ -240,10 +229,10 @@ ModifyHeaders.prototype = {
             } else if (type=='int') {
                 prefService.setIntPref(name, value);
             }
-    },
+    }, */
     
     // Persist the rows to the preferences.
-    savePreferences: function() {
+    /* savePreferences: function() {
     
     	// Loop over the rows
     	for (var i=0; i < this.rows.length; i++) {
@@ -254,10 +243,10 @@ ModifyHeaders.prototype = {
     	}
     	
    		this.setPreference("int", this.prefCount, this.rows.length);
-    },
+    }, */
     
     // Clear the rows from there preferences
-    clearPreferences: function() {
+    /* clearPreferences: function() {
     	// Loop over the rows
     	for (var i=0; i < this.rows.length; i++) {
     	    prefService.clearUserPref(this.prefAction + i);
@@ -265,7 +254,7 @@ ModifyHeaders.prototype = {
     	    prefService.clearUserPref(this.prefName + i);
     	    prefService.clearUserPref(this.prefValue + i);
     	}
-    },
+    }, */
     
     addHeader: function() {
     
@@ -276,11 +265,13 @@ ModifyHeaders.prototype = {
 	    var name = document.getElementById("headername-text-box").value;
     	var value = document.getElementById("headervalue-text-box").value;
     	
+    	modifyheadersService.addHeader(name, value, action, enabled);
+    	
     	// Add the header information to the Array
-		this.addHeaderToStack(enabled, action, name, value);
+		//this.addHeaderToStack(enabled, action, name, value);
 		
 		// Save the preferences
-		this.savePreferences();
+		//this.savePreferences();
 		
 		// Notify the treeBoxObject that a row has been added,
 		// Select the row
@@ -290,7 +281,7 @@ ModifyHeaders.prototype = {
         this.clearForm();
     },
     
-    addHeaderToStack: function(enabled, action, name, value) {
+    /* addHeaderToStack: function(enabled, action, name, value) {
 
     	var header = new Array();
     	header["enabled"] = enabled;
@@ -299,7 +290,7 @@ ModifyHeaders.prototype = {
     	header["value"] = value;
     	
     	this.rows.push(header);
-    },
+    }, */
     
     deleteHeader: function(mesg) {
     
@@ -307,10 +298,12 @@ ModifyHeaders.prototype = {
     	if (confirm(mesg)) {
     
 	        var deleteIndex = this.treeSelection.currentIndex;
+	        
+	        modifyheadersService.removeHeader(deleteIndex);
 
-    	    this.clearPreferences();
+    	    /* this.clearPreferences();
         	this.rows.splice(deleteIndex, 1);
-	        this.savePreferences();
+	        this.savePreferences(); */
 
 	        // Notify the treeBoxObject that a row has been deleted
 	        // Select the next row if there is one
@@ -324,9 +317,12 @@ ModifyHeaders.prototype = {
         
         // Set the form values to the value of the selected item
         if (selectedRowIndex > -1) {
-            this.actionMenuList.label = this.rows[selectedRowIndex]["action"];
+            /* this.actionMenuList.label = this.rows[selectedRowIndex]["action"];
             this.nameTextbox.value = this.rows[selectedRowIndex]["name"];
-            this.valueTextbox.value = this.rows[selectedRowIndex]["value"];
+            this.valueTextbox.value = this.rows[selectedRowIndex]["value"]; */
+            this.actionMenuList.label = modifyheadersService.getHeaderAction(selectedRowIndex);
+            this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex);
+            this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex);
             
             this.editedRowID = selectedRowIndex;
             
@@ -339,12 +335,21 @@ ModifyHeaders.prototype = {
     saveHeader: function() {
     
     	if (this.editedRowID != null) {
-	    	this.rows[this.editedRowID]["action"] = this.actionMenuList.selectedItem.label;
+    	    
+    	    var index = this.editedRowID;
+    	    var name = this.nameTextbox.value;
+    	    var value = this.valueTextbox.value;
+    	    var action = this.actionMenuList.selectedItem.label;
+    	    var enabled = modifyheadersService.isHeaderEnabled(index);
+    	    
+    	    modifyheadersService.setHeader(index, name, value, action, enabled);
+    	
+	    	/* this.rows[this.editedRowID]["action"] = this.actionMenuList.selectedItem.label;
     		this.rows[this.editedRowID]["name"] = this.nameTextbox.value;
     		this.rows[this.editedRowID]["value"] = this.valueTextbox.value;
 
 			// Save the preferences
-			this.savePreferences();
+			this.savePreferences(); */
 
 			// Notify the treeBoxObject that a row has been edited
 			this.treeBox.rowCountChanged(this.editedRowID, 0);
@@ -370,7 +375,7 @@ ModifyHeaders.prototype = {
         var selectedRowIndex = null;
     },
     
-    initializeHeaders: function() {
+    /* initializeHeaders: function() {
     	var enabled;
     	var action;
     	var name;
@@ -389,16 +394,13 @@ ModifyHeaders.prototype = {
 			
 			this.addHeaderToStack(enabled, action, name, value);
    		}
-    },
+    }, */
     
     enableHeader: function() {
     	// Change the enabled parameter to true
-    	var enabled = this.rows[this.treeSelection.currentIndex]["enabled"];
+    	var enabled = modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex);
     	
-    	this.rows[this.treeSelection.currentIndex]["enabled"] = !enabled;
-
-		// Save the preferences
-		this.savePreferences();
+    	modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled);
     	
 		// Notify the treeBoxObject that a row has been edited
 		this.treeSelection.select(this.treeSelection.currentIndex);
@@ -408,45 +410,40 @@ ModifyHeaders.prototype = {
     enableAllHeaders: function() {
     	var tempSelectedIndex = this.treeSelection.currentIndex;
     
-    	for (var i=0; i<this.rows.length; i++) {
-    		this.rows[i]["enabled"] = true;
-		
-			// Notify the treeBoxObject that a row has been edited
-			this.treeSelection.select(i);
-			this.treeBox.rowCountChanged(i, 0);
-    	}
-    	
-    	// Revert to the previous selectedIndex
-    	this.treeSelection.select(tempSelectedIndex);
-		this.savePreferences();
+    	for (var i=0; i < modifyheadersService.count; i++) {
+            modifyheadersService.setHeaderEnabled(i, true);
+            
+            // Notify the treeBoxObject that a row has been edited
+            this.treeSelection.select(i);
+            this.treeBox.rowCountChanged(i, 0);
+        }
+        
+        // Revert to the previous selectedIndex
+        this.treeSelection.select(tempSelectedIndex);
+        //this.savePreferences();
     },
     
     disableAllHeaders: function() {
-    	var tempSelectedIndex = this.treeSelection.currentIndex;
-    
-    	for (var i=0; i<this.rows.length; i++) {
-    		this.rows[i]["enabled"] = false;
-		
-			// Notify the treeBoxObject that a row has been edited
-			this.treeSelection.select(i);
-			this.treeBox.rowCountChanged(i, 0);
-    	}
-    	
-    	// Revert to the previous selectedIndex
-    	this.treeSelection.select(tempSelectedIndex);
-		this.savePreferences();
+        var tempSelectedIndex = this.treeSelection.currentIndex;
+        
+        for (var i=0; i < modifyheadersService.count; i++) {
+            modifyheadersService.setHeaderEnabled(i, false);
+            
+            // Notify the treeBoxObject that a row has been edited
+            this.treeSelection.select(i);
+            this.treeBox.rowCountChanged(i, 0);
+        }
+        
+        // Revert to the previous selectedIndex
+        this.treeSelection.select(tempSelectedIndex);
+        //this.savePreferences();
     },
     
     moveRowDown: function() {
-    
     	if (this.treeSelection && this.treeSelection.currentIndex != this.rowCount - 1) {
-    		var header = this.rows[this.treeSelection.currentIndex];
-    		
-    		this.rows[this.treeSelection.currentIndex] = this.rows[this.treeSelection.currentIndex + 1];
-    		this.rows[this.treeSelection.currentIndex + 1] = header;
-
-			// Save the preferences
-			this.savePreferences();
+            var selectedIndex = this.treeSelection.currentIndex;
+            
+    	    modifyheadersService.switchHeaders(selectedIndex, selectedIndex + 1);
 			
 			// Change the selection
 			this.treeSelection.select(this.treeSelection.currentIndex + 1);
@@ -455,21 +452,14 @@ ModifyHeaders.prototype = {
     },
     
     moveRowUp: function() {
-    
     	if (this.treeSelection && this.treeSelection.currentIndex != 0) {
-    		var selectedIndex = this.treeSelection.currentIndex;
-    	
-    		var header = this.rows[this.treeSelection.currentIndex];
-    		
-    		this.rows[this.treeSelection.currentIndex] = this.rows[this.treeSelection.currentIndex - 1];
-    		this.rows[this.treeSelection.currentIndex - 1] = header;
-
-			// Save the preferences
-			this.savePreferences();
-			
-			// Change the selection
+        
+            var selectedIndex = this.treeSelection.currentIndex;
+            
+    	    modifyheadersService.switchHeaders(selectedIndex, selectedIndex - 1);
+            
 			this.treeSelection.select(this.treeSelection.currentIndex - 1);
-			this.treeBox.rowCountChanged(this.selection.currentIndex - 1, 0);
+			this.treeBox.rowCountChanged(this.selection.currentIndex-1, 0);
     	}
     }
 };

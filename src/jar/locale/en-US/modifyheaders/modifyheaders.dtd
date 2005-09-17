@@ -29,6 +29,7 @@
 <!ENTITY modifyheaders.options.title "Modify Headers Options">
 <!ENTITY modifyheaders.options.general.label "General">
 <!ENTITY modifyheaders.options.general.uncheck.onclose "Deselect all selected headers when browser is closed?">
+<!ENTITY modifyheaders.options.general.always.on "Always On: Enable Modify Headers when this window is closed.">
 <!ENTITY modifyheaders.options.general.open.in.tab "Open Modify Headers in a new tab?">
 <!ENTITY modifyheaders.options.headers.action.label "Action">
 <!ENTITY modifyheaders.options.headers.headername.label "Header">

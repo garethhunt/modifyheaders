@@ -13,6 +13,9 @@
 	<!-- The default settings mop up any properties not set in the target -->
 	<property file="build.properties.default"/>
 	
+	<!-- Filters used for token replacement -->
+	<filter token="build.version" value="${build.version}"/>
+	
     <description>
         Modify Headers is an extension for the Mozilla Firefox web browser
     	that allows a user to modify the HTTP request sent to a particular URL.
@@ -21,6 +24,7 @@
 	<target name="info">
 		<echo>
 			User home: ${user.home}
+			OS: ${os.name}
 			
 			Basedir: ${build.debug}
 			Basedir: ${build.basedir}
@@ -32,6 +36,7 @@
 			
 			Extension details:
 			Name: ${build.mozilla.firefox.extension.name}
+			Version: ${build.version}
 			UUID: ${build.mozilla.firefox.extension.uuid}
 			Home: ${build.mozilla.firefox.extension.home}/${build.mozilla.firefox.extension.uuid}
 		</echo>
@@ -42,16 +47,29 @@
 		<delete dir="${build.targetdir}" verbose="true"/>
 	</target>
 
-	<target name="setup" depends="clean" description="Ensures that the required target directories are created">
+	<target name="prepare" depends="clean" description="Ensures that the required target directories are created">
 		<mkdir dir="${build.targetdir}"/>
+		<mkdir dir="${build.targetdir}/interface"/>
 		<mkdir dir="${build.targetdir}/jar/chrome"/>
+		<mkdir dir="${build.targetdir}/jar/components"/>
 		<mkdir dir="${build.targetdir}/xpi"/>
 	</target>
+	
+	<target name="compile" depends="prepare" description="Compiles the idl interface file into an xpt">
+		<exec executable="${build.basedir}/compile-interface.bat" dir="${build.basedir}"/>
+	</target>
 
-	<target name="jar" depends="setup" description="Creates the extension jar">
+	<target name="jar" depends="compile" description="Creates the extension jar">
         <jar destfile="${build.targetdir}/jar/chrome/${build.mozilla.firefox.extension.name}.jar"
         	 basedir="${build.srcdir}/jar"
         	 includes="**"/>
+		<copy todir="${build.targetdir}/jar/components">
+			<fileset dir="${build.srcdir}/components"></fileset>
+			<fileset dir="${build.targetdir}/interface"></fileset>
+		</copy>
+		<copy todir="${build.targetdir}/jar/" filtering="true">
+			<fileset dir="${build.srcdir}" includes="*.*"/>
+		</copy>
     </target>
 
 
@@ -60,9 +78,9 @@
          ================================= -->
 	<target name="xpi" depends="jar" description="Creates the xpi file that includes the extension jar and ind=stall scripts">
 		<!-- Zip the jar file and the installation scripts into the xpi file -->
-		<zip destfile="${build.targetdir}/xpi/${build.mozilla.firefox.extension.name}.xpi">
-			<fileset dir="${build.targetdir}/jar" includes="**/${build.mozilla.firefox.extension.name}.jar"/>
-		    <fileset dir="${build.srcdir}" includes="*.*"/>
+		<zip destfile="${build.targetdir}/xpi/${build.mozilla.firefox.extension.name}-${build.version}.xpi">
+			<!-- <fileset dir="${build.targetdir}/jar" includes="*.*"/> -->
+			<fileset dir="${build.targetdir}/jar" includes="**/*.*"/>
 		</zip>
     </target>
 

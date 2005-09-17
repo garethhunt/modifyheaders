@@ -27,6 +27,13 @@
         chrome:extension="true"
         chrome:description="Add, modify and filter http request headers."
         chrome:name="modifyheaders">
+
+    <!-- Extra info for JSLib uninstall -->
+    <chrome:uninstallInfo>
+      <RDF:Seq>
+        <RDF:li>ComsD:modifyheaders-service.js</RDF:li>
+      </RDF:Seq>
+    </chrome:uninstallInfo>
   </RDF:Description>
 
   <!-- overlay information -->
