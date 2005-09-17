@@ -1,0 +1,19 @@
+#include "nsISupports.idl"
+[scriptable, uuid(feb80fc3-9e72-4fc5-bc72-986957ada6cc)]
+interface nsIModifyheaders : nsISupports
+{
+	attribute unsigned long count;
+	attribute boolean alwaysOn;
+	attribute boolean openAsTab;
+	attribute boolean windowOpen;
+
+    void addHeader(in string name, in string value, in string action, in boolean enabled);
+    void setHeader(in unsigned long index, in string name, in string value, in string action, in boolean enabled);
+    boolean isHeaderEnabled(in unsigned long index);
+    string getHeaderAction(in unsigned long index);
+    string getHeaderName(in unsigned long index);
+    string getHeaderValue(in unsigned long index);
+    void setHeaderEnabled(in unsigned long index, in boolean enabled);
+    void removeHeader(in unsigned long index);
+    void switchHeaders(in unsigned long index1, in unsigned long index2);
+};
