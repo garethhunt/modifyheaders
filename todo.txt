@@ -1,5 +1,12 @@
 -- Todo --
 
+Version 0.6:
 * Remove unnecessary code from the source code.
-
 * Add preference to enable or disable headers by default when added.
+* Import/Export facility
+
+Version 0.7
+* Add ability to group headers which can be enabled/disabled together
+
+Version 0.8
+* Implement facility to modify headers for specific domains/ip's.
