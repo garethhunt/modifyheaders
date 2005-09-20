@@ -25,14 +25,6 @@ function openModifyHeaders() {
 
 // Inits the Config tab
 function initConfig() {
-
-	// oModifyHeaders = new ModifyHeaders();
-
-	// Get the current value
-	// var openNewTab = oModifyHeaders.getPreference("bool", PREF_OPEN_NEW_TAB);
-	
-	// Set the checkbox
-	// document.getElementById("modifyheaders-open-in-new-tab").checked = openNewTab;
 	document.getElementById("modifyheaders-always-on").checked = modifyheadersService.alwaysOn;
 	document.getElementById("modifyheaders-open-in-new-tab").checked = modifyheadersService.openAsTab;
 }
@@ -78,18 +70,9 @@ ModifyHeaders.prototype = {
     addButton: null,
     saveButton: null,
 
-	// The names of the preference variables
-	/* prefCount: "modifyheaders.headers.count",
-	prefAction: "modifyheaders.headers.action",
-	prefEnabled: "modifyheaders.headers.enabled",
-	prefName: "modifyheaders.headers.name",
-	prefValue: "modifyheaders.headers.value", */
-
     // nsITreeView interface properties
-    //rows: new Array(),
     treeSelection: null, // nsiTreeSelection
     treeBox: null, // The tree
-    
     editedRowID: null, // The row currently being edited
     
     // Getters and Setters
@@ -104,22 +87,27 @@ ModifyHeaders.prototype = {
 //    canDropBeforeAfter: function(index, before) { return false; },
 //    canDropOn : function(index) { return false; },
 //    cycleCell : function(row, columnID) { /* do nothing */ },
-//    cycleHeader: function(columnID, element) { /* do nothing */ },
+    cycleHeader: function(columnID, element) {
+        /* do nothing */
+        alert("Cycling: " + columnID);
+    },
 //    drop: function(row, orientation) { /* do nothing */ return false; },
     getCellProperties: function(row, columnID, properties) { /* do nothing */ },
-    getCellText: function(row, columnID) {
-        if (columnID == "actioncol") {
+    getCellText: function(row, column) {
+        if (column == "actioncol" || column.id == "actioncol") {
             return modifyheadersService.getHeaderAction(row);
-        } else if (columnID == "namecol") {
+        } else if (column == "namecol" || column.id == "namecol") {
             return modifyheadersService.getHeaderName(row);
-        } else if (columnID == "valuecol") {
+        } else if (column == "valuecol" || column.id == "valuecol") {
             return modifyheadersService.getHeaderValue(row);
         }
+        
+        return null;
 	},
 //    getCellValue: function(row, columnID) { /* return null; */ },
     getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
-    getImageSrc: function(rowIndex, columnID) {
-    	if (columnID == "enabledcol") {
+    getImageSrc: function(rowIndex, column) {
+    	if (column == "enabledcol" || column.id == "enabledcol") {
     		if (modifyheadersService.isHeaderEnabled(rowIndex)) {
     			return "chrome://modifyheaders/content/enabled.gif";
     		} else {
@@ -149,33 +137,6 @@ ModifyHeaders.prototype = {
 //    toggleOpenState: function(index) { /* do nothing */ },
     // END nsITreeView interface methods
     
-    
-    // Observer interface method
-    /* observe: function(subject,topic,data) {
-    
-        if (topic == 'http-on-modify-request') {
-            subject.QueryInterface(Components.interfaces.nsIHttpChannel);
-            
-			for (var i=0; i < this.rowCount; i++) {
-				if (this.rows[i]["enabled"]) {
-					var headerName = this.rows[i]["name"];
-					
-					// This is the default for action = Modify
-					var headerValue = this.rows[i]["value"];
-					var headerAppend = false;
-					
-					if (this.rows[i]["action"] == "Add") {
-						headerAppend = true;
-					} else if (this.rows[i]["action"] == "Filter") {
-						headerValue = "";
-					}
-					
-					subject.setRequestHeader(headerName, headerValue, headerAppend);
-				}
-			}
-        }
-    }, */
-    
     start: function() {
         // Initialize the form controls
         this.headersTree = document.getElementById("modifyheaders-tree");
@@ -189,73 +150,6 @@ ModifyHeaders.prototype = {
         this.headersTree.treeBoxObject.view = this;
     },
     
-    /*
-     * Get the specified preference.  If it doesn't exist, create it and return the default value.
-     */
-    /* getPreference: function(type, name) {
-        var prefValue;
-    
-        if (prefService.prefHasUserValue(name)) {
-            if (type=='bool') {
-                prefValue = prefService.getBoolPref(name);
-            } else if (type=='char') {
-                prefValue = prefService.getCharPref(name);
-            } else if (type=='int') {
-                prefValue = prefService.getIntPref(name);
-            }
-        
-        // Set the preference with a default value
-        } else {
-            if (type=='bool') {
-            	this.setPreference(type, name, false);
-            	return false;
-            } else if (type=='char') {
-            	this.setPreference(type, name, "");
-            	return "";
-            } else if (type=='int') {
-            	this.setPreference(type, name, 0);
-            	return 0;
-            }
-        }
-        
-        return prefValue;
-    }, */
-    
-    /* setPreference: function(type, name, value) {
-            if (type=='bool') {
-                prefService.setBoolPref(name, value);
-            } else if (type=='char') {
-                prefService.setCharPref(name, value);
-            } else if (type=='int') {
-                prefService.setIntPref(name, value);
-            }
-    }, */
-    
-    // Persist the rows to the preferences.
-    /* savePreferences: function() {
-    
-    	// Loop over the rows
-    	for (var i=0; i < this.rows.length; i++) {
-    		this.setPreference("char", this.prefAction + i, this.rows[i]["action"]);
-    		this.setPreference("char", this.prefName + i, this.rows[i]["name"]);
-    		this.setPreference("char", this.prefValue + i, this.rows[i]["value"]);
-    		this.setPreference("bool", this.prefEnabled + i, this.rows[i]["enabled"]);
-    	}
-    	
-   		this.setPreference("int", this.prefCount, this.rows.length);
-    }, */
-    
-    // Clear the rows from there preferences
-    /* clearPreferences: function() {
-    	// Loop over the rows
-    	for (var i=0; i < this.rows.length; i++) {
-    	    prefService.clearUserPref(this.prefAction + i);
-    	    prefService.clearUserPref(this.prefEnabled + i);
-    	    prefService.clearUserPref(this.prefName + i);
-    	    prefService.clearUserPref(this.prefValue + i);
-    	}
-    }, */
-    
     addHeader: function() {
     
     	// Values
@@ -267,12 +161,6 @@ ModifyHeaders.prototype = {
     	
     	modifyheadersService.addHeader(name, value, action, enabled);
     	
-    	// Add the header information to the Array
-		//this.addHeaderToStack(enabled, action, name, value);
-		
-		// Save the preferences
-		//this.savePreferences();
-		
 		// Notify the treeBoxObject that a row has been added,
 		// Select the row
 		this.treeBox.rowCountChanged(this.rowCount-1, 1);
@@ -281,29 +169,13 @@ ModifyHeaders.prototype = {
         this.clearForm();
     },
     
-    /* addHeaderToStack: function(enabled, action, name, value) {
-
-    	var header = new Array();
-    	header["enabled"] = enabled;
-    	header["action"] = action;
-    	header["name"] = name;
-    	header["value"] = value;
-    	
-    	this.rows.push(header);
-    }, */
-    
+    // Delete the header from the list
     deleteHeader: function(mesg) {
-    
-    	//if (confirm("Are you sure you wish to delete this header?")) {
     	if (confirm(mesg)) {
     
 	        var deleteIndex = this.treeSelection.currentIndex;
 	        
 	        modifyheadersService.removeHeader(deleteIndex);
-
-    	    /* this.clearPreferences();
-        	this.rows.splice(deleteIndex, 1);
-	        this.savePreferences(); */
 
 	        // Notify the treeBoxObject that a row has been deleted
 	        // Select the next row if there is one
@@ -317,10 +189,8 @@ ModifyHeaders.prototype = {
         
         // Set the form values to the value of the selected item
         if (selectedRowIndex > -1) {
-            /* this.actionMenuList.label = this.rows[selectedRowIndex]["action"];
-            this.nameTextbox.value = this.rows[selectedRowIndex]["name"];
-            this.valueTextbox.value = this.rows[selectedRowIndex]["value"]; */
-            this.actionMenuList.label = modifyheadersService.getHeaderAction(selectedRowIndex);
+            // TODO - get the action selected correctly
+            //this.actionMenuList.label = modifyheadersService.getHeaderAction(selectedRowIndex);
             this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex);
             this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex);
             
@@ -344,13 +214,6 @@ ModifyHeaders.prototype = {
     	    
     	    modifyheadersService.setHeader(index, name, value, action, enabled);
     	
-	    	/* this.rows[this.editedRowID]["action"] = this.actionMenuList.selectedItem.label;
-    		this.rows[this.editedRowID]["name"] = this.nameTextbox.value;
-    		this.rows[this.editedRowID]["value"] = this.valueTextbox.value;
-
-			// Save the preferences
-			this.savePreferences(); */
-
 			// Notify the treeBoxObject that a row has been edited
 			this.treeBox.rowCountChanged(this.editedRowID, 0);
 
@@ -374,27 +237,6 @@ ModifyHeaders.prototype = {
 		// Ensure that the selected index is set back to null
         var selectedRowIndex = null;
     },
-    
-    /* initializeHeaders: function() {
-    	var enabled;
-    	var action;
-    	var name;
-    	var value;
-    	
-   		// Read preferences into headersArray
-   		this.getPreference("int", this.prefCount);
-    	
-   		var headerCount = this.getPreference("int", this.prefCount);
-   		
-   		for (var i=0; i < headerCount; i++) {
-			enabled = this.getPreference("bool", this.prefEnabled + i);
-			action = this.getPreference("char", this.prefAction + i);
-			name = this.getPreference("char", this.prefName + i);
-			value = this.getPreference("char", this.prefValue + i);
-			
-			this.addHeaderToStack(enabled, action, name, value);
-   		}
-    }, */
     
     enableHeader: function() {
     	// Change the enabled parameter to true
@@ -420,7 +262,6 @@ ModifyHeaders.prototype = {
         
         // Revert to the previous selectedIndex
         this.treeSelection.select(tempSelectedIndex);
-        //this.savePreferences();
     },
     
     disableAllHeaders: function() {
@@ -436,7 +277,6 @@ ModifyHeaders.prototype = {
         
         // Revert to the previous selectedIndex
         this.treeSelection.select(tempSelectedIndex);
-        //this.savePreferences();
     },
     
     moveRowDown: function() {
