@@ -19,7 +19,7 @@ function openModifyHeaders() {
         //gBrowser.selectedTab.setAttribute("label", title);
     } else {
         // Open Modify Headers in a global window
-        window.open("chrome://modifyheaders/content/modifyheaders.xul", "modifyheaders", "chrome,centerscreen,resizable");
+        window.open("chrome://modifyheaders/content/modifyheaders.xul", "modifyheaders", "chrome,centerscreen,resizable,scrollbars");
     }
 }
 

@@ -56,12 +56,29 @@
 	</target>
 	
 	<target name="compile" depends="prepare" description="Compiles the idl interface file into an xpt">
+		<!-- Compile the nsIModifyHaders interface -->
 		<exec executable="${build.basedir}/compile-interface.bat" dir="${build.basedir}"/>
+		
+		<!-- Copy the files in ${srcdir}/jar to ${targetdir}/chrome -->
+		<copy todir="${build.targetdir}/chrome" filtering="true">
+			<fileset dir="${build.srcdir}/jar">
+				<!-- Exclude the images as the filtering corrupts them -->
+				<exclude name="**/*.gif" />
+				<exclude name="**/*.jpg" />
+			</fileset>
+		</copy>
+		<!-- Copy the gifs without filtering as this corrupts them -->
+		<copy todir="${build.targetdir}/chrome">
+			<fileset dir="${build.srcdir}/jar">
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="jar" depends="compile" description="Creates the extension jar">
         <jar destfile="${build.targetdir}/jar/chrome/${build.mozilla.firefox.extension.name}.jar"
-        	 basedir="${build.srcdir}/jar"
+        	 basedir="${build.targetdir}/chrome"
         	 includes="**"/>
 		<copy todir="${build.targetdir}/jar/components">
 			<fileset dir="${build.srcdir}/components"></fileset>

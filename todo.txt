@@ -1,9 +1,9 @@
 -- Todo --
 
 Version 0.6:
-* Remove unnecessary code from the source code.
-* Add preference to enable or disable headers by default when added.
 * Import/Export facility
+* Add preference to enable or disable headers by default when added.
+* Remove unnecessary code from the source code.
 
 Version 0.7
 * Add ability to group headers which can be enabled/disabled together

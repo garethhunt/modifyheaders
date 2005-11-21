@@ -13,7 +13,9 @@
         <rdf:li> <rdf:Description ID="modifyheaders-modify" nc:name="Modifying Headers" nc:link="chrome://modifyheaders/locale/help/modifying.xhtml"/> </rdf:li>
         <rdf:li> <rdf:Description ID="modifyheaders-filter" nc:name="Filtering Headers" nc:link="chrome://modifyheaders/locale/help/filtering.xhtml"/> </rdf:li>
         <rdf:li> <rdf:Description ID="modifyheaders-together" nc:name="Using Multiple Instructions" nc:link="chrome://modifyheaders/locale/help/multiple.xhtml"/> </rdf:li>
-        <rdf:li> <rdf:Description ID="modifyheaders-credits" nc:name="Credits" nc:link="chrome://modifyheaders/locale/help/credits.xhtml"/> </rdf:li>
+        <rdf:li> <rdf:Description ID="modifyheaders-config" nc:name="Configuration Options" nc:link="chrome://modifyheaders/locale/help/configuration.xhtml"/> </rdf:li>
+        <rdf:li> <rdf:Description ID="modifyheaders-about" nc:name="About Modify Headers" nc:link="chrome://modifyheaders/locale/help/about.xhtml"/> </rdf:li>
+        <rdf:li> <rdf:Description ID="modifyheaders-roadmap" nc:name="Modify Headers Roadmap" nc:link="chrome://modifyheaders/locale/help/roadmap.xhtml"/> </rdf:li>
       </rdf:Seq>
     </nc:subheadings>
   </rdf:Description>

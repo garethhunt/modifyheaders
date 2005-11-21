@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin" type="text/css"?>
 <?xml-stylesheet href="chrome://modifyheaders/skin/modifyheaders.css" type="text/css"?>
+<?xml-stylesheet href="chrome://modifyheaders/skin/modifyheadersHelp.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 
 <page title="&modifyheaders.help.title;"
   id="modifyheaders-help-window"
   xmlns:html="http://www.w3.org/1999/xhtml"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  onload="modifyheaders_help_init()">
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   
 	<script type="application/x-javascript" src="chrome://modifyheaders/content/help/help.js" />
 
@@ -61,13 +61,13 @@
 			persist="state hidden"
 			autostretch="never"
 			state="open"/>
-		<vbox flex="4">
+		<vbox flex="4" class="helpBox">
 			<browser
-				context="contentAreaContextMenu"
 				type="content-primary"
 				id="modifyheaders-help-content"
 				src="chrome://modifyheaders/locale/help/index.xhtml"
-				flex="1"/>
+				flex="4"
+				style="overflow: auto;"/>
 		</vbox>
 	</hbox>
 
