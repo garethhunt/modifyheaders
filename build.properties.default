@@ -1,7 +1,7 @@
 #
 # build.debug - Copies the extension code to the correct extension directory in your Firefox profile
 #
-build.version=0.5.0
+build.version=0.5.1
 
 build.debug=true
 build.basedir=C:/Projects/MyProjects/modifyheaders
