@@ -455,5 +455,5 @@ var gConsoleService = Components.classes['@mozilla.org/consoleservice;1'].getSer
 
 function modifyheaders_logMessage(aMessage) {
     // Uncomment this to activate debugging messages
-    gConsoleService.logStringMessage('modifyheaders: ' + aMessage);
+    // gConsoleService.logStringMessage('modifyheaders: ' + aMessage);
 }
