@@ -130,7 +130,7 @@
 	<target name="debug" depends="jar">
 		<echo>Debug deployment</echo>
 		
-	    <copy todir="${build.mozilla.firefox.extension.home}/${build.mozilla.firefox.extension.uuid}" overwrite="false">
+	    <copy todir="${build.mozilla.firefox.extension.home}/${build.mozilla.firefox.extension.uuid}" overwrite="true">
 	      <fileset dir="${build.targetdir}/jar"/>
 	    </copy>           
 		
