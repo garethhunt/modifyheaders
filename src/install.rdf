@@ -18,7 +18,6 @@
             <Description about="urn:mozilla:extension:file:modifyheaders.jar">
                 <em:locale>locale/en-US/</em:locale>
                 <em:package>content/</em:package>
-                <em:skin>skin/classic/</em:skin>
             </Description>
         </em:file>
         <!-- Firefox 1.* - 2.0.* -->

@@ -21,7 +21,7 @@ var existsInApplication = File.exists(getFolder(getFolder("chrome"), jarName));
 var existsInProfile     = File.exists(getFolder(folder, jarName));
 
 var locales             = new Array( "en-US" );
-var skins               = new Array( "classic" ); // "modern"
+var skins               = new Array(  ); // "modern"
 // var prefs               = new Array( "modifyheaders.js" );
 var prefs               = new Array(  );
 var components          = new Array( "modifyheaders-service.js", "nsIModifyheaders.xpt" );
