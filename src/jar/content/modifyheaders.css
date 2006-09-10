@@ -1,0 +1,9 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+body {
+	font-family: arial;
+}
+
+.helpBox {
+    background-color: white;
+}

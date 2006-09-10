@@ -1,0 +1,11 @@
+@import url('chrome://help/content/platformClasses.css');
+
+body {
+    background-color: white;
+	font-family: arial;
+}
+
+.label {
+    font-weight: bold;
+    text-align: right;
+}
