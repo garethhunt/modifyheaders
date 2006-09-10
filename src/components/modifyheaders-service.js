@@ -299,13 +299,14 @@ function PreferencesUtil() {
 }
 
 // Static strings that specify the names of the preferences used by modifyheaders
-PreferencesUtil.prefHeaderCount = "modifyheaders.headers.count";
-PreferencesUtil.prefHeaderAction = "modifyheaders.headers.action";
+PreferencesUtil.prefAlwaysOn      = "modifyheaders.config.alwaysOn";
+PreferencesUtil.prefHeaderCount   = "modifyheaders.headers.count";
+PreferencesUtil.prefHeaderAction  = "modifyheaders.headers.action";
 PreferencesUtil.prefHeaderEnabled = "modifyheaders.headers.enabled";
-PreferencesUtil.prefHeaderName = "modifyheaders.headers.name";
-PreferencesUtil.prefHeaderValue = "modifyheaders.headers.value";
-PreferencesUtil.prefAlwaysOn = "modifyheaders.config.alwaysOn";
-PreferencesUtil.prefOpenAsTab = "modifyheaders.config.openNewTab";
+PreferencesUtil.prefHeaderName    = "modifyheaders.headers.name";
+PreferencesUtil.prefHeaderValue   = "modifyheaders.headers.value";
+PreferencesUtil.prefLogMsgs       = "modifyheaders.config.logMsgs";
+PreferencesUtil.prefOpenAsTab     = "modifyheaders.config.openNewTab";
 
 // Convenience method to get a user preference value
 PreferencesUtil.prototype.getPreference = function(type, name) {
@@ -322,7 +323,6 @@ PreferencesUtil.prototype.getPreference = function(type, name) {
     
     // Set the preference with a default value
     } else {
-        modifyheaders_logMessage("Preference '" + name + "' does not exist, so setting the preference with a default value");
         if (type=='bool') {
        	    this.setPreference(type, name, false);
        	    prefValue = false;
@@ -454,6 +454,7 @@ function NSGetModule(compMgr, fileSpec) {
 var gConsoleService = Components.classes['@mozilla.org/consoleservice;1'].getService(Components.interfaces.nsIConsoleService);
 
 function modifyheaders_logMessage(aMessage) {
-    // Uncomment this to activate debugging messages
-    // gConsoleService.logStringMessage('modifyheaders: ' + aMessage);
+
+    if (new PreferencesUtil().getPreference('bool', PreferencesUtil.prefLogMsgs))
+        gConsoleService.logStringMessage('modifyheaders: ' + aMessage);
 }
