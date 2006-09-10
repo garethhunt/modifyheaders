@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+    <Description about="urn:mozilla:install-manifest">
+        <em:aboutURL>chrome://modifyheaders/content/about/about.xul</em:aboutURL>
+        <em:creator>Gareth Hunt</em:creator>
+        <em:description>Add, modify and filter http request headers</em:description>
+        <em:homepageURL>http://www.garethhunt.com/</em:homepageURL>
+        <!-- <em:iconURL>chrome://modifyheaders/content/logo.gif</em:iconURL> -->
+        <em:iconURL></em:iconURL>
+        <em:id>{b749fc7c-e949-447f-926c-3f4eed6accfe}</em:id>
+        <em:name>Modify Headers</em:name>
+        <em:optionsURL>chrome://modifyheaders/content/config/config.xul</em:optionsURL>
+        <em:version>@build.version@</em:version>
+        <em:file>
+            <Description about="urn:mozilla:extension:file:modifyheaders.jar">
+                <em:locale>locale/en-US/</em:locale>
+                <em:package>content/</em:package>
+                <em:skin>skin/classic/</em:skin>
+            </Description>
+        </em:file>
+        
+		<!-- Target Application Nvu 0.70 ~ 1.0 -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{136c295a-4a5a-41cf-bf24-5cee526720d5}</em:id>
+				<em:minVersion>0.70</em:minVersion>
+				<em:maxVersion>1.2</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+    </Description>
+</RDF>
