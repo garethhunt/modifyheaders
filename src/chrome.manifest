@@ -1,0 +1,6 @@
+# Firefox / Flock
+overlay	chrome://browser/content/browser.xul	chrome://modifyheaders/content/toolsOverlay.xul
+
+content	modifyheaders	jar:chrome/modifyheaders.jar!/content/
+
+locale	modifyheaders	en-US	jar:chrome/modifyheaders.jar!/locale/en-US/
