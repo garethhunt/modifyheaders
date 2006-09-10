@@ -67,11 +67,27 @@
 				<exclude name="**/*.jpg" />
 			</fileset>
 		</copy>
+		
 		<!-- Copy the gifs without filtering as this corrupts them -->
 		<copy todir="${build.targetdir}/chrome">
 			<fileset dir="${build.srcdir}/jar">
 				<include name="**/*.gif" />
 				<include name="**/*.jpg" />
+			</fileset>
+		</copy>
+		
+		<antcall target="compile-app-specific"/>
+	</target>
+	
+	<target name="compile-app-specific" if="build.mozilla.application.srcdir" description="If required, copies application specific src over the Firefox src">
+		<echo message="Compiling application specific elements"/>
+		
+		<!-- Copy application specific versions of source files into the target -->
+		<copy todir="${build.targetdir}/chrome" filtering="true" overwrite="true">
+			<fileset dir="${build.mozilla.application.srcdir}/jar">
+				<!-- Exclude the images as the filtering corrupts them -->
+				<exclude name="**/*.gif" />
+				<exclude name="**/*.jpg" />
 			</fileset>
 		</copy>
 	</target>
@@ -87,8 +103,17 @@
 		<copy todir="${build.targetdir}/jar/" filtering="true">
 			<fileset dir="${build.srcdir}" includes="*.*"/>
 		</copy>
+		
+		<antcall target="jar-app-specific"/>
     </target>
 
+	<target name="jar-app-specific" if="build.mozilla.application.srcdir" description="If required, copies application specific src over the Firefox src">
+		<echo message="Adding application specific elements to jar dir"/>
+		
+		<copy todir="${build.targetdir}/jar/" filtering="true" overwrite="true">
+			<fileset dir="${build.mozilla.application.srcdir}" includes="*.*"/>
+		</copy>
+	</target>
 
     <!-- ================================= 
           target: default              

@@ -1,0 +1,23 @@
+#
+# build.debug - Copies the extension code to the correct extension directory in your Firefox profile
+#
+build.version=0.5.2-nvu
+
+build.debug=true
+build.basedir=C:/Projects/MyProjects/modifyheaders
+build.srcdir=${build.basedir}/src
+build.targetdir=${build.basedir}/target
+
+# xpidl properties
+xpidl.dir=C:/software/gecko-sdk/bin
+xpidl.exec=xpidl.exe
+
+# NVU specific properties
+build.mozilla.application=nvu
+build.mozilla.application.srcdir=${build.srcdir}-${build.mozilla.application}
+
+# Firefox properties
+build.mozilla.firefox.home=C:/Program Files/Mozilla Firefox
+build.mozilla.firefox.extension.name=modifyheaders
+build.mozilla.firefox.extension.uuid={b749fc7c-e949-447f-926c-3f4eed6accfe}
+build.mozilla.firefox.extension.home=${user.home}/Application Data/Mozilla/Firefox/Profiles/66pkm5jb.devel/extensions
