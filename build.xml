@@ -90,6 +90,14 @@
 				<exclude name="**/*.jpg" />
 			</fileset>
 		</copy>
+		
+		<!-- Copy the gifs without filtering as this corrupts them -->
+		<copy todir="${build.targetdir}/chrome" overwrite="true">
+			<fileset dir="${build.mozilla.application.srcdir}/jar">
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="jar" depends="compile" description="Creates the extension jar">
