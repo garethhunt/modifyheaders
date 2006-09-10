@@ -1,5 +1,15 @@
 -- Release Notes --
 
+Release 0.5.2, TBC
+
+* Added support for Firefox 2, Flock, Nvu and Seamonkey
+
+* Added debug preference - accessible through about:config
+
+* Added list of contributors
+
+* Other small code tweaks and improvements
+
 Release 0.5.1, 12 December 2005:
 
 * Bug fix release.  The debug logging was accidentally left on.  This has now been switched off
