@@ -16,28 +16,45 @@
         <em:version>@build.version@</em:version>
         <em:file>
             <Description about="urn:mozilla:extension:file:modifyheaders.jar">
-                <em:locale>locale/en-US/modifyheaders/</em:locale>
-                <em:package>content/modifyheaders/</em:package>
-                <em:skin>skin/classic/modifyheaders/</em:skin>
+                <em:locale>locale/en-US/</em:locale>
+                <em:package>content/</em:package>
+                <em:skin>skin/classic/</em:skin>
             </Description>
         </em:file>
+        <!-- Firefox 1.* - 2.0.* -->
         <em:targetApplication>
             <Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
                 <em:minVersion>1.0</em:minVersion>
-                <em:maxVersion>1.5.0.*</em:maxVersion>
+                <em:maxVersion>2.0.*</em:maxVersion>
             </Description>
         </em:targetApplication>
-        <!--
-            Need to add the install.js to the installation.  Will uncomment when this is done.
-            If anyone wishes to write the install.js - feel free, contributions welcome.
-          -->
-        <!-- <em:targetApplication>
+        
+        <!-- Flock -->
+        <em:targetApplication>
+            <Description>
+                <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
+                <em:minVersion>0.4</em:minVersion>
+                <em:maxVersion>0.8</em:maxVersion>
+            </Description>
+        </em:targetApplication>        
+        
+		<!-- SeaMonkey -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
+				<em:minVersion>1.0</em:minVersion>
+				<em:maxVersion>1.8</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+		
+        <!-- Mozilla Suite -->
+        <em:targetApplication>
             <Description>
                 <em:id>{86c18b42-e466-45a9-ae7a-9b95ba6f5640}</em:id>
                 <em:minVersion>1.7</em:minVersion>
                 <em:maxVersion>1.8</em:maxVersion>
             </Description>
-        </em:targetApplication> -->
+        </em:targetApplication>
     </Description>
 </RDF>
