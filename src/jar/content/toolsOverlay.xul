@@ -8,8 +8,13 @@
     <script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js"/>
 
 	<!-- Add a menu item to the 'tools' menu -->
+	<!-- Firefox / Flock -->
 	<menupopup id="menu_ToolsPopup">
     	<menuitem label="&modifyheaders.menu.label;" oncommand="openModifyHeaders();" />
 	</menupopup>
 
+    <!-- Mozilla Suite / Seamonkey -->
+	<menupopup id="taskPopup">
+    	<menuitem label="&modifyheaders.menu.label;" oncommand="openModifyHeaders();" />
+	</menupopup>
 </overlay>
