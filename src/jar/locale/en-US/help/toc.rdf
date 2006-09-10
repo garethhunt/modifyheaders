@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         xmlns:nc="http://home.netscape.com/NC-rdf#">
 
@@ -21,13 +20,5 @@
       </rdf:Seq>
     </nc:subheadings>
   </rdf:Description>
-
-  <!--<rdf:Description about="#subsection">
-    <nc:subheadings>
-      <rdf:Seq>
-        <rdf:li> <rdf:Description ID="subsection-page1" nc:name="Navigating Web Pages" nc:link="using_firebird.xhtml#navigating_web_pages"/> </rdf:li>
-      </rdf:Seq>
-    </nc:subheadings>
-  </rdf:Description>-->
 
 </rdf:RDF>
