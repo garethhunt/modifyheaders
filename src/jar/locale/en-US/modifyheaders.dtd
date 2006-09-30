@@ -2,14 +2,14 @@
 <!ENTITY modifyheaders.key "A">
 <!ENTITY modifyheaders.label "Header">
 <!ENTITY modifyheaders.extension.name "Modify Headers">
-<!ENTITY modifyheaders.extension.version "0.5.2">
+<!ENTITY modifyheaders.extension.version "@build.version@">
 <!ENTITY modifyheaders.author.name "Gareth Hunt">
 
 <!-- About -->
 <!ENTITY modifyheaders.about.author.label "Author">
 <!ENTITY modifyheaders.about.home.page "Home Page">
 <!ENTITY modifyheaders.about.title "About Modify Headers">
-<!ENTITY modifyheaders.about.url "http://www.garethhunt.com/">
+<!ENTITY modifyheaders.about.url "http://modifyheaders.mozdev.org/">
 
 <!-- Help -->
 <!ENTITY modifyheaders.help.title "Modify Headers">
