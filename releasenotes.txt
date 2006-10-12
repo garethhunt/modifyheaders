@@ -1,8 +1,18 @@
 -- Release Notes --
 
-Release 0.5.2, TBC
+Release 0.5.4, 11 October 2006
 
-* Added support for Firefox 2, Flock, Nvu and Seamonkey
+* Fixed Edit feature so that the correct value of Add, Modify, Filter menulist is selected when the Edit button.
+
+--
+Release 0.5.3, 3 October 2006
+
+* Added support for Firefox 2.0 (full release: 2.0.0.*)
+
+--
+Release 0.5.2, 24 September 2006
+
+* Added support for Firefox 2 (beta 2), Flock, Nvu and Seamonkey
 
 * Added debug preference - accessible through about:config
 
@@ -10,6 +20,7 @@ Release 0.5.2, TBC
 
 * Other small code tweaks and improvements
 
+--
 Release 0.5.1, 12 December 2005:
 
 * Bug fix release.  The debug logging was accidentally left on.  This has now been switched off
