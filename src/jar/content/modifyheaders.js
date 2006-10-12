@@ -189,8 +189,7 @@ ModifyHeaders.prototype = {
         
         // Set the form values to the value of the selected item
         if (selectedRowIndex > -1) {
-            // TODO - get the action selected correctly
-            //this.actionMenuList.label = modifyheadersService.getHeaderAction(selectedRowIndex);
+            this.actionMenuList.value = modifyheadersService.getHeaderAction(selectedRowIndex);
             this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex);
             this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex);
             
@@ -228,6 +227,7 @@ ModifyHeaders.prototype = {
     },
     
     clearForm: function() {
+    	this.actionMenuList.value = "";
     	this.nameTextbox.value = "";
     	this.valueTextbox.value = "";
 

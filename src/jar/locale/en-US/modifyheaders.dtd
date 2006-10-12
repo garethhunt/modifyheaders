@@ -49,6 +49,7 @@
 
 <!-- Add/Edit/Delete Headers dialog -->
 <!ENTITY modifyheaders.dialog.header.action.label "Action">
+<!ENTITY modifyheaders.dialog.header.action.select "Select">
 <!ENTITY modifyheaders.dialog.header.action.add "Add">
 <!ENTITY modifyheaders.dialog.header.action.modify "Modify">
 <!ENTITY modifyheaders.dialog.header.action.filter "Filter">

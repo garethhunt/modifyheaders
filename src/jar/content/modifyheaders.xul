@@ -44,9 +44,10 @@
 						<hbox>
 							<menulist id="action-menulist">
 								<menupopup>
-									<menuitem label="&modifyheaders.dialog.header.action.add;"/>
-									<menuitem label="&modifyheaders.dialog.header.action.modify;"/>
-									<menuitem label="&modifyheaders.dialog.header.action.filter;"/>
+									<menuitem label="&modifyheaders.dialog.header.action.select;" value=""/>
+									<menuitem label="&modifyheaders.dialog.header.action.add;" value="&modifyheaders.dialog.header.action.add;"/>
+									<menuitem label="&modifyheaders.dialog.header.action.modify;" value="&modifyheaders.dialog.header.action.modify;"/>
+									<menuitem label="&modifyheaders.dialog.header.action.filter;" value="&modifyheaders.dialog.header.action.filter;"/>
 								</menupopup>
 							</menulist>
 							<textbox id="headername-text-box" flex="1"/>
