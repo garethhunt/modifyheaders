@@ -57,7 +57,7 @@
 	
 	<target name="compile" depends="prepare" description="Compiles the idl interface file into an xpt">
 		<!-- Compile the nsIModifyHaders interface -->
-		<exec executable="${build.basedir}/compile-interface.bat" dir="${build.basedir}"/>
+		<exec executable="${build.basedir}/compile-interface.bat" dir="${build.basedir}" failonerror="true"/>
 		
 		<!-- Copy the files in ${srcdir}/jar to ${targetdir}/chrome -->
 		<copy todir="${build.targetdir}/chrome" filtering="true">
