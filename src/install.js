@@ -4,7 +4,7 @@ var localeFlag          = LOCALE | PROFILE_CHROME;
 var skinFlag            = SKIN | PROFILE_CHROME;
 
 var displayName         = "Modify Headers";
-var version             = "0.5.3";
+var version             = "@build.version@";
 
 var name                = "modifyheaders";
 var jarName             = name + ".jar";
