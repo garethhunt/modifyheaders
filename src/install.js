@@ -24,7 +24,7 @@ var locales             = new Array( "en-US" );
 var skins               = new Array(  ); // "modern"
 // var prefs               = new Array( "modifyheaders.js" );
 var prefs               = new Array(  );
-var components          = new Array( "modifyheaders-service.js", "nsIModifyheaders.xpt" );
+var components          = new Array( "modifyheaders-service.js", "nsIModifyheaders.xpt", "mhIHeader.xpt" );
 
 // If the extension exists in the application folder or it doesn't exist
 // in the profile folder and the user doesn't want it installed to the
