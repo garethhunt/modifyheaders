@@ -1,12 +1,14 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-#modifyheaders-options-dialog
-{
-    height: 26em;
-    width: 45em;
+window {
+    background-color: #ffffff
 }
 
-#modifyheaders-page-list
-{
-    width: 7em;
+#modifyheaders-options-dialog {
+    height: 26em;
+    width: 45em
+}
+
+#modifyheaders-page-list {
+    width: 7em
 }

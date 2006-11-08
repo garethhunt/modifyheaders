@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://modifyheaders/content/modifyheaders.css" type="text/css"?>
+
+<wizard id="modifyheaders-import-export" title="Import/Export Headers" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/config/importexport.js"></script>
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/config/json.js"></script>
+    
+    <stringbundleset>
+        <stringbundle id="stringResources" src="chrome://modifyheaders/locale/modifyheaders.properties"/>
+    </stringbundleset>
+    
+    <wizardpage pageid="selectAction" next="selectFile" label="What do you want to do?" onpageshow="initPageSelectAction()">
+        <radiogroup id="action">
+            <radio id="aImport" value="import" label="Import"/>
+            <radio id="aExport" value="export" label="Export"/>
+        </radiogroup>
+    </wizardpage>
+
+    <wizardpage pageid="selectFile" next="selectHeaders" label="Select file path" onpageshow="initPageSelectFile()">
+        <vbox>
+            <hbox align="center">
+                <textbox flex="1" id="filePath" oninput="canAdvanceFromSelectFile()"/>
+                <button label="Browse..." oncommand="browseForFile()"/>
+            </hbox>
+            <separator/>
+            <description id="browseContent"/>
+        </vbox>
+    </wizardpage>
+    
+    <wizardpage pageid="selectHeaders" next="finishImportExport" label="Select Headers" onpageshow="initPageSelectHeaders()">
+        <checkbox checked="true" id="toggleAllHeaders" label="Toggle All" onclick="toggleSelectAll()"/>
+        <separator/>
+    	<vbox id="selectHeaderList"/>
+    </wizardpage>
+    
+    <wizardpage pageid="finishImportExport" label="Finish Import/Export" onpageshow="finishImportExport()">
+        <separator/>
+        <description class="msgText" id="finishPageContent"/>
+    </wizardpage>
+</wizard>

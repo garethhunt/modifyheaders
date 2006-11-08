@@ -8,11 +8,18 @@
 	title="&modifyheaders.config.title;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-	<script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js" />
+	<script type="application/x-javascript" src="chrome://modifyheaders/content/config/config.js" />
+	
+	<command id="importExportHeaders" oncommand="openImportExportWizard();"/>
     
     <groupbox>
-        <caption label="&modifyheaders.options.general.label;"/>
-        <checkbox id="modifyheaders-always-on" label="&modifyheaders.options.general.always.on;" onclick="toggleAlwaysOn();"/>
-        <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.options.general.open.in.tab;" onclick="toggleOpenAsTab();"/>
+        <caption label="&modifyheaders.config.general.label;"/>
+        <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;" onclick="toggleAlwaysOn();"/>
+        <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.config.general.open.in.tab;" onclick="toggleOpenAsTab();"/>
+        <!-- Need to add a checkbox here: Deselect all selected headers when browser is closed? -->
     </groupbox>
+    
+    <hbox>
+        <button id="import-export-button" label="&modifyheaders.config.import.export;" command="importExportHeaders" hidden="false"/>
+    </hbox>
 </window>
