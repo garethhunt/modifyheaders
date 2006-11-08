@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+[scriptable, uuid(6b2f2fc7-a26c-4602-a08d-bd6d065a86e3)]
+interface mhIHeader : nsISupports
+{
+	attribute string  action;
+	attribute string  name;
+	attribute string  value;
+	attribute boolean enabled;
+	attribute boolean selected;
+	
+	boolean equals(in mhIHeader obj);
+};
