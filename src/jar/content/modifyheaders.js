@@ -23,28 +23,10 @@ function openModifyHeaders() {
     }
 }
 
-// Inits the Config tab
-function initConfig() {
-	document.getElementById("modifyheaders-always-on").checked = modifyheadersService.alwaysOn;
-	document.getElementById("modifyheaders-open-in-new-tab").checked = modifyheadersService.openAsTab;
-}
-
-function toggleAlwaysOn() {
-    var alwaysOn = modifyheadersService.alwaysOn;
-    modifyheadersService.alwaysOn = !alwaysOn;
-}
-
-// Toggles a preference that determines whether to open as a tab or window.
-function toggleOpenAsTab() {
-    var openAsTab = modifyheadersService.openAsTab;
-    modifyheadersService.openAsTab = !openAsTab;
-}
-
 function startModifyHeaders() {
 	if (!initialized) {
 		oModifyHeaders = new ModifyHeaders();
 		oModifyHeaders.start();
-		
 		initialized = true;
 		modifyheadersService.windowOpen = true;
 	}
@@ -55,6 +37,9 @@ function stopModifyHeaders() {
 	modifyheadersService.windowOpen = false;
 }
 
+function refreshHeaderTree(index, count) {
+    oModifyHeaders.refresh(index, count)
+}
 
 // ModifyHeaders object definition
 function ModifyHeaders() {
@@ -148,6 +133,11 @@ ModifyHeaders.prototype = {
         
         // Set this view for the treeBoxObject
         this.headersTree.treeBoxObject.view = this;
+    },
+    
+    refresh: function(index, count) {
+        this.treeBox.rowCountChanged(index, count)
+        this.treeSelection.select(this.rowCount-1)
     },
     
     addHeader: function() {
