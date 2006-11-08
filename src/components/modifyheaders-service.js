@@ -17,26 +17,47 @@
  *
  */
 
-/* Components defined in this file */
-const MODIFYHEADERS_PROXY_NAME = "ModifyHeaders Proxy";
-const MODIFYHEADERS_PROXY_CID = Components.ID("{0eff9eeb-c51a-4f07-9823-27bc32fdae13}");
-const MODIFYHEADERS_PROXY_CONTRACTID = "@modifyheaders.mozdev.org/proxy;1";
 
-const MODIFYHEADERS_SERVICE_NAME = "ModifyHeaders Service";
-const MODIFYHEADERS_SERVICE_CID = Components.ID("{4ed50bbc-0bc2-466c-ab02-8af097cfd020}");
-const MODIFYHEADERS_SERVICE_CONTRACTID = "@modifyheaders.mozdev.org/service;1";
+/* Defines the ModifyHeaders Header object */
+function ModifyHeadersHeader() {
+    this.aAction   = ""
+    this.aName     = ""
+    this.aValue    = ""
+    this.aEnabled  = false
+    this.aSelected = true
+}
 
+ModifyHeadersHeader.prototype = {
+	get action() { return this.aAction },
+	set action(action) { this.aAction = action },
+	
+	get name() { return this.aName },
+	set name(name) { this.aName = name },
+	
+	get value() { return this.aValue },
+	set value(value) { this.aValue = value },
+	
+	get enabled() { return this.aEnabled },
+	set enabled(enabled) { this.aEnabled = enabled },
+	
+	get selected() { return this.aSelected },
+	set selected(selected) { this.aSelected = selected },
+	
+	equals: function(obj) {
+	    return (this.action.toLowerCase() == obj.action.toLowerCase() && this.name.toLowerCase() == obj.name.toLowerCase() && this.value.toLowerCase() == obj.value.toLowerCase()) ? true : false
+	}
+}
 
-/* define the modifyheaders service for getting and setting headers */
+/* Defines the modifyheaders service for getting and setting headers */
 function ModifyHeadersService() {
-    this.headers = new Array();
-    this.preferencesUtil = new PreferencesUtil();
+    this.headers = new Array()
+    this.preferencesUtil = new PreferencesUtil()
     
-    // Observer service is used to notiry observing ModifyHeadersProxy objects that the headers have been updated
-    this.observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+    // Observer service is used to notify observing ModifyHeadersProxy objects that the headers have been updated
+    this.observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService)
     
-    this.initiated = false;
-    this.winOpen = false;
+    this.initiated = false
+    this.winOpen = false
 }
 
 /*
@@ -105,6 +126,28 @@ ModifyHeadersService.prototype = {
         modifyheaders_logMessage("Exiting ModifyHeadersService.init");
     },
     
+    getHeaders: function(count) {
+        modifyheaders_logMessage("Entered ModifyHeadersService.getHeaders")
+        
+        var objHeader = null
+        var aHeaders = new Array()
+        
+        for (var i=0; i < this.headers.length; i++) {
+            objHeader = Components.classes["@modifyheaders.mozdev.org/header;1"].createInstance(Components.interfaces.mhIHeader)
+            
+            objHeader.action = this.headers[i]["action"]
+            objHeader.name = this.headers[i]["name"]
+            objHeader.value = this.headers[i]["value"]
+            objHeader.enabled = this.headers[i]["enabled"]
+            
+            aHeaders[i] = objHeader
+        }
+        
+    	count.value = aHeaders.length
+    	modifyheaders_logMessage("Returning the header object")
+    	return aHeaders
+    },
+    
     // Adds a header to the headers array
     addHeader: function(name, value, action, enabled) {
         modifyheaders_logMessage("Entered ModifyHeadersService.addHeader");
@@ -159,7 +202,7 @@ ModifyHeadersService.prototype = {
     },
     
     getHeaderAction: function(index) {
-        return this.headers[index]["action"];
+        return this.headers[index]["action"]
     },
     
     getHeaderName: function(index) {
@@ -187,6 +230,8 @@ ModifyHeadersService.prototype = {
         if (this.initiated) {
         
             // TODO Clear the preferences first
+            // This ensures old headers are not maintained in the preferences
+            // I'm sure there is a better way than this
             
             // Loop over the headers
             for (var i=0; i < this.count; i++) {
@@ -219,7 +264,8 @@ function ModifyHeadersProxy() {
     this.headers = new Array();
     this.preferencesUtil = new PreferencesUtil();
     
-    this.modifyheadersService = Components.classes[MODIFYHEADERS_SERVICE_CONTRACTID].getService(Components.interfaces.nsIModifyheaders);
+//    this.modifyheadersService = Components.classes[MODIFYHEADERS_SERVICE_CONTRACTID].getService(Components.interfaces.nsIModifyheaders);
+    this.modifyheadersService = Components.classes[ModifyHeadersModule.serviceContractID].getService(Components.interfaces.nsIModifyheaders);
     modifyheaders_logMessage("Exiting ModifyHeadersProxy");
 }
 
@@ -354,94 +400,97 @@ PreferencesUtil.prototype.deletePreference = function(name) {
 }
 
 
-/*
- * Factory object, is called to generate a new instance of the ModifyHeadersProxy object
- */
-var ModifyHeadersFactory = new Object();
-
-ModifyHeadersFactory.createInstance = function (outer, iid) {
-    modifyheaders_logMessage("Entered ModifyHeadersFactory.createInstance");
-    if (outer != null)
-        throw Components.results.NS_ERROR_NO_AGGREGATION;
-
-    if (iid.equals(Components.interfaces.nsIObserver)) {
-        modifyheaders_logMessage("Exiting ModifyHeadersFactory.createInstance");
-        return new ModifyHeadersProxy();
-    } else if (iid.equals(Components.interfaces.nsIModifyheaders)) {
-        modifyheaders_logMessage("Exiting ModifyHeadersFactory.createInstance");
-        return new ModifyHeadersService();
-    }
-
-    throw Components.results.NS_ERROR_NO_INTERFACE;
-
-}
-
-
 /* ModifyHeadersModule is responsible for the registration of the component */
-var ModifyHeadersModule = new Object();
+var ModifyHeadersModule = {
 
-ModifyHeadersModule.firstTime = true;
+    headerCID: Components.ID("{6b2f2fc7-a26c-4602-a08d-bd6d065a86e3}"),
+    headerName: "ModifyHeaders Header Object",
+    headerContractID: "@modifyheaders.mozdev.org/header;1",
 
-// Register the component with the browser
-ModifyHeadersModule.registerSelf = function (compMgr, fileSpec, location, type) {
-    modifyheaders_logMessage("Entered ModifyHeadersModule.registerSelf");
-    modifyheaders_logMessage("firstTime: " + this.firstTime);
+    proxyCID: Components.ID("{0eff9eeb-c51a-4f07-9823-27bc32fdae13}"),
+    proxyName: "ModifyHeaders Proxy",
+    proxyContractID: "@modifyheaders.mozdev.org/proxy;1",
+
+    serviceCID: Components.ID("{feb80fc3-9e72-4fc5-bc72-986957ada6cc}"),
+    serviceName: "ModifyHeaders Service",
+    serviceContractID: "@modifyheaders.mozdev.org/service;1",
     
-    if (this.firstTime) {
-        modifyheaders_logMessage("This is the firstTime");
-        this.firstTime = false;
-        throw Components.results.NS_ERROR_FACTORY_REGISTER_AGAIN;
+    firstTime: true,
+    
+    // Register the component with the browser
+    registerSelf: function (compMgr, fileSpec, location, type) {
+        modifyheaders_logMessage("Entered ModifyHeadersModule.registerSelf, firstTime: " + this.firstTime)
+        
+        if (this.firstTime) {
+            modifyheaders_logMessage("This is the firstTime")
+            this.firstTime = false
+            throw Components.results.NS_ERROR_FACTORY_REGISTER_AGAIN
+        }
+        
+        var compMgr = compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar)
+        
+        // Register the objects with the component manager
+        compMgr.registerFactoryLocation(this.headerCID, this.headerName, this.headerContractID, fileSpec, location, type)
+        compMgr.registerFactoryLocation(this.proxyCID, this.proxyName, this.proxyContractID, fileSpec, location, type)
+        compMgr.registerFactoryLocation(this.serviceCID, this.serviceName, this.serviceContractID, fileSpec, location, type)
+        
+        var catman = Components.classes["@mozilla.org/categorymanager;1"].getService(Components.interfaces.nsICategoryManager)
+        catman.addCategoryEntry("app-startup", this.proxyName, this.proxyContractID, true, true);
+        
+        modifyheaders_logMessage("Exiting ModifyHeadersModule.registerSelf");
+    },
+    
+    // Removes the component from the app-startup category
+    unregisterSelf: function(compMgr, fileSpec, location) {
+        var catman = Components.classes["@mozilla.org/categorymanager;1"].getService(Components.interfaces.nsICategoryManager);
+        catMan.deleteCategoryEntry("app-startup", this.proxyContractID, true);
+    },
+    
+    // Return the Factory object
+    getClassObject: function (compMgr, cid, iid) {
+        modifyheaders_logMessage("Entered ModifyHeadersModule.getClassObject")
+        
+        if (!iid.equals(Components.interfaces.nsIFactory))
+            throw Components.results.NS_ERROR_NOT_IMPLEMENTED
+        
+        // Check that the component ID is the Modifyheaders Proxy
+        if (cid.equals(this.headerCID) || cid.equals(this.proxyCID) || cid.equals(this.serviceCID)) {
+            modifyheaders_logMessage("Exiting ModifyHeadersModule.getClassObject")
+            //return ModifyHeadersFactory;
+            return this.factory
+        }
+    
+        throw Components.results.NS_ERROR_NO_INTERFACE;
+    },
+    
+    factory: {
+        createInstance: function (outer, iid) {
+            modifyheaders_logMessage("Entered ModifyHeadersFactory.createInstance")
+            if (outer != null)
+                throw Components.results.NS_ERROR_NO_AGGREGATION
+            
+            if (iid.equals(Components.interfaces.nsIObserver)) {
+                modifyheaders_logMessage("Exiting ModifyHeadersFactory.createInstance")
+                modifyheaders_logMessage("Returning ModifyHeadersProxy")
+                return new ModifyHeadersProxy()
+            } else if (iid.equals(Components.interfaces.nsIModifyheaders)) {
+                modifyheaders_logMessage("Exiting ModifyHeadersFactory.createInstance")
+                modifyheaders_logMessage("Returning ModifyHeadersService")
+                return new ModifyHeadersService()
+            } else if (iid.equals(Components.interfaces.mhIHeader)) {
+                modifyheaders_logMessage("Exiting ModifyHeadersFactory.createInstance")
+                modifyheaders_logMessage("Returning ModifyHeadersHeader")
+                return new ModifyHeadersHeader()
+            }
+            
+            throw Components.results.NS_ERROR_NO_INTERFACE
+        }
+    },
+    
+    canUnload: function(compMgr) {
+        return true
     }
-
-    var compMgr = compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar);
-
-    // Register the service factory object
-    compMgr.registerFactoryLocation(MODIFYHEADERS_SERVICE_CID,
-                                    MODIFYHEADERS_SERVICE_NAME,
-                                    MODIFYHEADERS_SERVICE_CONTRACTID, 
-                                    fileSpec, location, type);
-
-    // Register the proxy factory object
-    compMgr.registerFactoryLocation(MODIFYHEADERS_PROXY_CID,
-                                    MODIFYHEADERS_PROXY_NAME,
-                                    MODIFYHEADERS_PROXY_CONTRACTID, 
-                                    fileSpec, location, type);
-
-    var catman = Components.classes["@mozilla.org/categorymanager;1"].getService(Components.interfaces.nsICategoryManager);
-    catman.addCategoryEntry("app-startup",
-                            MODIFYHEADERS_PROXY_NAME,
-                            MODIFYHEADERS_PROXY_CONTRACTID,
-                            true, true);
-
-    modifyheaders_logMessage("Exiting ModifyHeadersModule.registerSelf");
 }
-
-// Removes the component from the app-startup category
-ModifyHeadersModule.unregisterSelf = function(compMgr, fileSpec, location) {
-    var catman = Components.classes["@mozilla.org/categorymanager;1"] .getService(Components.interfaces.nsICategoryManager);
-    catMan.deleteCategoryEntry("app-startup", MODIFYHEADERS_CONTRACTID, true);
-}
-
-// Return the Factory object
-ModifyHeadersModule.getClassObject = function (compMgr, cid, iid) {
-    modifyheaders_logMessage("Entered ModifyHeadersModule.getClassObject");
-    
-    if (!iid.equals(Components.interfaces.nsIFactory))
-        throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
-    
-    // Check that the component ID is the Modifyheaders Proxy
-    if (cid.equals(MODIFYHEADERS_PROXY_CID) || cid.equals(MODIFYHEADERS_SERVICE_CID)) {
-        modifyheaders_logMessage("Exiting ModifyHeadersModule.getClassObject");
-        return ModifyHeadersFactory;
-    }
-    
-    throw Components.results.NS_ERROR_NO_INTERFACE;
-}
-
-ModifyHeadersModule.canUnload = function(compMgr) {
-    return true;
-}
-
 
 /* Entrypoint - registers the component with the browser */
 function NSGetModule(compMgr, fileSpec) {
