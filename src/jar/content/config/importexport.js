@@ -151,7 +151,14 @@ function finishImportExport() {
         // Refresh the header display, if import called from main window
         // wrappedJSObject is used to access the protected object
         if (window.opener.parent.location == "chrome://modifyheaders/content/modifyheaders.xul") {
-            window.opener.parent.wrappedJSObject.refreshHeaderTree(myHeaders.length, newHeaders.length)
+            // Seamonkey does not wrap the javascript object to protect it
+            if (window.opener.parent.wrappedJSObject == null) {
+                // This works for Seamonkey
+                window.opener.parent.refreshHeaderTree(myHeaders.length, newHeaders.length)
+            } else {
+                // This works for Firefox
+                window.opener.parent.wrappedJSObject.refreshHeaderTree(myHeaders.length, newHeaders.length)
+            }
         }
     }
     
