@@ -159,19 +159,16 @@ ModifyHeaders.prototype = {
         this.clearForm();
     },
     
-    // Delete the header from the list
-    deleteHeader: function(mesg) {
-    	if (confirm(mesg)) {
-    
-	        var deleteIndex = this.treeSelection.currentIndex;
-	        
-	        modifyheadersService.removeHeader(deleteIndex);
-
-	        // Notify the treeBoxObject that a row has been deleted
-	        // Select the next row if there is one
-	        this.treeBox.rowCountChanged(deleteIndex, -1);
-	        this.treeSelection.select(deleteIndex);
-        }
+	// Delete the header from the list
+	deleteHeader: function() {
+		var deleteIndex = this.treeSelection.currentIndex;
+		
+		modifyheadersService.removeHeader(deleteIndex);
+		
+		// Notify the treeBoxObject that a row has been deleted
+		// Select the next row if there is one
+		this.treeBox.rowCountChanged(deleteIndex, -1);
+		this.treeSelection.select(deleteIndex);
     },
     
     editHeader: function() {

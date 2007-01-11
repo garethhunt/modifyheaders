@@ -19,7 +19,7 @@
 
 	<command id="addHeader" oncommand="oModifyHeaders.addHeader();"/>
 	<command id="editHeader" oncommand="oModifyHeaders.editHeader();"/>
-	<command id="deleteHeader" oncommand="oModifyHeaders.deleteHeader('&modifyheaders.options.headers.delete.mesg;');"/>
+	<command id="deleteHeader" oncommand="oModifyHeaders.deleteHeader();"/>
 	<command id="saveHeader" oncommand="oModifyHeaders.saveHeader();"/>
 	<command id="resetHeaderForm" oncommand="oModifyHeaders.clearForm();"/>
 	<command id="moveRowUp" oncommand="oModifyHeaders.moveRowUp();"/>

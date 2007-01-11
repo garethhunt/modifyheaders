@@ -42,7 +42,6 @@
 <!ENTITY modifyheaders.options.headers.move.up "Move Up">
 <!ENTITY modifyheaders.options.headers.add "Add">
 <!ENTITY modifyheaders.options.headers.delete "Delete">
-<!ENTITY modifyheaders.options.headers.delete.mesg "Confirm header deletion.">
 <!ENTITY modifyheaders.options.headers.edit "Edit">
 <!ENTITY modifyheaders.options.headers.reset "Reset">
 <!ENTITY modifyheaders.options.headers.save "Save">
