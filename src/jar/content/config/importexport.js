@@ -5,6 +5,7 @@ var exportWiz
 var filePath
 var myHeaders  // Holds the headers to export or compare to import
 var newHeaders // Hold the headers to import
+var strNewHeaders // String of header indices to import
 var theFile    // Holds the file reference
 var strings
 var browseContent // Displays messages once file browsing is complete
@@ -134,13 +135,18 @@ function finishImportExport() {
     var headerList = document.getElementById("selectHeaderList")
 
     if (document.getElementById("action").selectedItem == document.getElementById("aExport")) {
-        newHeaders = new Array() // Reset new Headers
+        strNewHeaders = ""
         // Loop over the header checkboxes
         for (var i=0; i < myHeaders.length; i++) {
             if (myHeaders[i].selected) {
-                newHeaders.push(myHeaders[i])
+                strNewHeaders = strNewHeaders.concat(i, ",")
             }
         }
+        
+        if (strNewHeaders.lastIndexOf(",") == strNewHeaders.length-1) {
+        	strNewHeaders = strNewHeaders.substr(0, strNewHeaders.length-1)
+        }
+        
         exportHeaders()
     } else {
         for (var i=0; i < newHeaders.length; i++) {
@@ -161,7 +167,6 @@ function finishImportExport() {
             }
         }
     }
-    
     exportWiz.canRewind = false
     exportWiz.getButton("cancel").disabled = true
     
@@ -187,8 +192,8 @@ function exportHeaders() {
     // 0x02 = PR_WRONLY - Write only
     outStrm.init(theFile, 0x02, 420, 0)
     
-    // Convert the newHeaders to a JSON string and write to the output
-    var jsonNewHeaders = newHeaders.toJSONString()
+    // Convert the strNewHeaders to a JSON string and write to the output
+    var jsonNewHeaders = modifyheadersService.getHeadersAsJSONString(strNewHeaders)
     outStrm.write(jsonNewHeaders, jsonNewHeaders.length)
     outStrm.close()
 }

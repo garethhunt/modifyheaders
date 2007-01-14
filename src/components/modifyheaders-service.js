@@ -17,7 +17,6 @@
  *
  */
 
-
 /* Defines the ModifyHeaders Header object */
 function ModifyHeadersHeader() {
     this.aAction   = ""
@@ -43,8 +42,10 @@ ModifyHeadersHeader.prototype = {
 	get selected() { return this.aSelected },
 	set selected(selected) { this.aSelected = selected },
 	
+	get wrappedJSObject() { return this },
+	
 	equals: function(obj) {
-	    return (this.action.toLowerCase() == obj.action.toLowerCase() && this.name.toLowerCase() == obj.name.toLowerCase() && this.value.toLowerCase() == obj.value.toLowerCase()) ? true : false
+		return (this.action.toLowerCase() == obj.action.toLowerCase() && this.name.toLowerCase() == obj.name.toLowerCase() && this.value.toLowerCase() == obj.value.toLowerCase()) ? true : false
 	}
 }
 
@@ -126,6 +127,16 @@ ModifyHeadersService.prototype = {
         modifyheaders_logMessage("Exiting ModifyHeadersService.init");
     },
     
+    getHeader: function(index) {
+        var objHeader = Components.classes["@modifyheaders.mozdev.org/header;1"].createInstance(Components.interfaces.mhIHeader)
+        objHeader.action = this.headers[index]["action"]
+        objHeader.name = this.headers[index]["name"]
+        objHeader.value = this.headers[index]["value"]
+        objHeader.enabled = this.headers[index]["enabled"]
+        
+        return objHeader 
+    }, 
+    
     getHeaders: function(count) {
         modifyheaders_logMessage("Entered ModifyHeadersService.getHeaders")
         
@@ -133,19 +144,30 @@ ModifyHeadersService.prototype = {
         var aHeaders = new Array()
         
         for (var i=0; i < this.headers.length; i++) {
-            objHeader = Components.classes["@modifyheaders.mozdev.org/header;1"].createInstance(Components.interfaces.mhIHeader)
-            
-            objHeader.action = this.headers[i]["action"]
-            objHeader.name = this.headers[i]["name"]
-            objHeader.value = this.headers[i]["value"]
-            objHeader.enabled = this.headers[i]["enabled"]
-            
+            objHeader = this.getHeader(i)
             aHeaders[i] = objHeader
         }
         
     	count.value = aHeaders.length
     	modifyheaders_logMessage("Returning the header object")
     	return aHeaders
+    },
+    
+    getHeadersAsJSONString: function(strHeaderIndices) {
+        modifyheaders_logMessage("Entered ModifyHeadersService.getHeadersAsJSONString");
+        var headerIndices = strHeaderIndices.split(",")
+        var outHeaders = new Array()
+        var objHeader = null
+        
+        // Loop over the values
+        for (var i=0; i < headerIndices.length; i++) {
+            objHeader = this.getHeader(headerIndices[i])
+            outHeaders.push(objHeader)
+        }
+        
+        modifyheaders_logMessage("Exiting ModifyHeadersService.getHeadersAsJSONString");
+        // Return a JSON encoded string
+        return outHeaders.toJSONString()
     },
     
     // Adds a header to the headers array
@@ -507,3 +529,139 @@ function modifyheaders_logMessage(aMessage) {
     if (new PreferencesUtil().getPreference('bool', PreferencesUtil.prefLogMsgs))
         gConsoleService.logStringMessage('modifyheaders: ' + aMessage);
 }
+
+
+/*
+    json.js
+    2006-10-29
+
+    This file adds these methods to JavaScript:
+
+        array.toJSONString()
+        boolean.toJSONString()
+        date.toJSONString()
+        number.toJSONString()
+        object.toJSONString()
+        string.toJSONString()
+            These method produces a JSON text from a JavaScript value.
+            It must not contain any cyclical references. Illegal values
+            will be excluded.
+
+            The default conversion for dates is to an ISO string. You can
+            add a toJSONString method to any date object to get a different
+            representation.
+
+        string.parseJSON()
+            This method parses a JSON text to produce an object or
+            array. It can throw a SyntaxError exception.
+
+    It is expected that these methods will formally become part of the
+    JavaScript Programming Language in the Fourth Edition of the
+    ECMAScript standard in 2007.
+*/
+
+Array.prototype.toJSONString = function () {
+    var a = ['['], b, i, l = this.length, v;
+    for (i = 0; i < l; i += 1) {
+        v = this[i];
+        switch (typeof v) {
+        case 'undefined':
+        case 'function':
+        case 'unknown':
+            break;
+        default:
+            if (b) {
+                a.push(',');
+            }
+            a.push(v === null ? "null" : v.toJSONString());
+            b = true;
+        }
+    }
+    a.push(']');
+    return a.join('');
+};
+
+Boolean.prototype.toJSONString = function () {
+    return String(this);
+};
+
+Date.prototype.toJSONString = function () {
+
+    function f(n) {
+        return n < 10 ? '0' + n : n;
+    }
+
+    return '"' + this.getFullYear() + '-' +
+            f(this.getMonth() + 1) + '-' +
+            f(this.getDate()) + 'T' +
+            f(this.getHours()) + ':' +
+            f(this.getMinutes()) + ':' +
+            f(this.getSeconds()) + '"';
+};
+
+Number.prototype.toJSONString = function () {
+    return isFinite(this) ? String(this) : "null";
+};
+
+Object.prototype.toJSONString = function () {
+    var a = ['{'], b, i, v;
+    for (i in this) {
+        if (this.hasOwnProperty(i)) {
+            v = this[i];
+            switch (typeof v) {
+            case 'undefined':
+            case 'function':
+            case 'unknown':
+                break;
+            default:
+                if (b) {
+                    a.push(',');
+                }
+                a.push(i.toJSONString(), ':',
+                        v === null ? "null" : v.toJSONString());
+                b = true;
+            }
+        }
+    }
+    a.push('}');
+    return a.join('');
+};
+
+String.prototype.parseJSON = function () {
+    try {
+        if (/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.test(this)) {
+            return eval('(' + this + ')');
+        }
+    } catch (e) {
+    }
+    throw new SyntaxError("parseJSON");
+};
+
+(function () {
+    var m = {
+        '\b': '\\b',
+        '\t': '\\t',
+        '\n': '\\n',
+        '\f': '\\f',
+        '\r': '\\r',
+        '"' : '\\"',
+        '\\': '\\\\'
+    };
+
+    String.prototype.toJSONString = function () {
+        if (/["\\\x00-\x1f]/.test(this)) {
+            return '"' + this.replace(/([\x00-\x1f\\"])/g, function(a, b) {
+                var c = m[b];
+                if (c) {
+                    return c;
+                }
+                c = b.charCodeAt();
+                return '\\u00' +
+                    Math.floor(c / 16).toString(16) +
+                    (c % 16).toString(16);
+            }) + '"';
+        }
+        return '"' + this + '"';
+    };
+
+})();
