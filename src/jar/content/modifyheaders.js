@@ -172,19 +172,28 @@ ModifyHeaders.prototype = {
     },
     
     editHeader: function() {
-        var selectedRowIndex = this.treeSelection.currentIndex;
+        var selectedRowIndex = this.treeSelection.currentIndex
         
         // Set the form values to the value of the selected item
         if (selectedRowIndex > -1) {
-            this.actionMenuList.value = modifyheadersService.getHeaderAction(selectedRowIndex);
-            this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex);
-            this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex);
+            this.actionMenuList.value = modifyheadersService.getHeaderAction(selectedRowIndex)
+            this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex)
+            if (modifyheadersService.getHeaderValue(selectedRowIndex) != "") {
+                this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex)
+            }
             
-            this.editedRowID = selectedRowIndex;
+            this.editedRowID = selectedRowIndex
             
             // Hide the add button and display the save button
-            this.addButton.setAttribute("hidden", "true");
-            this.saveButton.setAttribute("hidden", "false");
+            this.addButton.setAttribute("hidden", "true")
+            this.saveButton.setAttribute("hidden", "false")
+            
+            this.nameTextbox.disabled = false
+            if (this.valueTextbox.value.length > 0) {
+                this.valueTextbox.disabled = false
+            }
+            this.addButton.disabled = false
+            this.saveButton.disabled = false
         }
     },
     
@@ -192,24 +201,24 @@ ModifyHeaders.prototype = {
     
     	if (this.editedRowID != null) {
     	    
-    	    var index = this.editedRowID;
-    	    var name = this.nameTextbox.value;
-    	    var value = this.valueTextbox.value;
-    	    var action = this.actionMenuList.selectedItem.label;
-    	    var enabled = modifyheadersService.isHeaderEnabled(index);
+    	    var index = this.editedRowID
+    	    var name = this.nameTextbox.value
+    	    var value = this.valueTextbox.value
+    	    var action = this.actionMenuList.selectedItem.label
+    	    var enabled = modifyheadersService.isHeaderEnabled(index)
     	    
-    	    modifyheadersService.setHeader(index, name, value, action, enabled);
+    	    modifyheadersService.setHeader(index, name, value, action, enabled)
     	
 			// Notify the treeBoxObject that a row has been edited
-			this.treeBox.rowCountChanged(this.editedRowID, 0);
+			this.treeBox.invalidateRow(this.editedRowID)
 
 			// Select the row
-			this.treeSelection.select(this.editedRowID);
+			this.treeSelection.select(this.editedRowID)
 
             // Set the editedRow to null
-            this.editedRowID = null;
+            this.editedRowID = null
 
-            this.clearForm();
+            this.clearForm()
 		}
     },
     
@@ -217,9 +226,14 @@ ModifyHeaders.prototype = {
     	this.actionMenuList.value = "";
     	this.nameTextbox.value = "";
     	this.valueTextbox.value = "";
-
-        this.saveButton.setAttribute("hidden", "true");
+    	
+    	this.nameTextbox.disabled = true
+    	this.valueTextbox.disabled = true
+        
         this.addButton.setAttribute("hidden", "false");
+        this.saveButton.setAttribute("hidden", "true");
+        this.addButton.disabled = true
+        this.saveButton.disabled = true
 
 		// Ensure that the selected index is set back to null
         var selectedRowIndex = null;
@@ -227,13 +241,12 @@ ModifyHeaders.prototype = {
     
     enableHeader: function() {
     	// Change the enabled parameter to true
-    	var enabled = modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex);
+    	var enabled = modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex)
     	
-    	modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled);
+    	modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled)
     	
 		// Notify the treeBoxObject that a row has been edited
-		this.treeSelection.select(this.treeSelection.currentIndex);
-		this.treeBox.rowCountChanged(this.treeSelection.currentIndex, 0);
+		this.treeBox.invalidateRow(this.treeSelection.currentIndex)
     },
     
     enableAllHeaders: function() {
@@ -287,6 +300,27 @@ ModifyHeaders.prototype = {
             
 			this.treeSelection.select(this.treeSelection.currentIndex - 1);
 			this.treeBox.rowCountChanged(this.selection.currentIndex-1, 0);
+    	}
+    },
+    
+    actionSelected: function() {
+    	switch(this.actionMenuList.selectedItem.value) {
+    	    case "Add":
+    	    case "Modify":
+    	        this.nameTextbox.disabled = false
+    	        this.valueTextbox.disabled = false
+                this.addButton.disabled = false
+                this.saveButton.disabled = false
+    	        break;
+    	    case "Filter":
+    	        this.nameTextbox.disabled = false
+    	        this.valueTextbox.value = ""
+    	        this.valueTextbox.disabled = true
+                this.addButton.disabled = false
+                this.saveButton.disabled = false
+    	        break;
+    	    default:
+    	        this.clearForm()
     	}
     }
 };

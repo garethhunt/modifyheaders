@@ -42,17 +42,17 @@
 				<vbox flex="1">
 					<groupbox>
 						<hbox>
-							<menulist id="action-menulist">
-								<menupopup>
-									<menuitem label="&modifyheaders.dialog.header.action.select;" value=""/>
+							<menulist id="action-menulist" tooltiptext="&modifyheaders.dialog.header.tooltip.action;">
+								<menupopup onpopuphidden="oModifyHeaders.actionSelected()">
+									<menuitem label="" value=""/>
 									<menuitem label="&modifyheaders.dialog.header.action.add;" value="&modifyheaders.dialog.header.action.add;"/>
 									<menuitem label="&modifyheaders.dialog.header.action.modify;" value="&modifyheaders.dialog.header.action.modify;"/>
 									<menuitem label="&modifyheaders.dialog.header.action.filter;" value="&modifyheaders.dialog.header.action.filter;"/>
 								</menupopup>
 							</menulist>
-							<textbox id="headername-text-box" flex="1"/>
-							<textbox id="headervalue-text-box" flex="1"/>
-							<button id="add-header-button" label="&modifyheaders.options.headers.add;" command="addHeader" flex="0" hidden="false"/>
+							<textbox id="headername-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.dialog.header.tooltip.name;"/>
+							<textbox id="headervalue-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.dialog.header.tooltip.value;"/>
+							<button id="add-header-button" label="&modifyheaders.options.headers.add;" command="addHeader" flex="0" hidden="false" disabled="true"/>
 							<button id="save-header-button" label="&modifyheaders.options.headers.save;" command="saveHeader" flex="0" hidden="true"/>
 							<button id="reset-form-button" label="&modifyheaders.options.headers.reset;" command="resetHeaderForm" flex="0" hidden="false"/>
 						</hbox>
