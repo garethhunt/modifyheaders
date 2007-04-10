@@ -153,21 +153,43 @@ ModifyHeadersService.prototype = {
     	return aHeaders
     },
     
-    getHeadersAsJSONString: function(strHeaderIndices) {
-        modifyheaders_logMessage("Entered ModifyHeadersService.getHeadersAsJSONString");
+    getHeadersAsXML: function(strHeaderIndices) {
+        modifyheaders_logMessage("Entered ModifyHeadersService.getHeadersAsJSONString: " + strHeaderIndices)
         var headerIndices = strHeaderIndices.split(",")
-        var outHeaders = new Array()
-        var objHeader = null
+        
+        var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"].createInstance(Components.interfaces.nsIDOMParser)
+        var headersXML = parser.parseFromString("<modifyheaders></modifyheaders>", "text/xml")
+        var root = headersXML.documentElement
         
         // Loop over the values
         for (var i=0; i < headerIndices.length; i++) {
-            objHeader = this.getHeader(headerIndices[i])
-            outHeaders.push(objHeader)
+	        objHeader = this.getHeader(headerIndices[i])
+	        
+	        var action = headersXML.createTextNode(objHeader.action)
+	        var actionElem = headersXML.createElement("action")
+	        actionElem.appendChild(action) 
+	        
+	        var name = headersXML.createTextNode(objHeader.name)
+	        var nameElem = headersXML.createElement("name")
+	        nameElem.appendChild(name)
+	        
+	        var value = headersXML.createTextNode(objHeader.value)
+	        var valueElem = headersXML.createElement("value")
+	        valueElem.appendChild(value)
+	        
+	        var header = headersXML.createElement("header")
+	        header.appendChild(actionElem)
+	        header.appendChild(nameElem)
+	        header.appendChild(valueElem)
+            
+            root.appendChild(header)
         }
         
-        modifyheaders_logMessage("Exiting ModifyHeadersService.getHeadersAsJSONString");
-        // Return a JSON encoded string
-        return outHeaders.toJSONString()
+        var serializer = Components.classes["@mozilla.org/xmlextras/xmlserializer;1"].createInstance(Components.interfaces.nsIDOMSerializer)
+        
+        modifyheaders_logMessage("Exiting ModifyHeadersService.getHeadersAsJSONString")
+        // Return a XML string
+        return "<?xml version=\"1.0\"?>" + serializer.serializeToString(headersXML)
     },
     
     // Adds a header to the headers array

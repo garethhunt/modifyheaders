@@ -4,22 +4,76 @@
 
 <!DOCTYPE page SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 
-<window onload="initConfig()"
-	title="&modifyheaders.config.title;"
+<window onload="Config.init()" title="&modifyheaders.config.title;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-	<script type="application/x-javascript" src="chrome://modifyheaders/content/config/config.js" />
-	
-	<command id="importExportHeaders" oncommand="openImportExportWizard();"/>
-    
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/config/config.js"/>
+
+    <stringbundleset>
+        <stringbundle id="stringResources"
+            src="chrome://modifyheaders/locale/modifyheaders.properties"/>
+    </stringbundleset>
+
     <groupbox>
         <caption label="&modifyheaders.config.general.label;"/>
-        <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;" onclick="toggleAlwaysOn();"/>
-        <checkbox id="modifyheaders-open-in-new-tab" label="&modifyheaders.config.general.open.in.tab;" onclick="toggleOpenAsTab();"/>
+        <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;"
+            onclick="Config.toggleAlwaysOn();"/>
+        <checkbox id="modifyheaders-open-in-new-tab"
+            label="&modifyheaders.config.general.open.in.tab;"
+            onclick="Config.toggleOpenAsTab();"/>
         <!-- Need to add a checkbox here: Deselect all selected headers when browser is closed? -->
     </groupbox>
-    
-    <hbox>
-        <button id="import-export-button" label="&modifyheaders.config.import.export;" command="importExportHeaders" hidden="false"/>
-    </hbox>
+
+    <groupbox flex="1">
+        <caption label="&modifyheaders.config.import.export;"/>
+        <deck id="importExportWizard" selectedIndex="0" flex="1">
+            <vbox id="importExportSelectFile">
+                <hbox>
+                    <radiogroup id="importExportAction" oncommand="ImportExport.actionSelected()">
+                        <radio id="exportHeaders" value="export" label="Export"/>
+                        <radio id="importHeaders" value="import" label="Import"/>
+                    </radiogroup>
+                    <separator/>
+                    <description id="browseContent"/>
+                </hbox>
+                <hbox>
+                    <button id="fileButton" label="Browse..."
+                        oncommand="ImportExport.browseForFile()" disabled="true"/>
+                    <textbox id="filePath" oninput="canAdvanceFromSelectFile()" disabled="true"
+                        flex="1"/>
+                </hbox>
+                <hbox>
+                    <button id="cancelActionSelect"
+                        label="&modifyheaders.import.export.button.cancel;"
+                        oncommand="ImportExport.cancel()" disabled="true"/>
+                    <button id="actionSelectNext"
+                        label="&modifyheaders.import.export.button.next;"
+                        oncommand="ImportExport.advance()" disabled="true"/>
+                </hbox>
+            </vbox>
+            <vbox id="importExportSelectHeaders" flex="1">
+                <checkbox checked="true" id="toggleAllHeaders" label="Toggle All"
+                    onclick="ImportExport.toggleSelectAll()"/>
+                <hbox>
+                    <button id="cancelHeaderselect"
+                        label="&modifyheaders.import.export.button.cancel;"
+                        oncommand="ImportExport.cancel()"/>
+                    <button id="headerSelectNext"
+                        label="&modifyheaders.import.export.button.next;"
+                        oncommand="ImportExport.advance()"/>
+                </hbox>
+                <separator/>
+                <scrollbox id="selectHeaderList" flex="1"/>
+            </vbox>
+            <vbox id="importExportComplete">
+                <separator/>
+                <description class="msgText" id="finishPageContent"/>
+                <hbox>
+                    <button id="importExportFinish"
+                        label="&modifyheaders.import.export.button.finish;"
+                        oncommand="ImportExport.finish()"/>
+                </hbox>
+            </vbox>
+        </deck>
+    </groupbox>
 </window>

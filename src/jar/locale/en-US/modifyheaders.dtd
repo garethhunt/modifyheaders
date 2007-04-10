@@ -28,7 +28,15 @@
 <!ENTITY modifyheaders.config.general.always.on "Always On: Enable Modify Headers when this window is closed.">
 <!ENTITY modifyheaders.config.general.open.in.tab "Open Modify Headers in a new tab?">
 <!ENTITY modifyheaders.config.general.uncheck.onclose "Deselect all selected headers when browser is closed?">
-<!ENTITY modifyheaders.config.import.export "Import/Export">
+<!ENTITY modifyheaders.config.export.button "Export">
+<!ENTITY modifyheaders.config.import.export "Export/Import">
+<!ENTITY modifyheaders.config.import.button "Import">
+
+<!-- Import/Export window -->
+<!ENTITY modifyheaders.import.export.title "Import/Export Headers">
+<!ENTITY modifyheaders.import.export.button.cancel "Cancel">
+<!ENTITY modifyheaders.import.export.button.finish "Finish">
+<!ENTITY modifyheaders.import.export.button.next "Next &gt;">
 
 <!-- Options -->
 <!ENTITY modifyheaders.options.title "Modify Headers Options">

@@ -4,11 +4,17 @@ window {
     background-color: #ffffff
 }
 
-#modifyheaders-options-dialog {
-    height: 26em;
-    width: 45em
+#selectHeaderList {
+    overflow: auto;
+    -moz-box-orient: vertical
 }
 
-#modifyheaders-page-list {
-    width: 7em
+.errorText {
+    color:red;
+    font-weight:bold
+}
+
+.msgText {
+    color:green;
+    font-weight:bold
 }
