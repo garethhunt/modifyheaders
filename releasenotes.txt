@@ -1,5 +1,11 @@
 -- Release Notes --
 
+Release 0.0.6, 29 April 2006
+
+* Added Import/Export function
+* Usability improvements
+
+--
 Release 0.5.4, 11 October 2006
 
 * Fixed Edit feature so that the correct value of Add, Modify, Filter menulist is selected when the Edit button.
