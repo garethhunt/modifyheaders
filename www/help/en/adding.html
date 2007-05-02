@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Modifyheaders Help</title>
+        <link rel="stylesheet" type="text/css" href="../help.css"/>
+    </head>
+    <body>
+        <?php include_once"toc.inc"; ?>
+        
+        <div id="helpContent">
+            <h4>Adding Headers</h4>
+        
+            <p>If the <b>Add</b> option is selected, this will add a value to the selected header name.  If the header does not
+            exist by default, it will be created. It will not override the current value of the header.  This option is suitable where
+            headers can contain more than one value, eg:</p>
+            
+            <ul>
+                <li>Accept</li>
+                <li>Accept-Encoding</li>
+                <li>Cache-Control</li>
+                <li>Cookies</li>
+            </ul>
+            
+            <p>It is not suitable for headers where multiple values are not permitted, eg User-Agent.</p>
+         </div>
+    </body>
+</html>

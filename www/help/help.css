@@ -1,0 +1,39 @@
+body {
+	font-family: Verdana, Arial
+}
+
+div#helpContent {
+	position: absolute;
+	left: 250px;
+	top: 40px
+}
+
+div#helpToc {
+	font-size: 90%;
+	position: absolute;
+	text-align: right;
+	width: 220px;
+	top: 40px
+}
+
+h4 {
+	margin-top: 0px
+}
+
+a {
+	color: blue;
+	text-decoration: none
+}
+
+a:hover {
+	background-color: #ffc
+}
+
+a span {
+	visibility: hidden
+}
+
+a:hover span {
+	color: red;
+	visibility: visible
+}
