@@ -1,6 +1,14 @@
 -- Release Notes --
 
-Release 0.0.6, 29 April 2006
+Release 0.6.1, 20 May 2007
+
+* Experimental modifications to UI
+* Removed tabs
+* Help hosted externally to the Addon
+* Configuration comes from a pop-out at the bottom of the page 
+
+--
+Release 0.6.0, 29 April 2006
 
 * Added Import/Export function
 * Usability improvements
@@ -19,11 +27,8 @@ Release 0.5.3, 3 October 2006
 Release 0.5.2, 24 September 2006
 
 * Added support for Firefox 2 (beta 2), Flock, Nvu and Seamonkey
-
 * Added debug preference - accessible through about:config
-
 * Added list of contributors
-
 * Other small code tweaks and improvements
 
 --
@@ -35,11 +40,8 @@ Release 0.5.1, 12 December 2005:
 Release 0.5, 21 November 2005:
 
 * Implemented Modify Headers service so that requests can be modified when the extension window is closed.
-
 * Added 'Always On' preference to the configuration window.
-
 * Updated help function to include release notes and roadmap
-
 * Provided compatibility with Firefox v1.5 rc 1
 
 --
@@ -51,38 +53,25 @@ Release 0.3.1, 12 July 2005:
 Release 0.3, 4 May 2005:
 
 * Added help function in separate tab, includes link to bugzilla
-
 * Fixed bug 9910: scroll bar masks enable/disable indicators.
-
 * Fixed bug 9911: enable all/disable all
 
 --
 Release 0.2, 1 March 2005:
 
 * Add confirmation when deleting a header from the list.
-
 * Implemented the Add/Modify/Filter behaviour. (previously was just Add).
-
 * Fixed edit bug, where action column was not changed.
-
 * Double click to Enable/Disable headers.
-
 * Default status for newly added header is now Enabled.
-
 * Added key for enabled/disabled.
-
 * Moved enabled column to RHS.
-
 * Hidden tree column picker.
 
 --
 Release 0.1:
 
-* Fix image updating issue. When header is enabled/disabled, the tree image is not changed until
-  the mouse moves over the tree control.
-
+* Fix image updating issue. When header is enabled/disabled, the tree image is not changed until the mouse moves over the tree control.
 * Stretch the tree to fit
-
 * Implement the move up/down buttons.
-
 * Implement the form reset button.
