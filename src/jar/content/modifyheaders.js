@@ -74,7 +74,6 @@ ModifyHeaders.prototype = {
 //    cycleCell : function(row, columnID) { /* do nothing */ },
     cycleHeader: function(columnID, element) {
         /* do nothing */
-        alert("Cycling: " + columnID);
     },
 //    drop: function(row, orientation) { /* do nothing */ return false; },
     getCellProperties: function(row, columnID, properties) { /* do nothing */ },
@@ -321,6 +320,21 @@ ModifyHeaders.prototype = {
     	        break;
     	    default:
     	        this.clearForm()
-    	}
-    }
+		}
+    },
+	
+    openHelp: function() {
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]. getService(Components.interfaces.nsIWindowMediator)
+		var window = wm.getMostRecentWindow("navigator:browser")
+		window.gBrowser.selectedTab = window.gBrowser.addTab("http://modifyheaders.mozdev.org/no_wrap/help/en/index.html")
+	},
+	
+	openConfig: function() {
+		var spl = document.getElementById("configSplitter")
+		if (spl.getAttribute("state") == "open" || spl.getAttribute("state") == "") {
+			spl.setAttribute("state", "collapsed")
+		} else {
+			spl.setAttribute("state", "open")
+		}
+	}
 };
