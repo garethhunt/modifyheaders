@@ -309,7 +309,13 @@ var ImportExport = {
                 
                 switch (node.nodeName) {
                     case "action":
-                        header.action = node.firstChild.nodeValue
+                        if (node.firstChild) {
+                            header.action = node.firstChild.nodeValue
+                        } else {
+                            header.action = "modify"
+                            var actionError = new Error("No action set for the header, setting to 'modify'")
+                            throw actionError
+                        }
                         break
                     case "name":
                         header.name = node.firstChild.nodeValue
