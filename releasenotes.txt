@@ -1,5 +1,10 @@
 -- Release Notes --
 
+Release 0.6.2, 11 September 2007
+
+* Extended support for Flock 1.0
+
+--
 Release 0.6.1, 20 May 2007
 
 * Experimental modifications to UI
