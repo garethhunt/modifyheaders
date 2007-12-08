@@ -1,5 +1,11 @@
 -- Release Notes --
 
+Release 0.6.3, 8 December 2007
+
+* Fixed bug 17894 - Headers with blank name and value can now be imported
+* Added support for Firefox 3.0 beta 1
+
+--
 Release 0.6.2, 11 September 2007
 
 * Extended support for Flock 1.0

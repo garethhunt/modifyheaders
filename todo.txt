@@ -2,7 +2,6 @@
 Version 0.7
 * Add ability to group headers which can be enabled/disabled together
 * Add function to output Cookie header additions correctly.
-* Add preference to enable or disable headers by default when added.
 * Remove unnecessary code from the source code.
 
 Version 0.8
