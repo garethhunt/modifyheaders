@@ -20,12 +20,12 @@
                 <em:package>content/</em:package>
             </Description>
         </em:file>
-        <!-- Firefox 1.* - 2.0.* -->
+        <!-- Firefox 1.* - 3.0b1 -->
         <em:targetApplication>
             <Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
                 <em:minVersion>1.0</em:minVersion>
-                <em:maxVersion>2.0.0.*</em:maxVersion>
+                <em:maxVersion>3.0b1</em:maxVersion>
             </Description>
         </em:targetApplication>
         
