@@ -295,9 +295,17 @@ var ImportExport = {
         for (var i=0; i < root.childNodes.length; i++) {
             var headerNode = root.childNodes.item(i)
             
-            if (headerNode.nodeName != "header" | headerNode.childNodes.length != 3) {
+			if (headerNode.nodeName != "header" | headerNode.childNodes.length != 3) {
                 this.browseContent.className = "errorText"
-                this.browseContent.value = this.strings.getString("modifyheaders.import.unexpected.format")
+				var errorMsg = this.strings.getString("modifyheaders.import.unexpected.format")
+				
+				if (headerNode != null) {
+					errorMsg = errorMsg + ": " + headerNode.nodeName + ", " + headerNode.nodeValue
+				} else {
+					errorMsg = errorMsg + ": &lt;header&gt; node is null"
+				}
+				
+                this.browseContent.value = errorMsg
                 return null
             }
             
@@ -318,7 +326,10 @@ var ImportExport = {
                         }
                         break
                     case "name":
-                        header.name = node.firstChild.nodeValue
+                        header.name = ""
+					    if (node.firstChild) {
+							header.name = node.firstChild.nodeValue
+						}
                         break
                     case "value":
                         header.value = ""
@@ -328,14 +339,19 @@ var ImportExport = {
                         break
                     default:
                         this.browseContent.className = "errorText"
-                        this.browseContent.value = strings.getString("modifyheaders.import.unexpected.format")
+						var errorMsg = this.strings.getString("modifyheaders.import.unexpected.format")
+
+						if (node != null) {
+							errorMsg = errorMsg + ": " + node.nodeName + ", " + node.nodeValue
+						} else {
+							errorMsg = errorMsg + ": node is null"
+						}
+                        this.browseContent.value = errorMsg
                         return null
                 }
             }
-            
             outHeaders.push(header)
         }
-        
         return outHeaders
     },
     
