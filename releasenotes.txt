@@ -1,5 +1,12 @@
 -- Release Notes --
 
+Release 0.6.4, 24 February 2007
+
+* Fixed bug 18687 - Modifyheaders does not work in Fx 3
+* Added support for Firefox 3.0 beta 3
+
+--
+
 Release 0.6.3, 8 December 2007
 
 * Fixed bug 17894 - Headers with blank name and value can now be imported
