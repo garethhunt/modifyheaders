@@ -30,6 +30,7 @@ function ModifyHeadersHeader() {
   this.aAction   = ""
   this.aName     = ""
   this.aValue    = ""
+  this.aComment  = ""
   this.aEnabled  = false
   this.aSelected = true
 }
@@ -43,6 +44,9 @@ ModifyHeadersHeader.prototype = {
 	
 	get value() { return this.aValue },
 	set value(value) { this.aValue = value },
+  
+	get comment() { return this.aComment },
+	set comment(comment) { this.aComment = comment },
 	
 	get enabled() { return this.aEnabled },
 	set enabled(enabled) { this.aEnabled = enabled },
@@ -85,49 +89,50 @@ function ModifyHeadersService() {
 ModifyHeadersService.prototype = {
   get count() {
     if (!this.initiated) {
-      this.init();
+      this.init()
     }
 
-    modifyheaders_logMessage("Returning the header count: " + this.headers.length);
-    return this.headers.length;
+    modifyheaders_logMessage("Returning the header count: " + this.headers.length)
+    return this.headers.length
   },
   set count() { /* Do nothing */ },
   
   get alwaysOn() {
-    return this.preferencesUtil.getPreference("bool", PreferencesUtil.prefAlwaysOn);
+    return this.preferencesUtil.getPreference("bool", PreferencesUtil.prefAlwaysOn)
   },
   
   set alwaysOn(alwaysOn) {
-    this.preferencesUtil.setPreference("bool", PreferencesUtil.prefAlwaysOn, alwaysOn);
+    this.preferencesUtil.setPreference("bool", PreferencesUtil.prefAlwaysOn, alwaysOn)
   },
   
   get openAsTab() {
-    return this.preferencesUtil.getPreference("bool", PreferencesUtil.prefOpenAsTab);
+    return this.preferencesUtil.getPreference("bool", PreferencesUtil.prefOpenAsTab)
   },
   
   set openAsTab(openAsTab) {
-    this.preferencesUtil.setPreference("bool", PreferencesUtil.prefOpenAsTab, openAsTab);
+    this.preferencesUtil.setPreference("bool", PreferencesUtil.prefOpenAsTab, openAsTab)
   },
   
   get windowOpen() {
-    return this.winOpen;
+    return this.winOpen
   },
   
   set windowOpen(winOpen) {
-    this.winOpen = winOpen;
+    this.winOpen = winOpen
   },
   
   // Load the headers from the preferences
   init: function() {
-    modifyheaders_logMessage("Entered ModifyHeadersService.init");
+    modifyheaders_logMessage("Entered ModifyHeadersService.init")
 
-    this.headers = new Array();
+    this.headers = new Array()
     
     // Load the headers from the preferences
-    var enabled;
-    var action;
-    var name;
-    var value;
+    var enabled
+    var action
+    var name
+    var value
+    var comment
     
    	// Read preferences into headersArray
     var headerCount = this.preferencesUtil.getPreference("int", PreferencesUtil.prefHeaderCount);
@@ -136,9 +141,10 @@ ModifyHeadersService.prototype = {
       name = this.preferencesUtil.getPreference("char", PreferencesUtil.prefHeaderName + i);
       value = this.preferencesUtil.getPreference("char", PreferencesUtil.prefHeaderValue + i);
       action = this.preferencesUtil.getPreference("char", PreferencesUtil.prefHeaderAction + i);
+      comment = this.preferencesUtil.getPreference("char", PreferencesUtil.prefHeaderComment + i);
       enabled = this.preferencesUtil.getPreference("bool", PreferencesUtil.prefHeaderEnabled + i);
       
-      this.addHeader(name, value, action, enabled);
+      this.addHeader(name, value, action, comment, enabled);
     }
     
     this.initiated = true;
@@ -150,6 +156,7 @@ ModifyHeadersService.prototype = {
     objHeader.action = this.headers[index]["action"]
     objHeader.name = this.headers[index]["name"]
     objHeader.value = this.headers[index]["value"]
+    objHeader.comment = this.headers[index]["comment"]
     objHeader.enabled = this.headers[index]["enabled"]
     
     return objHeader 
@@ -195,10 +202,15 @@ ModifyHeadersService.prototype = {
       var valueElem = headersXML.createElement("value")
       valueElem.appendChild(value)
       
+      var comment = headersXML.createTextNode(objHeader.comment)
+      var commentElem = headersXML.createElement("comment")
+      commentElem.appendChild(comment)
+      
       var header = headersXML.createElement("header")
       header.appendChild(actionElem)
       header.appendChild(nameElem)
       header.appendChild(valueElem)
+      header.appendChild(commentElem)
       
       root.appendChild(header)
     }
@@ -211,56 +223,56 @@ ModifyHeadersService.prototype = {
   },
   
   // Adds a header to the headers array
-  addHeader: function(name, value, action, enabled) {
-    modifyheaders_logMessage("Entered ModifyHeadersService.addHeader");
+  addHeader: function(name, value, action, comment, enabled) {
+    modifyheaders_logMessage("Entered ModifyHeadersService.addHeader")
     
-    // Validate the arguments
-    // TODO
+    // TODO Validate the arguments
     
     // Add the header to the Array
-    var header = new Array();
-    header["enabled"] = enabled;
-    header["action"] = action;
-    header["name"] = name;
-    header["value"] = value;
+    var header = new Array()
+    header["enabled"] = enabled
+    header["action"]  = action
+    header["name"]    = name
+    header["value"]   = value
+    header["comment"] = comment
     
-    this.headers.push(header);
+    this.headers.push(header)
     
-    this.savePreferences();
-    modifyheaders_logMessage("Exiting ModifyHeadersService.addHeader");
+    this.savePreferences()
+    modifyheaders_logMessage("Exiting ModifyHeadersService.addHeader")
   },
   
-  setHeader: function(index, name, value, action, enabled) {
-    modifyheaders_logMessage("Entered ModifyHeadersService.setHeader");
+  setHeader: function(index, name, value, action, comment, enabled) {
+    modifyheaders_logMessage("Entered ModifyHeadersService.setHeader")
     
-    // Validate the arguments
-    // TODO
+    // TODO Validate the arguments
     
     // Update the values
-    this.headers[index]["enabled"] = enabled;
-    this.headers[index]["action"] = action;
-    this.headers[index]["name"] = name;
-    this.headers[index]["value"] = value;
+    this.headers[index]["enabled"] = enabled
+    this.headers[index]["action"]  = action
+    this.headers[index]["name"]    = name
+    this.headers[index]["value"]   = value
+    this.headers[index]["comment"] = comment
     
-    this.savePreferences();
-    modifyheaders_logMessage("Exiting ModifyHeadersService.setHeader");
+    this.savePreferences()
+    modifyheaders_logMessage("Exiting ModifyHeadersService.setHeader")
   },
   
   // Remove the header with the specified index
   removeHeader: function(index) {
-    modifyheaders_logMessage("Entered ModifyHeadersService.removeHeader");
-    this.headers.splice(index, 1);
-    this.savePreferences();
-    modifyheaders_logMessage("Exiting ModifyHeadersService.removeHeader");
+    modifyheaders_logMessage("Entered ModifyHeadersService.removeHeader")
+    this.headers.splice(index, 1)
+    this.savePreferences()
+    modifyheaders_logMessage("Exiting ModifyHeadersService.removeHeader")
   },
   
   isHeaderEnabled: function(index) {
-    return this.headers[index]["enabled"];
+    return this.headers[index]["enabled"]
   },
   
   setHeaderEnabled: function(index, enabled) {
-    this.headers[index]["enabled"] = enabled;
-    this.savePreferences();
+    this.headers[index]["enabled"] = enabled
+    this.savePreferences()
   },
   
   getHeaderAction: function(index) {
@@ -268,20 +280,22 @@ ModifyHeadersService.prototype = {
   },
   
   getHeaderName: function(index) {
-    return this.headers[index]["name"];
+    return this.headers[index]["name"]
   },
   
   getHeaderValue: function(index) {
-    return this.headers[index]["value"];
+    return this.headers[index]["value"]
+  },
+  
+  getHeaderComment: function(index) {
+    return this.headers[index]["comment"]
   },
   
   switchHeaders: function(index1, index2) {
-    var header = this.headers[index1];
-    
-    this.headers[index1] = this.headers[index2];
-    this.headers[index2] = header;
-    
-    this.savePreferences();
+    var header = this.headers[index1]
+    this.headers[index1] = this.headers[index2]
+    this.headers[index2] = header
+    this.savePreferences()
   },
   
   // Persist the headers to the preferences.
@@ -294,17 +308,18 @@ ModifyHeadersService.prototype = {
       
       // Loop over the headers
       for (var i=0; i < this.count; i++) {
-        this.preferencesUtil.setPreference("char", PreferencesUtil.prefHeaderAction + i, this.headers[i]["action"]);
-        this.preferencesUtil.setPreference("char", PreferencesUtil.prefHeaderName + i, this.headers[i]["name"]);
-        this.preferencesUtil.setPreference("char", PreferencesUtil.prefHeaderValue + i, this.headers[i]["value"]);
-        this.preferencesUtil.setPreference("bool", PreferencesUtil.prefHeaderEnabled + i, this.headers[i]["enabled"]);
+        this.preferencesUtil.setPreference("char", PreferencesUtil.prefHeaderAction + i, this.headers[i]["action"])
+        this.preferencesUtil.setPreference("char", PreferencesUtil.prefHeaderName + i, this.headers[i]["name"])
+        this.preferencesUtil.setPreference("char", PreferencesUtil.prefHeaderValue + i, this.headers[i]["value"])
+        this.preferencesUtil.setPreference("char", PreferencesUtil.prefHeaderComment + i, this.headers[i]["comment"])
+        this.preferencesUtil.setPreference("bool", PreferencesUtil.prefHeaderEnabled + i, this.headers[i]["enabled"])
       }
       
-      this.preferencesUtil.setPreference("int", PreferencesUtil.prefHeaderCount, this.count);
+      this.preferencesUtil.setPreference("int", PreferencesUtil.prefHeaderCount, this.count)
     }
   },
   
-  // Clear the headers from there preferences
+  // Clear the headers from their preferences
   clearPreferences: function() {
     // Loop over the headers
     for (var i=0; i < this.count; i++) {
@@ -312,11 +327,12 @@ ModifyHeadersService.prototype = {
       this.preferencesUtil.deletePreference(PreferencesUtil.prefHeaderEnabled + i)
       this.preferencesUtil.deletePreference(PreferencesUtil.prefHeaderName + i)
       this.preferencesUtil.deletePreference(PreferencesUtil.prefHeaderValue + i)
+      this.preferencesUtil.deletePreference(PreferencesUtil.prefHeaderComment + i)
     }
   },
   
   QueryInterface: function(iid) {
-    modifyheaders_logMessage("Entered ModifyHeadersService.prototype.QueryInterface: " + iid);
+    modifyheaders_logMessage("Entered ModifyHeadersService.prototype.QueryInterface: " + iid)
     
     if (!iid.equals(Components.interfaces.nsIModifyheaders) && !iid.equals(Components.interfaces.nsISupports)) {
       throw Components.results.NS_ERROR_NO_INTERFACE
@@ -328,21 +344,20 @@ ModifyHeadersService.prototype = {
 
 /* Define the modifyheaders proxy object. */
 function ModifyHeadersProxy() {
-  modifyheaders_logMessage("Entered ModifyHeadersProxy");
-  this.headers = new Array();
-  this.preferencesUtil = new PreferencesUtil();
+  modifyheaders_logMessage("Entered ModifyHeadersProxy")
+  this.headers = new Array()
+  this.preferencesUtil = new PreferencesUtil()
   
-  this.modifyheadersService = Components.classes[ModifyHeadersModule.serviceContractID].getService(Components.interfaces.nsIModifyheaders);
-  modifyheaders_logMessage("Exiting ModifyHeadersProxy");
+  this.modifyheadersService = Components.classes[ModifyHeadersModule.serviceContractID].getService(Components.interfaces.nsIModifyheaders)
+  modifyheaders_logMessage("Exiting ModifyHeadersProxy")
 }
 
 // nsIObserver interface method
 ModifyHeadersProxy.prototype.observe = function(subject, topic, data) {
-  modifyheaders_logMessage("Entered ModifyHeadersProxy.prototype.observe");
+  modifyheaders_logMessage("Entered ModifyHeadersProxy.prototype.observe")
   
   if (topic == 'http-on-modify-request') {
     modifyheaders_logMessage("topic is http-on-modify-request")
-    
     subject.QueryInterface(Components.interfaces.nsIHttpChannel)
     
     if (this.modifyheadersService.windowOpen || this.modifyheadersService.alwaysOn) {
@@ -369,7 +384,7 @@ ModifyHeadersProxy.prototype.observe = function(subject, topic, data) {
         }
       }
       // TODO Add an optional ModifyHeaders header so that users know the tool is active
-      //subject.setRequestHeader("x-modifyheaders", "version 0.4", true);
+      // subject.setRequestHeader("x-modifyheaders", "version 0.4", true)
     }
   } else if (topic == 'app-startup') {
     modifyheaders_logMessage("topic is app-startup")
@@ -385,7 +400,6 @@ ModifyHeadersProxy.prototype.observe = function(subject, topic, data) {
   } else {
     modifyheaders_logMessage("No observable topic defined")
   }
-  
   modifyheaders_logMessage("Exiting ModifyHeadersProxy.prototype.observe")
 }
 
@@ -414,6 +428,7 @@ PreferencesUtil.prefHeaderAction  = "modifyheaders.headers.action"
 PreferencesUtil.prefHeaderEnabled = "modifyheaders.headers.enabled"
 PreferencesUtil.prefHeaderName    = "modifyheaders.headers.name"
 PreferencesUtil.prefHeaderValue   = "modifyheaders.headers.value"
+PreferencesUtil.prefHeaderComment = "modifyheaders.headers.comment"
 PreferencesUtil.prefLogMsgs       = "modifyheaders.config.logMsgs"
 PreferencesUtil.prefOpenAsTab     = "modifyheaders.config.openNewTab"
 

@@ -126,7 +126,7 @@
     <!-- ================================= 
           target: default              
          ================================= -->
-	<target name="xpi" depends="jar" description="Creates the xpi file that includes the extension jar and ind=stall scripts">
+	<target name="xpi" depends="jar" description="Creates the xpi file that includes the extension jar and install scripts">
 		<!-- Zip the jar file and the installation scripts into the xpi file -->
 		<zip destfile="${build.targetdir}/xpi/${build.mozilla.firefox.extension.name}-${build.version}.xpi">
 			<!-- <fileset dir="${build.targetdir}/jar" includes="*.*"/> -->

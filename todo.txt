@@ -1,8 +1,9 @@
 -- Todo --
 Version 0.7
 * Add ability to group headers which can be enabled/disabled together
-* Add function to output Cookie header additions correctly.
-* Remove unnecessary code from the source code.
+* Add function to output Cookie header additions correctly
+* Ability to append value to existing header
+* Remove unnecessary code from the source code
 
 Version 0.8
-* Implement facility to modify headers for specific domains/ip's.
+* Implement facility to modify headers for specific domains/ip's

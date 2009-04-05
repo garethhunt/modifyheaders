@@ -1,44 +1,63 @@
-// Constants for use within the ModifyHeaders class
-const modifyheadersService = Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders);
+/* 
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ * 
+ * The Original Code is the modifyheaders extension.
+ * 
+ * The Initial Developer of the Original Code is Gareth Hunt
+ * <gareth-hunt@rocketmail.com>. Portions created by the Initial Developer
+ * are Copyright (C) 2005 the Initial Developer. All Rights Reserved.
+ *
+ */
 
-var oModifyHeaders;
+// Constants for use within the ModifyHeaders class
+const modifyheadersService = Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders)
+
+var oModifyHeaders
 
 // This stops startModifyHeaders() from being run twice.
-// TODO Place this as a property of the oModifyHeaders class
-var initialized = false;
+var initialized = false
+var mhWindow = null
 
 // Opens the modifyheaders interface in a new tab/window
 function openModifyHeaders() {
-
-    if (modifyheadersService.openAsTab) {
-        // Open modifyheaders in a new tab
-        gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/modifyheaders.xul');
-        setTimeout("gURLBar.focus();", 0);
-        //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
-        //var title = document.getElementById("modifyheaders.title").label
-        //gBrowser.selectedTab.setAttribute("label", title);
-    } else {
-        // Open Modify Headers in a global window
-        window.open("chrome://modifyheaders/content/modifyheaders.xul", "modifyheaders", "chrome,centerscreen,resizable,scrollbars");
-    }
+  if (modifyheadersService.openAsTab) {
+    // Open modifyheaders in a new tab
+    gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/modifyheaders.xul');
+    setTimeout("gURLBar.focus();", 0);
+    //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
+  } else if (!modifyheadersService.windowOpen){
+    // Open Modify Headers in a global window
+    mhWindow = window.open("chrome://modifyheaders/content/modifyheaders.xul", "modifyheaders", "chrome,centerscreen,resizable,scrollbars");
+  } else {
+    // The window is open, so shift focus to it
+    mhWindow.focus()
+  }
 }
 
 function startModifyHeaders() {
 	if (!initialized) {
-		oModifyHeaders = new ModifyHeaders();
-		oModifyHeaders.start();
-		initialized = true;
-		modifyheadersService.windowOpen = true;
+		oModifyHeaders = new ModifyHeaders()
+		oModifyHeaders.start()
+		initialized = true
+		modifyheadersService.windowOpen = true
 	}
 }
 
 function stopModifyHeaders() {
-    oModifyHeaders = null;
-	modifyheadersService.windowOpen = false;
+  oModifyHeaders = null
+  modifyheadersService.windowOpen = false
 }
 
 function refreshHeaderTree(index, count) {
-    oModifyHeaders.refresh(index, count)
+  oModifyHeaders.refresh(index, count)
 }
 
 // ModifyHeaders object definition
@@ -47,294 +66,301 @@ function ModifyHeaders() {
 
 ModifyHeaders.prototype = {
 
-	// Control constants
-	headersTree: null,
-    actionMenuList: null,
-    nameTextbox: null,
-    valueTextbox: null,
-    addButton: null,
-    saveButton: null,
+  // Control constants
+  headersTree: null,
+  actionMenuList: null,
+  nameTextbox: null,
+  valueTextbox: null,
+  commentTextbox: null,
+  addButton: null,
+  saveButton: null,
 
-    // nsITreeView interface properties
-    treeSelection: null, // nsiTreeSelection
-    treeBox: null, // The tree
-    editedRowID: null, // The row currently being edited
-    
-    // Getters and Setters
-    set rowCount(i) { throw "rowCount is a readonly property"; },
-    //get rowCount() { return this.rows.length; },
-    get rowCount() { return modifyheadersService.count; },
-    
-    set selection(s) { this.treeSelection = s; },
-    get selection() { return this.treeSelection; },
-    
-    // START nsITreeView interface methods
-//    canDropBeforeAfter: function(index, before) { return false; },
-//    canDropOn : function(index) { return false; },
-//    cycleCell : function(row, columnID) { /* do nothing */ },
-    cycleHeader: function(columnID, element) {
-        /* do nothing */
-    },
-//    drop: function(row, orientation) { /* do nothing */ return false; },
-    getCellProperties: function(row, columnID, properties) { /* do nothing */ },
-    getCellText: function(row, column) {
-        if (column == "actioncol" || column.id == "actioncol") {
-            return modifyheadersService.getHeaderAction(row);
-        } else if (column == "namecol" || column.id == "namecol") {
-            return modifyheadersService.getHeaderName(row);
-        } else if (column == "valuecol" || column.id == "valuecol") {
-            return modifyheadersService.getHeaderValue(row);
-        }
-        
-        return null;
+  // nsITreeView interface properties
+  treeSelection: null, // nsiTreeSelection
+  treeBox: null, // The tree
+  editedRowID: null, // The row currently being edited
+  
+  // Getters and Setters
+  set rowCount(i) { throw "rowCount is a readonly property"; },
+  //get rowCount() { return this.rows.length; },
+  get rowCount() { return modifyheadersService.count; },
+  
+  set selection(s) { this.treeSelection = s; },
+  get selection() { return this.treeSelection; },
+  
+  // START nsITreeView interface methods
+//  canDropBeforeAfter: function(index, before) { return false; },
+//  canDropOn : function(index) { return false; },
+//  cycleCell : function(row, columnID) { /* do nothing */ },
+  cycleHeader: function(columnID, element) {
+    /* do nothing */
+  },
+//  drop: function(row, orientation) { /* do nothing */ return false; },
+  getCellProperties: function(row, columnID, properties) { /* do nothing */ },
+  getCellText: function(row, column) {
+    if (column == "actioncol" || column.id == "actioncol") {
+      return modifyheadersService.getHeaderAction(row);
+    } else if (column == "namecol" || column.id == "namecol") {
+      return modifyheadersService.getHeaderName(row);
+    } else if (column == "valuecol" || column.id == "valuecol") {
+      return modifyheadersService.getHeaderValue(row);
+    } else if (column == "commentcol" || column.id == "commentcol") {
+      return modifyheadersService.getHeaderComment(row);
+    }
+    return null;
 	},
-//    getCellValue: function(row, columnID) { /* return null; */ },
-    getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
-    getImageSrc: function(rowIndex, column) {
-    	if (column == "enabledcol" || column.id == "enabledcol") {
-    		if (modifyheadersService.isHeaderEnabled(rowIndex)) {
-    			return "chrome://modifyheaders/content/enabled.gif";
-    		} else {
-    			return "chrome://modifyheaders/content/disabled.gif";
-    		}
-    	}
+//  getCellValue: function(row, columnID) { /* return null; */ },
+  getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
+  getImageSrc: function(rowIndex, column) {
+  	if (column == "enabledcol" || column.id == "enabledcol") {
+  		if (modifyheadersService.isHeaderEnabled(rowIndex)) {
+  			return "chrome://modifyheaders/content/enabled.gif";
+  		} else {
+  			return "chrome://modifyheaders/content/disabled.gif";
+  		}
+  	}
+  	return null;
+  },
+//  getLevel: function(index) { return 0; },
+//  getParentIndex: function(rowIndex) { return 0; },
+//  getProgressMode: function(rowIndex, columnID) { /* return 0; */ },
+  getRowProperties: function(rowIndex, properties) { /* do nothing */ },
+//  hasNextSibling: function(rowIndex, afterIndex) { return false; },
+  isContainer: function(index) { return false; },
+//  isContainerEmpty: function(index) { return false; },
+//  isContainerOpen: function(index) { /* return false; */ },
+//  isEditable: function(rowIndex, columnID) { return false; },
+  isSeparator: function(index) { return false; },
+  isSorted: function(index) { /* return false; */ },
+//  performAction: function(action) { /* do nothing */ },
+//  performActionOnCell: function(action, rowIndex, columnID) { /* do nothing */ },
+//  performActionOnRow: function(action, rowIndex) { /* do nothing */ },
+//  selectionChanged: function() { /* do nothing */ },
+//  setCellText: function(rowIndex, columnID, value) { /* do nothing */ },
+  setTree: function(tree) { this.treeBox=tree; },
+//  toggleOpenState: function(index) { /* do nothing */ },
+  // END nsITreeView interface methods
+    
+  start: function() {
+    // Initialize the form controls
+    this.headersTree = document.getElementById("modifyheaders-tree");
+    this.actionMenuList = document.getElementById("action-menulist");
+    this.nameTextbox = document.getElementById("headername-text-box");
+    this.valueTextbox = document.getElementById("headervalue-text-box");
+    this.commentTextbox = document.getElementById("headercomment-text-box");
+    this.addButton = document.getElementById("add-header-button");
+    this.saveButton = document.getElementById("save-header-button");
+    
+    // Set this view for the treeBoxObject
+    this.headersTree.treeBoxObject.view = this;
+  },
+  
+  refresh: function(index, count) {
+    this.treeBox.rowCountChanged(index, count)
+    this.treeSelection.select(this.rowCount-1)
+  },
+  
+  addHeader: function() {
+    // Values
+    // TODO Make the enabled default value a preference, true for now
+    var enabled = true;
+    var action = document.getElementById("action-menulist").selectedItem.label;
+    var name = document.getElementById("headername-text-box").value;
+   	var value = document.getElementById("headervalue-text-box").value;
+   	var comment = document.getElementById("headercomment-text-box").value;
     	
-    	return null;
-    },
-//    getLevel: function(index) { return 0; },
-//    getParentIndex: function(rowIndex) { return 0; },
-//    getProgressMode: function(rowIndex, columnID) { /* return 0; */ },
-    getRowProperties: function(rowIndex, properties) { /* do nothing */ },
-//    hasNextSibling: function(rowIndex, afterIndex) { return false; },
-    isContainer: function(index) { return false; },
-//    isContainerEmpty: function(index) { return false; },
-//    isContainerOpen: function(index) { /* return false; */ },
-//    isEditable: function(rowIndex, columnID) { return false; },
-    isSeparator: function(index) { return false; },
-    isSorted: function(index) { /* return false; */ },
-//    performAction: function(action) { /* do nothing */ },
-//    performActionOnCell: function(action, rowIndex, columnID) { /* do nothing */ },
-//    performActionOnRow: function(action, rowIndex) { /* do nothing */ },
-//    selectionChanged: function() { /* do nothing */ },
-//    setCellText: function(rowIndex, columnID, value) { /* do nothing */ },
-    setTree: function(tree) { this.treeBox=tree; },
-//    toggleOpenState: function(index) { /* do nothing */ },
-    // END nsITreeView interface methods
+    modifyheadersService.addHeader(name, value, action, comment, enabled);
     
-    start: function() {
-        // Initialize the form controls
-        this.headersTree = document.getElementById("modifyheaders-tree");
-        this.actionMenuList = document.getElementById("action-menulist");
-        this.nameTextbox = document.getElementById("headername-text-box");
-        this.valueTextbox = document.getElementById("headervalue-text-box");
-        this.addButton = document.getElementById("add-header-button");
-        this.saveButton = document.getElementById("save-header-button");
-        
-        // Set this view for the treeBoxObject
-        this.headersTree.treeBoxObject.view = this;
-    },
+    // Notify the treeBoxObject that a row has been added,
+    // Select the row
+    this.treeBox.rowCountChanged(this.rowCount-1, 1);
+    this.treeSelection.select(this.rowCount-1);
     
-    refresh: function(index, count) {
-        this.treeBox.rowCountChanged(index, count)
-        this.treeSelection.select(this.rowCount-1)
-    },
+    this.clearForm();
+  },
+  
+  // Delete the header from the list
+  deleteHeader: function() {
+    var deleteIndex = this.treeSelection.currentIndex;
     
-    addHeader: function() {
+    modifyheadersService.removeHeader(deleteIndex);
     
-    	// Values
-    	// TODO Make the enabled default value a preference, true for now
-	    var enabled = true;
-	    var action = document.getElementById("action-menulist").selectedItem.label;
-	    var name = document.getElementById("headername-text-box").value;
-    	var value = document.getElementById("headervalue-text-box").value;
-    	
-    	modifyheadersService.addHeader(name, value, action, enabled);
-    	
-		// Notify the treeBoxObject that a row has been added,
-		// Select the row
-		this.treeBox.rowCountChanged(this.rowCount-1, 1);
-		this.treeSelection.select(this.rowCount-1);
-        
-        this.clearForm();
-    },
+    // Notify the treeBoxObject that a row has been deleted
+    // Select the next row if there is one
+    this.treeBox.rowCountChanged(deleteIndex, -1);
+    this.treeSelection.select(deleteIndex);
+  },
     
-	// Delete the header from the list
-	deleteHeader: function() {
-		var deleteIndex = this.treeSelection.currentIndex;
-		
-		modifyheadersService.removeHeader(deleteIndex);
-		
-		// Notify the treeBoxObject that a row has been deleted
-		// Select the next row if there is one
-		this.treeBox.rowCountChanged(deleteIndex, -1);
-		this.treeSelection.select(deleteIndex);
-    },
+  editHeader: function() {
+    var selectedRowIndex = this.treeSelection.currentIndex
     
-    editHeader: function() {
-        var selectedRowIndex = this.treeSelection.currentIndex
-        
-        // Set the form values to the value of the selected item
-        if (selectedRowIndex > -1) {
-            this.actionMenuList.value = modifyheadersService.getHeaderAction(selectedRowIndex)
-            this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex)
-            if (modifyheadersService.getHeaderValue(selectedRowIndex) != "") {
-                this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex)
-            }
-            
-            this.editedRowID = selectedRowIndex
-            
-            // Hide the add button and display the save button
-            this.addButton.setAttribute("hidden", "true")
-            this.saveButton.setAttribute("hidden", "false")
-            
-            this.nameTextbox.disabled = false
-            if (this.valueTextbox.value.length > 0) {
-                this.valueTextbox.disabled = false
-            }
-            this.addButton.disabled = false
-            this.saveButton.disabled = false
-        }
-    },
+    // Set the form values to the value of the selected item
+    if (selectedRowIndex > -1) {
+      this.actionMenuList.value = modifyheadersService.getHeaderAction(selectedRowIndex)
+      this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex)
+      if (modifyheadersService.getHeaderValue(selectedRowIndex) != "") {
+        this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex)
+      }
+      if (modifyheadersService.getHeaderComment(selectedRowIndex) != "") {
+        this.commentTextbox.value = modifyheadersService.getHeaderComment(selectedRowIndex)
+      }
+      
+      this.editedRowID = selectedRowIndex
+      
+      // Hide the add button and display the save button
+      this.addButton.setAttribute("hidden", "true")
+      this.saveButton.setAttribute("hidden", "false")
+      
+      this.nameTextbox.disabled = false
+      if (this.valueTextbox.value.length > 0) {
+        this.valueTextbox.disabled = false
+      }
+      this.commentTextbox.disabled = false
+      this.addButton.disabled = false
+      this.saveButton.disabled = false
+    }
+  },
+  
+  saveHeader: function() {
+  
+    if (this.editedRowID != null) {
+      var index = this.editedRowID
+      var name = this.nameTextbox.value
+      var value = this.valueTextbox.value
+      var comment = this.commentTextbox.value
+      var action = this.actionMenuList.selectedItem.label
+      var enabled = modifyheadersService.isHeaderEnabled(index)
+      
+      modifyheadersService.setHeader(index, name, value, action, comment, enabled)
+      
+      // Notify the treeBoxObject that a row has been edited
+      this.treeBox.invalidateRow(this.editedRowID)
+      
+      // Select the row
+      this.treeSelection.select(this.editedRowID)
+      
+      // Set the editedRow to null
+      this.editedRowID = null
+      
+      this.clearForm()
+    }
+  },
+  
+  clearForm: function() {
+    this.actionMenuList.value = "";
+    this.nameTextbox.value = "";
+    this.valueTextbox.value = "";
+    this.commentTextbox.value = "";
     
-    saveHeader: function() {
+    this.nameTextbox.disabled = true
+    this.valueTextbox.disabled = true
+    this.commentTextbox.disabled = true
     
-    	if (this.editedRowID != null) {
-    	    
-    	    var index = this.editedRowID
-    	    var name = this.nameTextbox.value
-    	    var value = this.valueTextbox.value
-    	    var action = this.actionMenuList.selectedItem.label
-    	    var enabled = modifyheadersService.isHeaderEnabled(index)
-    	    
-    	    modifyheadersService.setHeader(index, name, value, action, enabled)
-    	
-			// Notify the treeBoxObject that a row has been edited
-			this.treeBox.invalidateRow(this.editedRowID)
-
-			// Select the row
-			this.treeSelection.select(this.editedRowID)
-
-            // Set the editedRow to null
-            this.editedRowID = null
-
-            this.clearForm()
-		}
-    },
+    this.addButton.setAttribute("hidden", "false");
+    this.saveButton.setAttribute("hidden", "true");
+    this.addButton.disabled = true
+    this.saveButton.disabled = true
     
-    clearForm: function() {
-    	this.actionMenuList.value = "";
-    	this.nameTextbox.value = "";
-    	this.valueTextbox.value = "";
-    	
-    	this.nameTextbox.disabled = true
-    	this.valueTextbox.disabled = true
-        
-        this.addButton.setAttribute("hidden", "false");
-        this.saveButton.setAttribute("hidden", "true");
-        this.addButton.disabled = true
-        this.saveButton.disabled = true
-
-		// Ensure that the selected index is set back to null
-        var selectedRowIndex = null;
-    },
+    // Ensure that the selected index is set back to null
+    var selectedRowIndex = null;
+  },
+  
+  enableHeader: function() {
+    // Change the enabled parameter to true
+    var enabled = modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex)
     
-    enableHeader: function() {
-    	// Change the enabled parameter to true
-    	var enabled = modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex)
-    	
-    	modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled)
-    	
-		// Notify the treeBoxObject that a row has been edited
-		this.treeBox.invalidateRow(this.treeSelection.currentIndex)
-    },
+    modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled)
+      
+    // Notify the treeBoxObject that a row has been edited
+    this.treeBox.invalidateRow(this.treeSelection.currentIndex)
+  },
+  
+  enableAllHeaders: function() {
+    var tempSelectedIndex = this.treeSelection.currentIndex
     
-    enableAllHeaders: function() {
-    	var tempSelectedIndex = this.treeSelection.currentIndex;
+    for (var i=0; i < modifyheadersService.count; i++) {
+      modifyheadersService.setHeaderEnabled(i, true)
+      
+      // Notify the treeBoxObject that a row has been edited
+      this.treeSelection.select(i)
+      this.treeBox.rowCountChanged(i, 0)
+    }
     
-    	for (var i=0; i < modifyheadersService.count; i++) {
-            modifyheadersService.setHeaderEnabled(i, true);
-            
-            // Notify the treeBoxObject that a row has been edited
-            this.treeSelection.select(i);
-            this.treeBox.rowCountChanged(i, 0);
-        }
-        
-        // Revert to the previous selectedIndex
-        this.treeSelection.select(tempSelectedIndex);
-    },
+    // Revert to the previous selectedIndex
+    this.treeSelection.select(tempSelectedIndex)
+  },
+  
+  disableAllHeaders: function() {
+    var tempSelectedIndex = this.treeSelection.currentIndex
     
-    disableAllHeaders: function() {
-        var tempSelectedIndex = this.treeSelection.currentIndex;
-        
-        for (var i=0; i < modifyheadersService.count; i++) {
-            modifyheadersService.setHeaderEnabled(i, false);
-            
-            // Notify the treeBoxObject that a row has been edited
-            this.treeSelection.select(i);
-            this.treeBox.rowCountChanged(i, 0);
-        }
-        
-        // Revert to the previous selectedIndex
-        this.treeSelection.select(tempSelectedIndex);
-    },
+    for (var i=0; i < modifyheadersService.count; i++) {
+      modifyheadersService.setHeaderEnabled(i, false)
+      
+      // Notify the treeBoxObject that a row has been edited
+      this.treeSelection.select(i)
+      this.treeBox.rowCountChanged(i, 0)
+    }
     
-    moveRowDown: function() {
-    	if (this.treeSelection && this.treeSelection.currentIndex != this.rowCount - 1) {
-            var selectedIndex = this.treeSelection.currentIndex;
-            
-    	    modifyheadersService.switchHeaders(selectedIndex, selectedIndex + 1);
-			
-			// Change the selection
-			this.treeSelection.select(this.treeSelection.currentIndex + 1);
-			this.treeBox.rowCountChanged(this.selection.currentIndex, 0);
-    	}
-    },
+    // Revert to the previous selectedIndex
+    this.treeSelection.select(tempSelectedIndex)
+  },
+  
+  moveRowDown: function() {
+    if (this.treeSelection && this.treeSelection.currentIndex != this.rowCount - 1) {
+      var selectedIndex = this.treeSelection.currentIndex
+      modifyheadersService.switchHeaders(selectedIndex, selectedIndex + 1)
+      
+      // Change the selection
+      this.treeSelection.select(this.treeSelection.currentIndex + 1)
+      this.treeBox.rowCountChanged(this.selection.currentIndex, 0)
+    }
+  },
+  
+  moveRowUp: function() {
+    if (this.treeSelection && this.treeSelection.currentIndex != 0) {
     
-    moveRowUp: function() {
-    	if (this.treeSelection && this.treeSelection.currentIndex != 0) {
-        
-            var selectedIndex = this.treeSelection.currentIndex;
-            
-    	    modifyheadersService.switchHeaders(selectedIndex, selectedIndex - 1);
-            
-			this.treeSelection.select(this.treeSelection.currentIndex - 1);
-			this.treeBox.rowCountChanged(this.selection.currentIndex-1, 0);
-    	}
-    },
-    
-    actionSelected: function() {
-    	switch(this.actionMenuList.selectedItem.value) {
-    	    case "Add":
-    	    case "Modify":
-    	        this.nameTextbox.disabled = false
-    	        this.valueTextbox.disabled = false
-                this.addButton.disabled = false
-                this.saveButton.disabled = false
-    	        break;
-    	    case "Filter":
-    	        this.nameTextbox.disabled = false
-    	        this.valueTextbox.value = ""
-    	        this.valueTextbox.disabled = true
-                this.addButton.disabled = false
-                this.saveButton.disabled = false
-    	        break;
-    	    default:
-    	        this.clearForm()
-		}
-    },
-	
-    openHelp: function() {
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]. getService(Components.interfaces.nsIWindowMediator)
-		var window = wm.getMostRecentWindow("navigator:browser")
-		window.gBrowser.selectedTab = window.gBrowser.addTab("http://modifyheaders.mozdev.org/no_wrap/help/en/index.html")
-	},
-	
-	openConfig: function() {
-		var spl = document.getElementById("configSplitter")
-		if (spl.getAttribute("state") == "open" || spl.getAttribute("state") == "") {
-			spl.setAttribute("state", "collapsed")
-		} else {
-			spl.setAttribute("state", "open")
-		}
-	}
+      var selectedIndex = this.treeSelection.currentIndex
+      modifyheadersService.switchHeaders(selectedIndex, selectedIndex - 1)
+      this.treeSelection.select(this.treeSelection.currentIndex - 1)
+      this.treeBox.rowCountChanged(this.selection.currentIndex-1, 0)
+    }
+  },
+  
+  actionSelected: function() {
+    switch(this.actionMenuList.selectedItem.value) {
+      case "Add":
+      case "Modify":
+        this.nameTextbox.disabled = false
+        this.valueTextbox.disabled = false
+        this.commentTextbox.disabled = false
+        this.addButton.disabled = false
+        this.saveButton.disabled = false
+        break
+      case "Filter":
+        this.nameTextbox.disabled = false
+        this.valueTextbox.value = ""
+        this.valueTextbox.disabled = true
+        this.commentTextbox.disabled = false
+        this.addButton.disabled = false
+        this.saveButton.disabled = false
+        break
+      default:
+        this.clearForm()
+    }
+  },
+  
+  openHelp: function() {
+    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]. getService(Components.interfaces.nsIWindowMediator)
+    var window = wm.getMostRecentWindow("navigator:browser")
+    window.gBrowser.selectedTab = window.gBrowser.addTab("http://modifyheaders.mozdev.org/no_wrap/help/en/index.html")
+  },
+  
+  openConfig: function() {
+    var spl = document.getElementById("configSplitter")
+    if (spl.getAttribute("state") == "open" || spl.getAttribute("state") == "") {
+      spl.setAttribute("state", "collapsed")
+    } else {
+      spl.setAttribute("state", "open")
+    }
+  }
 };

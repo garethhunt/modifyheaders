@@ -43,8 +43,9 @@
 <!-- Options -->
 <!ENTITY modifyheaders.options.title "Modify Headers Options">
 <!ENTITY modifyheaders.options.headers.action.label "Action">
-<!ENTITY modifyheaders.options.headers.headername.label "Header">
+<!ENTITY modifyheaders.options.headers.headername.label "Name">
 <!ENTITY modifyheaders.options.headers.headervalue.label "Value">
+<!ENTITY modifyheaders.options.headers.headercomment.label "Comment">
 <!ENTITY modifyheaders.options.headers.enable "Enable/Disable">
 <!ENTITY modifyheaders.options.headers.enable.all "Enable All">
 <!ENTITY modifyheaders.options.headers.disable.all "Disable All">
@@ -64,6 +65,8 @@
 <!ENTITY modifyheaders.dialog.header.action.label "Action">
 <!ENTITY modifyheaders.dialog.header.name.label "Name">
 <!ENTITY modifyheaders.dialog.header.value.label "Value">
-<!ENTITY modifyheaders.dialog.header.tooltip.action "Select an action from: Add, Modify and Filter.">
-<!ENTITY modifyheaders.dialog.header.tooltip.name "Enter the header name.">
-<!ENTITY modifyheaders.dialog.header.tooltip.value "Enter the header value.">
+<!ENTITY modifyheaders.dialog.header.comment.label "Comment">
+<!ENTITY modifyheaders.dialog.header.tooltip.action "Select an action from: Add, Modify and Filter">
+<!ENTITY modifyheaders.dialog.header.tooltip.name "Enter the header name">
+<!ENTITY modifyheaders.dialog.header.tooltip.value "Enter the header value">
+<!ENTITY modifyheaders.dialog.header.tooltip.comment "Enter a comment to describe this header">

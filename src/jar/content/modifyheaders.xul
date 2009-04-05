@@ -44,6 +44,7 @@
 					</menulist>
 					<textbox id="headername-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.dialog.header.tooltip.name;"/>
 					<textbox id="headervalue-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.dialog.header.tooltip.value;"/>
+					<textbox id="headercomment-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.dialog.header.tooltip.comment;"/>
 					<button id="add-header-button" label="&modifyheaders.options.headers.add;" command="addHeader" flex="0" hidden="false" disabled="true"/>
 					<button id="save-header-button" label="&modifyheaders.options.headers.save;" command="saveHeader" flex="0" hidden="true"/>
 					<button id="reset-form-button" label="&modifyheaders.options.headers.reset;" command="resetHeaderForm" flex="0" hidden="false"/>
@@ -55,9 +56,10 @@
 				<vbox flex="1">
 					<tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1" ondblclick="oModifyHeaders.enableHeader();">
 						<treecols>
-							<treecol id="actioncol" label="Action" ignoreincolumnpicker="true"/>
-							<treecol id="namecol" label="Name" flex="1" sortActive="true" ignoreincolumnpicker="true"/>
-							<treecol id="valuecol" label="Value" flex="1" ignoreincolumnpicker="true"/>
+							<treecol id="actioncol" label="&modifyheaders.options.headers.action.label;" ignoreincolumnpicker="true"/>
+							<treecol id="namecol" label="&modifyheaders.options.headers.headername.label;" flex="1" sortActive="true" ignoreincolumnpicker="true"/>
+							<treecol id="valuecol" label="&modifyheaders.options.headers.headervalue.label;" flex="1" ignoreincolumnpicker="true"/>
+							<treecol id="commentcol" label="&modifyheaders.options.headers.headercomment.label;" flex="1" ignoreincolumnpicker="true"/>
 							<treecol id="enabledcol" width="20" ignoreincolumnpicker="true"/>
 							<!-- sbcol provides space for a scrollbar if one appears -->
 							<treecol id="sbcol" width="14" ignoreincolumnpicker="true"/>

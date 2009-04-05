@@ -12,12 +12,13 @@ interface nsIModifyheaders : nsISupports
 
     void getHeaders(out unsigned long count, [retval, array, size_is(count)] out mhIHeader headers);
     string getHeadersAsXML(in string headerIndices);
-    void addHeader(in string name, in string value, in string action, in boolean enabled);
-    void setHeader(in unsigned long index, in string name, in string value, in string action, in boolean enabled);
+    void addHeader(in string name, in string value, in string action, in string comment, in boolean enabled);
+    void setHeader(in unsigned long index, in string name, in string value, in string action, in string comment, in boolean enabled);
     boolean isHeaderEnabled(in unsigned long index);
     string getHeaderAction(in unsigned long index);
     string getHeaderName(in unsigned long index);
     string getHeaderValue(in unsigned long index);
+    string getHeaderComment(in unsigned long index);
     void setHeaderEnabled(in unsigned long index, in boolean enabled);
     void removeHeader(in unsigned long index);
     void switchHeaders(in unsigned long index1, in unsigned long index2);

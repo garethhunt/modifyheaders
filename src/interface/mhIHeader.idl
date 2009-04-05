@@ -5,6 +5,7 @@ interface mhIHeader : nsISupports
 	attribute string  action;
 	attribute string  name;
 	attribute string  value;
+  attribute string  comment;
 	attribute boolean enabled;
 	attribute boolean selected;
 	

@@ -1,5 +1,12 @@
 -- Release Notes --
 
+Release 0.6.5, 4 April 2009
+
+* Added comment attribute for each header
+* Fixed bug 20755 - Menu item should bring window to front
+
+--
+
 Release 0.6.4, 24 February 2007
 
 * Fixed bug 18687 - Modifyheaders does not work in Fx 3
