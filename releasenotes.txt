@@ -1,5 +1,11 @@
 -- Release Notes --
 
+Release 0.6.6, 13 April 2009
+
+* Fixed bug 20776 - Importing headers fails
+
+--
+
 Release 0.6.5, 4 April 2009
 
 * Added comment attribute for each header
