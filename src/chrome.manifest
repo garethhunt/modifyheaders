@@ -4,3 +4,17 @@ overlay	chrome://browser/content/browser.xul	chrome://modifyheaders/content/tool
 content	modifyheaders	jar:chrome/modifyheaders.jar!/content/
 
 locale	modifyheaders	en-US	jar:chrome/modifyheaders.jar!/locale/en-US/
+
+interfaces components/mhIHeader.xpt
+interfaces components/nsIModifyheaders.xpt
+
+component {6b2f2fc7-a26c-4602-a08d-bd6d065a86e3} components/modifyheaders-service.js
+contract @modifyheaders.mozdev.org/header;1 {6b2f2fc7-a26c-4602-a08d-bd6d065a86e3}
+
+component {feb80fc3-9e72-4fc5-bc72-986957ada6cc} components/modifyheaders-service.js
+contract @modifyheaders.mozdev.org/service;1 {feb80fc3-9e72-4fc5-bc72-986957ada6cc}
+
+component {0eff9eeb-c51a-4f07-9823-27bc32fdae13} components/modifyheaders-service.js
+contract @modifyheaders.mozdev.org/proxy;1 {0eff9eeb-c51a-4f07-9823-27bc32fdae13}
+# The category registration is required for the Proxy service
+category profile-after-change ModifyHeadersProxy @modifyheaders.mozdev.org/proxy;1
