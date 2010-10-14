@@ -62,7 +62,7 @@
 		
 		<!-- Copy the files in ${srcdir}/jar to ${targetdir}/chrome -->
 		<copy todir="${build.targetdir}/chrome" filtering="true">
-			<fileset dir="${build.srcdir}/jar">
+			<fileset dir="${build.srcdir}/chrome">
 				<!-- Exclude the images as the filtering corrupts them -->
 				<exclude name="**/*.gif" />
 				<exclude name="**/*.jpg" />
@@ -71,7 +71,7 @@
 		
 		<!-- Copy the gifs without filtering as this corrupts them -->
 		<copy todir="${build.targetdir}/chrome">
-			<fileset dir="${build.srcdir}/jar">
+			<fileset dir="${build.srcdir}/chrome">
 				<include name="**/*.gif" />
 				<include name="**/*.jpg" />
 			</fileset>
@@ -85,7 +85,7 @@
 		
 		<!-- Copy application specific versions of source files into the target -->
 		<copy todir="${build.targetdir}/chrome" filtering="true" overwrite="true">
-			<fileset dir="${build.mozilla.application.srcdir}/jar">
+			<fileset dir="${build.mozilla.application.srcdir}/chrome">
 				<!-- Exclude the images as the filtering corrupts them -->
 				<exclude name="**/*.gif" />
 				<exclude name="**/*.jpg" />
@@ -94,7 +94,7 @@
 		
 		<!-- Copy the gifs without filtering as this corrupts them -->
 		<copy todir="${build.targetdir}/chrome" overwrite="true">
-			<fileset dir="${build.mozilla.application.srcdir}/jar">
+			<fileset dir="${build.mozilla.application.srcdir}/chrome">
 				<include name="**/*.gif" />
 				<include name="**/*.jpg" />
 			</fileset>
