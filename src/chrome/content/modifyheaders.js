@@ -17,54 +17,26 @@
  *
  */
 
-// Constants for use within the ModifyHeaders class
-const modifyheadersService = Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders)
-
-var oModifyHeaders
-
-// This stops startModifyHeaders() from being run twice.
-var initialized = false
-var mhWindow = null
-
-// Opens the modifyheaders interface in a new tab/window
-function openModifyHeaders() {
-  if (modifyheadersService.openAsTab) {
-    // Open modifyheaders in a new tab
-    gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/modifyheaders.xul');
-    setTimeout("gURLBar.focus();", 0);
-    //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
-  } else if (!modifyheadersService.windowOpen){
-    // Open Modify Headers in a global window
-    mhWindow = window.open("chrome://modifyheaders/content/modifyheaders.xul", "modifyheaders", "chrome,centerscreen,resizable,scrollbars");
-  } else {
-    // The window is open, so shift focus to it
-    mhWindow.focus()
-  }
-}
-
-function startModifyHeaders() {
-	if (!initialized) {
-		oModifyHeaders = new ModifyHeaders()
-		oModifyHeaders.start()
-		initialized = true
-		modifyheadersService.windowOpen = true
-	}
-}
-
-function stopModifyHeaders() {
-  oModifyHeaders = null
-  modifyheadersService.windowOpen = false
-}
-
-function refreshHeaderTree(index, count) {
-  oModifyHeaders.refresh(index, count)
-}
-
-// ModifyHeaders object definition
-function ModifyHeaders() {
-}
-
-ModifyHeaders.prototype = {
+var ModifyHeaders = {
+  open: function () {
+	  
+    if (this.modifyheadersService.openAsTab) {
+      // Open modifyheaders in a new tab
+      gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/preferences.xul');
+      setTimeout("gURLBar.focus();", 0);
+      //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
+    } else if (!this.modifyheadersService.windowOpen){
+      // Open Modify Headers in a global window
+      this.mhWindow = window.open("chrome://modifyheaders/content/preferences.xul", "modifyheaders", "chrome,centerscreen,resizable,scrollbars");
+    } else {
+      // The window is open, so shift focus to it
+      this.mhWindow.focus()
+    }
+  },
+		
+  modifyheadersService: Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders),
+  initialized: false,
+  mhWindow: null,
 
   // Control constants
   headersTree: null,
@@ -83,7 +55,7 @@ ModifyHeaders.prototype = {
   // Getters and Setters
   set rowCount(i) { throw "rowCount is a readonly property"; },
   //get rowCount() { return this.rows.length; },
-  get rowCount() { return modifyheadersService.count; },
+  get rowCount() { return this.modifyheadersService.count; },
   
   set selection(s) { this.treeSelection = s; },
   get selection() { return this.treeSelection; },
@@ -99,13 +71,13 @@ ModifyHeaders.prototype = {
   getCellProperties: function(row, columnID, properties) { /* do nothing */ },
   getCellText: function(row, column) {
     if (column == "actioncol" || column.id == "actioncol") {
-      return modifyheadersService.getHeaderAction(row);
+      return this.modifyheadersService.getHeaderAction(row);
     } else if (column == "namecol" || column.id == "namecol") {
-      return modifyheadersService.getHeaderName(row);
+      return this.modifyheadersService.getHeaderName(row);
     } else if (column == "valuecol" || column.id == "valuecol") {
-      return modifyheadersService.getHeaderValue(row);
+      return this.modifyheadersService.getHeaderValue(row);
     } else if (column == "commentcol" || column.id == "commentcol") {
-      return modifyheadersService.getHeaderComment(row);
+      return this.modifyheadersService.getHeaderComment(row);
     }
     return null;
 	},
@@ -113,7 +85,7 @@ ModifyHeaders.prototype = {
   getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
   getImageSrc: function(rowIndex, column) {
   	if (column == "enabledcol" || column.id == "enabledcol") {
-  		if (modifyheadersService.isHeaderEnabled(rowIndex)) {
+  		if (this.modifyheadersService.isHeaderEnabled(rowIndex)) {
   			return "chrome://modifyheaders/content/enabled.gif";
   		} else {
   			return "chrome://modifyheaders/content/disabled.gif";
@@ -153,6 +125,11 @@ ModifyHeaders.prototype = {
     
     // Set this view for the treeBoxObject
     this.headersTree.treeBoxObject.view = this;
+    this.initialized = true;
+  },
+  
+  toggleWindow: function () {
+    this.modifyheadersService.windowOpen = !this.modifyheadersService.windowOpen;
   },
   
   refresh: function(index, count) {
@@ -169,7 +146,7 @@ ModifyHeaders.prototype = {
    	var value = document.getElementById("headervalue-text-box").value;
    	var comment = document.getElementById("headercomment-text-box").value;
     	
-    modifyheadersService.addHeader(name, value, action, comment, enabled);
+    this.modifyheadersService.addHeader(name, value, action, comment, enabled);
     
     // Notify the treeBoxObject that a row has been added,
     // Select the row
@@ -183,7 +160,7 @@ ModifyHeaders.prototype = {
   deleteHeader: function() {
     var deleteIndex = this.treeSelection.currentIndex;
     
-    modifyheadersService.removeHeader(deleteIndex);
+    this.modifyheadersService.removeHeader(deleteIndex);
     
     // Notify the treeBoxObject that a row has been deleted
     // Select the next row if there is one
@@ -196,13 +173,13 @@ ModifyHeaders.prototype = {
     
     // Set the form values to the value of the selected item
     if (selectedRowIndex > -1) {
-      this.actionMenuList.value = modifyheadersService.getHeaderAction(selectedRowIndex)
-      this.nameTextbox.value = modifyheadersService.getHeaderName(selectedRowIndex)
-      if (modifyheadersService.getHeaderValue(selectedRowIndex) != "") {
-        this.valueTextbox.value = modifyheadersService.getHeaderValue(selectedRowIndex)
+      this.actionMenuList.value = this.modifyheadersService.getHeaderAction(selectedRowIndex)
+      this.nameTextbox.value = this.modifyheadersService.getHeaderName(selectedRowIndex)
+      if (this.modifyheadersService.getHeaderValue(selectedRowIndex) != "") {
+        this.valueTextbox.value = this.modifyheadersService.getHeaderValue(selectedRowIndex)
       }
-      if (modifyheadersService.getHeaderComment(selectedRowIndex) != "") {
-        this.commentTextbox.value = modifyheadersService.getHeaderComment(selectedRowIndex)
+      if (this.modifyheadersService.getHeaderComment(selectedRowIndex) != "") {
+        this.commentTextbox.value = this.modifyheadersService.getHeaderComment(selectedRowIndex)
       }
       
       this.editedRowID = selectedRowIndex
@@ -229,9 +206,9 @@ ModifyHeaders.prototype = {
       var value = this.valueTextbox.value
       var comment = this.commentTextbox.value
       var action = this.actionMenuList.selectedItem.label
-      var enabled = modifyheadersService.isHeaderEnabled(index)
+      var enabled = this.modifyheadersService.isHeaderEnabled(index)
       
-      modifyheadersService.setHeader(index, name, value, action, comment, enabled)
+      this.modifyheadersService.setHeader(index, name, value, action, comment, enabled)
       
       // Notify the treeBoxObject that a row has been edited
       this.treeBox.invalidateRow(this.editedRowID)
@@ -267,9 +244,9 @@ ModifyHeaders.prototype = {
   
   enableHeader: function() {
     // Change the enabled parameter to true
-    var enabled = modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex)
+    var enabled = this.modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex)
     
-    modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled)
+    this.modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled)
       
     // Notify the treeBoxObject that a row has been edited
     this.treeBox.invalidateRow(this.treeSelection.currentIndex)
@@ -278,8 +255,8 @@ ModifyHeaders.prototype = {
   enableAllHeaders: function() {
     var tempSelectedIndex = this.treeSelection.currentIndex
     
-    for (var i=0; i < modifyheadersService.count; i++) {
-      modifyheadersService.setHeaderEnabled(i, true)
+    for (var i=0; i < this.modifyheadersService.count; i++) {
+      this.modifyheadersService.setHeaderEnabled(i, true)
       
       // Notify the treeBoxObject that a row has been edited
       this.treeSelection.select(i)
@@ -293,8 +270,8 @@ ModifyHeaders.prototype = {
   disableAllHeaders: function() {
     var tempSelectedIndex = this.treeSelection.currentIndex
     
-    for (var i=0; i < modifyheadersService.count; i++) {
-      modifyheadersService.setHeaderEnabled(i, false)
+    for (var i=0; i < this.modifyheadersService.count; i++) {
+      this.modifyheadersService.setHeaderEnabled(i, false)
       
       // Notify the treeBoxObject that a row has been edited
       this.treeSelection.select(i)
@@ -308,7 +285,7 @@ ModifyHeaders.prototype = {
   moveRowDown: function() {
     if (this.treeSelection && this.treeSelection.currentIndex != this.rowCount - 1) {
       var selectedIndex = this.treeSelection.currentIndex
-      modifyheadersService.switchHeaders(selectedIndex, selectedIndex + 1)
+      this.modifyheadersService.switchHeaders(selectedIndex, selectedIndex + 1)
       
       // Change the selection
       this.treeSelection.select(this.treeSelection.currentIndex + 1)
@@ -320,7 +297,7 @@ ModifyHeaders.prototype = {
     if (this.treeSelection && this.treeSelection.currentIndex != 0) {
     
       var selectedIndex = this.treeSelection.currentIndex
-      modifyheadersService.switchHeaders(selectedIndex, selectedIndex - 1)
+      this.modifyheadersService.switchHeaders(selectedIndex, selectedIndex - 1)
       this.treeSelection.select(this.treeSelection.currentIndex - 1)
       this.treeBox.rowCountChanged(this.selection.currentIndex-1, 0)
     }

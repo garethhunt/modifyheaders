@@ -1,32 +1,9 @@
 // Config needs access to the modify headers service
-const modifyheadersService = Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders)
-
-var Config = {
-  // Inits the Config tab
-  init: function() {
-    document.getElementById("modifyheaders-always-on").checked = modifyheadersService.alwaysOn
-    document.getElementById("modifyheaders-open-in-new-tab").checked = modifyheadersService.openAsTab
-    
-    //ImportExport.init()
-  },
-  
-  // Toggles a preference that determines whether to keep ModifyHeaders always on.
-  toggleAlwaysOn: function() {
-    var alwaysOn = modifyheadersService.alwaysOn
-    modifyheadersService.alwaysOn = !alwaysOn
-  },
-  
-  // Toggles a preference that determines whether to open as a tab or window.
-  toggleOpenAsTab: function() {
-    var openAsTab = modifyheadersService.openAsTab
-    modifyheadersService.openAsTab = !openAsTab
-  }
-}
-
 /*
  * Class provides functions and manages data for the Import/Export wizard
  */
 var ImportExport = {
+  modifyheadersService: Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders),
   actionSelectNextBtn: null,
   browseContent: null,
   cancelActionSelectBtn: null,
@@ -43,7 +20,7 @@ var ImportExport = {
     this.browseContent = document.getElementById("browseContent")
     this.filePath = document.getElementById("filePath")
     this.headerList = document.getElementById("selectHeaderList")
-    this.myHeaders = modifyheadersService.getHeaders({})
+    this.myHeaders = this.modifyheadersService.getHeaders({})
     this.strings = document.getElementById("stringResources")
     document.getElementById("importExportWizard").selectedIndex = 0
   },
@@ -168,91 +145,82 @@ var ImportExport = {
   
   advanceToFinish: function() {
     if (document.getElementById("importExportAction").selectedItem == document.getElementById("exportHeaders")) {
-      var strNewHeaders = ""
+      var strNewHeaders = "";
       // Loop over the header checkboxes
       for (var i=0; i < this.myHeaders.length; i++) {
         if (this.myHeaders[i].selected) {
-          strNewHeaders = strNewHeaders.concat(i, ",")
+          strNewHeaders = strNewHeaders.concat(i, ",");
         }
       }
       
       if (strNewHeaders.lastIndexOf(",") == strNewHeaders.length-1) {
-        strNewHeaders = strNewHeaders.substr(0, strNewHeaders.length-1)
+        strNewHeaders = strNewHeaders.substr(0, strNewHeaders.length-1);
       }
       
-      this.exportHeaders(strNewHeaders)
+      this.exportHeaders(strNewHeaders);
     } else {
       for (var i=0; i < this.newHeaders.length; i++) {
         if (this.newHeaders[i].selected) {
-          modifyheadersService.addHeader(this.newHeaders[i].name, this.newHeaders[i].value, this.newHeaders[i].action, this.newHeaders[i].comment, false)
+          this.modifyheadersService.addHeader(this.newHeaders[i].name, this.newHeaders[i].value, this.newHeaders[i].action, this.newHeaders[i].comment, false);
         }
       }
       // Refresh the header display, if import called from main window
-      // wrappedJSObject is used to access the protected object
-      if (window.parent.location == "chrome://modifyheaders/content/modifyheaders.xul") {
-        // Seamonkey does not wrap the javascript object to protect it
-        if (window.parent.wrappedJSObject == null) {
-          // This works for Seamonkey
-          window.parent.refreshHeaderTree(this.myHeaders.length, this.newHeaders.length)
-        } else {
-          // This works for Firefox
-          window.parent.wrappedJSObject.refreshHeaderTree(this.myHeaders.length, this.newHeaders.length)
-        }
+      if (window.parent.location == "chrome://modifyheaders/content/preferences.xul") {
+        ModifyHeaders.refresh(this.myHeaders.length, this.newHeaders.length);
       }
     }
     
-    var finishContent = document.getElementById("finishPageContent")
+    var finishContent = document.getElementById("finishPageContent");
     
     if (document.getElementById("importExportAction").selectedItem == document.getElementById("exportHeaders")) {
-      finishContent.value = this.strings.getString("modifyheaders.export.finish")
+      finishContent.value = this.strings.getString("modifyheaders.export.finish");
     } else {
-      finishContent.value = this.strings.getString("modifyheaders.import.finish")
+      finishContent.value = this.strings.getString("modifyheaders.import.finish");
     }
   
-    document.getElementById("importExportWizard").selectedIndex = 2
+    document.getElementById("importExportWizard").selectedIndex = 2;
   },
   
   cancel: function() {
-    this.reset()
-    document.getElementById("importExportWizard").selectedIndex = 0
+    this.finish();
   },
   
   finish: function() {
-    this.reset()
-    document.getElementById("importExportWizard").selectedIndex = 0
+    this.reset();
+    document.getElementById("importExportWizard").selectedIndex = 0;
   },
   
   reset: function() {
-    document.getElementById("filePath").value = ""
-    document.getElementById("filePath").disabled = true
-    document.getElementById("fileButton").disabled = true
-    document.getElementById("cancelActionSelect").disabled = true
-    document.getElementById("actionSelectNext").disabled = true
-    document.getElementById("importExportAction").selectedItem = null
+    document.getElementById("filePath").value = "";
+    document.getElementById("filePath").disabled = true;
+    document.getElementById("fileButton").disabled = true;
+    document.getElementById("cancelActionSelect").disabled = true;
+    document.getElementById("actionSelectNext").disabled = true;
+    document.getElementById("importExportAction").selectedItem = null;
   },
   
   resetBrowseContent: function() {
-    this.browseContent.className = ""
-    this.browseContent.value = ""
+    this.browseContent.className = "";
+    this.browseContent.value = "";
   },
   
   exportHeaders: function(strNewHeaders) {
     // Create the file, 0 = NORMAL_FILE_TYPE
     if (this.theFile.exists()) {
-      this.theFile.remove(false)
+      this.theFile.remove(false);
     }
-    this.theFile.create(0,420)
+    this.theFile.create(0,420);
   
-    var nsIFileOutputStream = Components.interfaces.nsIFileOutputStream
-    var outStrm = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(nsIFileOutputStream)
+    var nsIFileOutputStream = Components.interfaces.nsIFileOutputStream;
+    var outStrm = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(nsIFileOutputStream);
     
     // 0x02 = PR_WRONLY - Write only
-    outStrm.init(this.theFile, 0x02, 420, 0)
+    outStrm.init(this.theFile, 0x02, 420, 0);
     
     // Convert the strNewHeaders to a XML string and write to the output
-    var xmlNewHeaders = modifyheadersService.getHeadersAsXML(strNewHeaders)
-    outStrm.write(xmlNewHeaders, xmlNewHeaders.length)
-    outStrm.close()
+    var xmlNewHeaders = this.modifyheadersService.getHeadersAsXML(strNewHeaders);
+    outStrm.write(xmlNewHeaders, xmlNewHeaders.length);
+    outStrm.close();
   },
   
   importHeaders: function() {

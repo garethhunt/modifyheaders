@@ -10,7 +10,8 @@
 	<!-- Add a menu item to the 'tools' menu -->
 	<!-- Firefox / Flock -->
 	<menupopup id="menu_ToolsPopup">
-    	<menuitem label="&modifyheaders.menu.label;" oncommand="openModifyHeaders();" />
+    	<!-- <menuitem label="&modifyheaders.menu.label;" oncommand="openModifyHeaders();" /> -->
+    	<menuitem label="&modifyheaders.menu.label;" oncommand="ModifyHeaders.open();" />
 	</menupopup>
 
     <!-- Mozilla Suite / Seamonkey -->
