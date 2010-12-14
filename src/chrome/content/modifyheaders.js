@@ -20,14 +20,9 @@
 var ModifyHeaders = {
   open: function () {
 	  
-    if (this.modifyheadersService.openAsTab) {
-      // Open modifyheaders in a new tab
-      gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/preferences.xul');
-      setTimeout("gURLBar.focus();", 0);
-      //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
-    } else if (!this.modifyheadersService.windowOpen){
+    if (!this.modifyheadersService.windowOpen) {
       // Open Modify Headers in a global window
-      this.mhWindow = window.open("chrome://modifyheaders/content/preferences.xul", "modifyheaders", "chrome,centerscreen,resizable,scrollbars");
+      this.mhWindow = window.open("chrome://modifyheaders/content/preferences.xul", "modifyheaders", "chrome,titlebar,toolbar,resizeable,centerscreen,dialog=no");
     } else {
       // The window is open, so shift focus to it
       this.mhWindow.focus()
@@ -54,7 +49,6 @@ var ModifyHeaders = {
   
   // Getters and Setters
   set rowCount(i) { throw "rowCount is a readonly property"; },
-  //get rowCount() { return this.rows.length; },
   get rowCount() { return this.modifyheadersService.count; },
   
   set selection(s) { this.treeSelection = s; },
@@ -229,14 +223,14 @@ var ModifyHeaders = {
     this.valueTextbox.value = "";
     this.commentTextbox.value = "";
     
-    this.nameTextbox.disabled = true
-    this.valueTextbox.disabled = true
-    this.commentTextbox.disabled = true
+    this.nameTextbox.disabled = true;
+    this.valueTextbox.disabled = true;
+    this.commentTextbox.disabled = true;
     
     this.addButton.setAttribute("hidden", "false");
     this.saveButton.setAttribute("hidden", "true");
-    this.addButton.disabled = true
-    this.saveButton.disabled = true
+    this.addButton.disabled = true;
+    this.saveButton.disabled = true;
     
     // Ensure that the selected index is set back to null
     var selectedRowIndex = null;

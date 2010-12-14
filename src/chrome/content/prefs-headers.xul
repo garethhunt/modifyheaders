@@ -2,8 +2,8 @@
 <?xml-stylesheet href="chrome://modifyheaders/content/modifyheaders.css" type="text/css"?>
 <!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 <overlay id="modifyheaders-headers-overlay"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <prefpane id="paneHeaders" label="Headers">
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" flex="1">
+  <prefpane id="paneHeaders" label="Headers" flex="1">
     <preferences/>
     
   <command id="addHeader" oncommand="ModifyHeaders.addHeader();"/>
@@ -41,7 +41,7 @@
       </groupbox>
 
       <!-- List of headers that can be enabled/disabled -->
-      <hbox align="stretch" flex="1" xxonkeypress="ModifyHeaders.listKeyControl(event);">
+      <hbox flex="1" xxonkeypress="ModifyHeaders.listKeyControl(event);">
         <vbox flex="1">
           <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1" ondblclick="ModifyHeaders.enableHeader();">
             <treecols>
@@ -55,8 +55,6 @@
             </treecols>
             <treechildren flex="1"/>
           </tree>
-          <!-- <splitter id="configSplitter" state="collapsed" collapse="after"/>
-          <iframe flex="1" id="modifyheaders-config-tab-panel-iframe" src="chrome://modifyheaders/content/config/config.xul"/> -->
         </vbox>
         
         <vbox>
@@ -84,7 +82,6 @@
           </hbox>
           <hbox align="end" flex="1">
             <vbox>
-              <!-- <button label="&modifyheaders.config.button;" command="openConfig" flex="0"/> -->
               <button label="&modifyheaders.help.button;" command="openHelp" flex="0"/>
             </vbox>
           </hbox>

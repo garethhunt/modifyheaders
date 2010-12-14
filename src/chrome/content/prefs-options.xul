@@ -2,12 +2,11 @@
 <?xml-stylesheet href="chrome://modifyheaders/content/config/config.css" type="text/css"?>
 <!DOCTYPE page SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 <overlay id="modifyheaders-headers-overlay"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" flex="1">
   
-  <prefpane id="paneOptions" label="Options">
+  <prefpane id="paneOptions" label="Options" flex="1">
     <preferences>
       <preference id="always-on" name="modifyheaders.config.alwaysOn" type="bool" />
-      <preference id="open-as-tab" name="modifyheaders.config.openNewTab" type="bool" />
     </preferences>
     <stringbundleset>
       <stringbundle id="stringResources"
@@ -18,62 +17,16 @@
         <caption label="&modifyheaders.config.general.label;"/>
         <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;"
             preference="always-on" />
-        <checkbox id="modifyheaders-open-in-new-tab"
-            label="&modifyheaders.config.general.open.in.tab;"
-            preference="open-as-tab"/>
     </groupbox>
 
     <groupbox flex="1">
         <caption label="&modifyheaders.config.import.export;"/>
-        <deck id="importExportWizard" selectedIndex="0" flex="1">
-            <vbox id="importExportSelectFile">
-                <hbox>
-                    <radiogroup id="importExportAction" oncommand="ImportExport.actionSelected()">
-                        <radio id="exportHeaders" value="export" label="Export"/>
-                        <radio id="importHeaders" value="import" label="Import"/>
-                    </radiogroup>
-                    <separator/>
-                    <description id="browseContent"/>
-                </hbox>
-                <hbox>
-                    <button id="fileButton" label="Browse..."
-                        oncommand="ImportExport.browseForFile()" disabled="true"/>
-                    <textbox id="filePath" oninput="canAdvanceFromSelectFile()" disabled="true"
-                        flex="1"/>
-                </hbox>
-                <hbox>
-                    <button id="cancelActionSelect"
-                        label="&modifyheaders.import.export.button.cancel;"
-                        oncommand="ImportExport.cancel()" disabled="true"/>
-                    <button id="actionSelectNext"
-                        label="&modifyheaders.import.export.button.next;"
-                        oncommand="ImportExport.advance()" disabled="true"/>
-                </hbox>
-            </vbox>
-            <vbox id="importExportSelectHeaders" flex="1">
-                <checkbox checked="true" id="toggleAllHeaders" label="Toggle All"
-                    onclick="ImportExport.toggleSelectAll()"/>
-                <hbox>
-                    <button id="cancelHeaderselect"
-                        label="&modifyheaders.import.export.button.cancel;"
-                        oncommand="ImportExport.cancel()"/>
-                    <button id="headerSelectNext"
-                        label="&modifyheaders.import.export.button.next;"
-                        oncommand="ImportExport.advance()"/>
-                </hbox>
-                <separator/>
-                <scrollbox id="selectHeaderList" flex="1"/>
-            </vbox>
-            <vbox id="importExportComplete">
-                <separator/>
-                <description class="msgText" id="finishPageContent"/>
-                <hbox>
-                    <button id="importExportFinish"
-                        label="&modifyheaders.import.export.button.finish;"
-                        oncommand="ImportExport.finish()"/>
-                </hbox>
-            </vbox>
-        </deck>
+        <hbox>
+          <button id="exportButton" label="Export Headers"
+            oncommand="ModifyHeaders.Preferences.openExportWizard()" />
+          <button id="importButton" label="Import Headers"
+            oncommand="ModifyHeaders.Preferences.openImportWizard()" />
+        </hbox>
     </groupbox>
   </prefpane>
 </overlay>

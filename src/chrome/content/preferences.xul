@@ -7,14 +7,15 @@
     title="&modifyheaders.extension.name;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     onload="ModifyHeaders.toggleWindow()"
-    onunload="ModifyHeaders.toggleWindow()">
-    <!-- style="width: 42em; min-height: 17.5em;"> -->
+    onunload="ModifyHeaders.toggleWindow()"
+    style="width: 62em; min-height: 27.5em;"
+    flex="1">
 
     <prefpane id="paneHeaders" label="Headers" selected="true" onpaneload="ModifyHeaders.start()"
-        src="chrome://modifyheaders/content/prefs-headers.xul"/>
+        src="chrome://modifyheaders/content/prefs-headers.xul" flex="1"/>
     <prefpane id="paneOptions" label="Options"
-        src="chrome://modifyheaders/content/prefs-options.xul"/>
+        src="chrome://modifyheaders/content/prefs-options.xul" flex="1"/>
 
     <script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js"/>
-    <script type="application/x-javascript" src="chrome://modifyheaders/content/config/config.js"/>
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/preferences.js"/>
 </prefwindow>

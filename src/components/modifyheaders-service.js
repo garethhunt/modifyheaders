@@ -64,8 +64,6 @@ ModifyHeadersHeader.prototype = {
 
 /* Defines the modifyheaders service for getting and setting headers */
 function ModifyHeadersService() {
-  //dump("\nEntered ModifyHeadersService");
-
   this.headers = new Array();
   this.preferencesUtil = new PreferencesUtil();
   
@@ -74,7 +72,6 @@ function ModifyHeadersService() {
   
   this.initiated = false;
   this.winOpen = false;
-  //dump("\nExiting ModifyHeadersService");
 }
 
 /*
@@ -91,8 +88,6 @@ ModifyHeadersService.prototype = {
     if (!this.initiated) {
       this.init();
     }
-
-    //dump("\nReturning the header count: " + this.headers.length);
     return this.headers.length;
   },
   set count(c) { /* Do nothing */ },
@@ -105,14 +100,6 @@ ModifyHeadersService.prototype = {
     this.preferencesUtil.setPreference("bool", PreferencesUtil.prefAlwaysOn, alwaysOn);
   },
   
-  get openAsTab() {
-    return this.preferencesUtil.getPreference("bool", PreferencesUtil.prefOpenAsTab);
-  },
-  
-  set openAsTab(openAsTab) {
-    this.preferencesUtil.setPreference("bool", PreferencesUtil.prefOpenAsTab, openAsTab);
-  },
-  
   get windowOpen() {
     return this.winOpen;
   },
@@ -123,8 +110,6 @@ ModifyHeadersService.prototype = {
   
   // Load the headers from the preferences
   init: function() {
-    //dump("\nEntered ModifyHeadersService.init")
-
     this.headers = new Array();
     
     // Load the headers from the preferences
@@ -148,7 +133,6 @@ ModifyHeadersService.prototype = {
     }
     
     this.initiated = true;
-    //dump("\nExiting ModifyHeadersService.init");
   },
   
   getHeader: function(index) {
@@ -163,8 +147,6 @@ ModifyHeadersService.prototype = {
   }, 
   
   getHeaders: function(count) {
-    //dump("\nEntered ModifyHeadersService.getHeaders");
-    
     var objHeader = null;
     var aHeaders = new Array();
     
@@ -174,12 +156,10 @@ ModifyHeadersService.prototype = {
     }
     
   	count.value = aHeaders.length;
-  	//dump("\nReturning the header object");
   	return aHeaders;
   },
   
   getHeadersAsXML: function(strHeaderIndices) {
-    //dump("\nEntered ModifyHeadersService.getHeadersAsJSONString: " + strHeaderIndices);
     var headerIndices = strHeaderIndices.split(",");
     
     var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"].createInstance(Components.interfaces.nsIDOMParser);
@@ -217,15 +197,12 @@ ModifyHeadersService.prototype = {
     
     var serializer = Components.classes["@mozilla.org/xmlextras/xmlserializer;1"].createInstance(Components.interfaces.nsIDOMSerializer);
     
-    //dump("\nExiting ModifyHeadersService.getHeadersAsJSONString");
     // Return a XML string
     return "<?xml version=\"1.0\"?>" + serializer.serializeToString(headersXML);
   },
   
   // Adds a header to the headers array
   addHeader: function(name, value, action, comment, enabled) {
-    //dump("\nEntered ModifyHeadersService.addHeader");
-    
     // TODO Validate the arguments
     
     // Add the header to the Array
@@ -239,12 +216,9 @@ ModifyHeadersService.prototype = {
     this.headers.push(header);
     
     this.savePreferences();
-    //dump("\nExiting ModifyHeadersService.addHeader");
   },
   
   setHeader: function(index, name, value, action, comment, enabled) {
-    //dump("\nEntered ModifyHeadersService.setHeader");
-    
     // TODO Validate the arguments
     
     // Update the values
@@ -254,16 +228,13 @@ ModifyHeadersService.prototype = {
     this.headers[index]["value"]   = value;
     this.headers[index]["comment"] = comment;
     
-    this.savePreferences()
-    //dump("\nExiting ModifyHeadersService.setHeader")
+    this.savePreferences();
   },
   
   // Remove the header with the specified index
   removeHeader: function(index) {
-    //dump("\nEntered ModifyHeadersService.removeHeader");
     this.headers.splice(index, 1);
     this.savePreferences();
-    //dump("\nExiting ModifyHeadersService.removeHeader");
   },
   
   isHeaderEnabled: function(index) {
@@ -300,7 +271,6 @@ ModifyHeadersService.prototype = {
   
   // Persist the headers to the preferences.
   savePreferences: function() {
-    //dump("\nEntered ModifyHeadersService.savePreferences");
     // Only save headers if the service has been initiated
     if (this.initiated) {
       // TODO Clear the preferences first
@@ -318,7 +288,6 @@ ModifyHeadersService.prototype = {
       
       this.preferencesUtil.setPreference("int", PreferencesUtil.prefHeaderCount, this.count);
     }
-    //dump("\nExiting ModifyHeadersService.savePreferences");
   },
 
   // Clear the headers from their preferences
@@ -338,12 +307,10 @@ ModifyHeadersService.prototype = {
  * Modify Headers Proxy
  */
 function ModifyHeadersProxy() {
-  //dump("\nEntered ModifyHeadersProxy");
   this.headers = new Array();
   this.preferencesUtil = new PreferencesUtil();
   
   this.modifyheadersService = Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders);
-  //dump("\nExiting ModifyHeadersProxy");
 }
 
 ModifyHeadersProxy.prototype = {
@@ -364,17 +331,13 @@ ModifyHeadersProxy.prototype = {
   // nsIObserver interface method
   observe: function(subject, topic, data) {
 
-    //dump("\nEntered ModifyHeadersProxy.prototype.observe");
-  
     if (topic == 'http-on-modify-request') {
-      //dump("\ntopic is http-on-modify-request");
       subject.QueryInterface(Components.interfaces.nsIHttpChannel);
     
       if (this.modifyheadersService.windowOpen || this.modifyheadersService.alwaysOn) {
         var headerCount = this.modifyheadersService.count;
       
         for (var i=0; i < headerCount; i++) {
-          //dump("\niteration: " + i);
         
           if (this.modifyheadersService.isHeaderEnabled(i)) {
             var headerName = this.modifyheadersService.getHeaderName(i);
@@ -388,7 +351,6 @@ ModifyHeadersProxy.prototype = {
             } else if (this.modifyheadersService.getHeaderAction(i) == "Filter") {
               headerValue = "";
             }
-            //dump("\nAdded header: " + headerName);
             subject.setRequestHeader(headerName, headerValue, headerAppend);
           }
         }
@@ -396,8 +358,6 @@ ModifyHeadersProxy.prototype = {
         // subject.setRequestHeader("x-modifyheaders", "version 0.4", true)
       }
     } else if (topic == 'profile-after-change') {
-      //dump("\ntopic is profile-after-change");
-      
       if ("nsINetModuleMgr" in Components.interfaces) {
         // Should be an old version of Mozilla (before september 15, 2003
         // Do Nothing as these old versions of firefox (firebird, phoenix etc) are not supported
@@ -409,16 +369,13 @@ ModifyHeadersProxy.prototype = {
     } else {
       //dump("\nNo observable topic defined");
     }
-    //dump("\nExiting ModifyHeadersProxy.prototype.observe");
   }
 }
 
 //A utility class for getting and setting user preferences
 function PreferencesUtil() {
-  //dump("\nEntered PreferencesUtil");
   this.prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
   this.prefService = this.prefService.getBranch("");
-  //dump("\nExiting PreferencesUtil");
 }
 
 // Static strings that specify the names of the preferences used by modifyheaders
@@ -430,7 +387,7 @@ PreferencesUtil.prefHeaderName    = "modifyheaders.headers.name";
 PreferencesUtil.prefHeaderValue   = "modifyheaders.headers.value";
 PreferencesUtil.prefHeaderComment = "modifyheaders.headers.comment";
 PreferencesUtil.prefLogMsgs       = "modifyheaders.config.logMsgs";
-PreferencesUtil.prefOpenAsTab     = "modifyheaders.config.openNewTab";
+//PreferencesUtil.prefOpenAsTab     = "modifyheaders.config.openNewTab";
 
 // Convenience method to get a user preference value
 PreferencesUtil.prototype.getPreference = function(type, name) {
@@ -479,9 +436,7 @@ PreferencesUtil.prototype.deletePreference = function(name) {
 
 /* Entry point - registers the component with the browser */
 if (XPCOMUtils.generateNSGetFactory) {
-	//dump("\nUsing NSGetFactory");
     var NSGetFactory = XPCOMUtils.generateNSGetFactory([ModifyHeadersService,ModifyHeadersHeader,ModifyHeadersProxy]);
 } else {
-	//dump("\nUsing NSGetModule");
     var NSGetModule = XPCOMUtils.generateNSGetModule([ModifyHeadersService,ModifyHeadersHeader,ModifyHeadersProxy]);
 }
