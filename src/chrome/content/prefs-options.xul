@@ -13,20 +13,24 @@
         src="chrome://modifyheaders/locale/modifyheaders.properties"/>
     </stringbundleset>
 
+    <hbox>
+      <spacer flex="1"/>
+      <button label="&modifyheaders.help.button;" command="openHelp" flex="0"/>
+    </hbox>
     <groupbox>
-        <caption label="&modifyheaders.config.general.label;"/>
-        <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;"
-            preference="always-on" />
+      <caption label="&modifyheaders.config.general.label;"/>
+      <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;"
+        preference="always-on" />
     </groupbox>
 
     <groupbox flex="1">
-        <caption label="&modifyheaders.config.import.export;"/>
-        <hbox>
-          <button id="exportButton" label="Export Headers"
-            oncommand="ModifyHeaders.Preferences.openExportWizard()" />
-          <button id="importButton" label="Import Headers"
-            oncommand="ModifyHeaders.Preferences.openImportWizard()" />
-        </hbox>
+      <caption label="&modifyheaders.config.import.export;"/>
+      <hbox>
+        <button id="exportButton" label="Export Headers"
+          oncommand="ModifyHeaders.Preferences.openExportWizard()" />
+        <button id="importButton" label="Import Headers"
+          oncommand="ModifyHeaders.Preferences.openImportWizard()" />
+      </hbox>
     </groupbox>
   </prefpane>
 </overlay>

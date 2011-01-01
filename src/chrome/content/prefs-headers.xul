@@ -6,20 +6,11 @@
   <prefpane id="paneHeaders" label="Headers" flex="1">
     <preferences/>
     
-  <command id="addHeader" oncommand="ModifyHeaders.addHeader();"/>
-  <command id="editHeader" oncommand="ModifyHeaders.editHeader();"/>
-  <command id="deleteHeader" oncommand="ModifyHeaders.deleteHeader();"/>
-  <command id="saveHeader" oncommand="ModifyHeaders.saveHeader();"/>
-  <command id="resetHeaderForm" oncommand="ModifyHeaders.clearForm();"/>
-  <command id="moveRowUp" oncommand="ModifyHeaders.moveRowUp();"/>
-  <command id="moveRowDown" oncommand="ModifyHeaders.moveRowDown();"/>
-  <command id="enableHeader" oncommand="ModifyHeaders.enableHeader();"/>
-  <command id="enableAllHeaders" oncommand="ModifyHeaders.enableAllHeaders();"/>
-  <command id="disableAllHeaders" oncommand="ModifyHeaders.disableAllHeaders();"/>
-  <command id="openConfig" oncommand="ModifyHeaders.openConfig();"/>
-  <command id="openHelp" oncommand="ModifyHeaders.openHelp()"/>
-  
   <vbox flex="1">
+    <hbox>
+      <spacer flex="1"/>
+      <button label="&modifyheaders.help.button;" command="openHelp" flex="0"/>
+    </hbox>
     <vbox flex="1">
       <groupbox>
         <hbox>
@@ -79,11 +70,6 @@
               <image src="chrome://modifyheaders/content/disabled.gif"/>
             </vbox>
             <description value="Disabled"/>
-          </hbox>
-          <hbox align="end" flex="1">
-            <vbox>
-              <button label="&modifyheaders.help.button;" command="openHelp" flex="0"/>
-            </vbox>
           </hbox>
         </vbox>
       </hbox>

@@ -4,8 +4,10 @@
 <!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 
 <prefwindow id="modifyheaders-window"
+    button="help"
     title="&modifyheaders.extension.name;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    ondialoghelp="ModifyHeaders.openHelp()"
     onload="ModifyHeaders.toggleWindow()"
     onunload="ModifyHeaders.toggleWindow()"
     style="width: 62em; min-height: 27.5em;"
@@ -15,6 +17,19 @@
         src="chrome://modifyheaders/content/prefs-headers.xul" flex="1"/>
     <prefpane id="paneOptions" label="Options"
         src="chrome://modifyheaders/content/prefs-options.xul" flex="1"/>
+        
+    <command id="addHeader" oncommand="ModifyHeaders.addHeader();"/>
+    <command id="editHeader" oncommand="ModifyHeaders.editHeader();"/>
+    <command id="deleteHeader" oncommand="ModifyHeaders.deleteHeader();"/>
+    <command id="saveHeader" oncommand="ModifyHeaders.saveHeader();"/>
+    <command id="resetHeaderForm" oncommand="ModifyHeaders.clearForm();"/>
+    <command id="moveRowUp" oncommand="ModifyHeaders.moveRowUp();"/>
+    <command id="moveRowDown" oncommand="ModifyHeaders.moveRowDown();"/>
+    <command id="enableHeader" oncommand="ModifyHeaders.enableHeader();"/>
+    <command id="enableAllHeaders" oncommand="ModifyHeaders.enableAllHeaders();"/>
+    <command id="disableAllHeaders" oncommand="ModifyHeaders.disableAllHeaders();"/>
+    <command id="openConfig" oncommand="ModifyHeaders.openConfig();"/>
+    <command id="openHelp" oncommand="ModifyHeaders.openHelp()"/>
 
     <script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js"/>
     <script type="application/x-javascript" src="chrome://modifyheaders/content/preferences.js"/>
