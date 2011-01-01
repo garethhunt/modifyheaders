@@ -323,7 +323,7 @@ var ModifyHeaders = {
   openHelp: function() {
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]. getService(Components.interfaces.nsIWindowMediator)
     var window = wm.getMostRecentWindow("navigator:browser")
-    window.gBrowser.selectedTab = window.gBrowser.addTab("http://modifyheaders.mozdev.org/no_wrap/help/en/index.html")
+    window.gBrowser.selectedTab = window.gBrowser.addTab("http://www.garethhunt.com/modifyheaders/help/")
   },
   
   openConfig: function() {
