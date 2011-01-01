@@ -55,8 +55,6 @@ ModifyHeadersHeader.prototype = {
   get selected() { return this.aSelected },
   set selected(selected) { this.aSelected = selected },
   
-  get wrappedJSObject() { return this },
-  
   equals: function(obj) {
     return (this.action.toLowerCase() == obj.action.toLowerCase() && this.name.toLowerCase() == obj.name.toLowerCase() && this.value.toLowerCase() == obj.value.toLowerCase()) ? true : false;
   }
