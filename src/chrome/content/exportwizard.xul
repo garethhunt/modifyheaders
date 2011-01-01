@@ -9,9 +9,9 @@
     height="500"
     width="600"
     onload="ModifyHeaders.ExportImport.ExportWizard.init()">
-    <!-- onwizardfinish="ExportWizard.save()"-->
     
     <script type="application/x-javascript" src="chrome://modifyheaders/content/exportimport.js"/>
+    <script type="application/x-javascript" src="chrome://modifyheaders/content/export.js"/>
 
     <wizardpage pageid="select-export-file" label="Select location to save export">
         <description>Step 1: Select the location to save the exported configuration:</description>
@@ -25,7 +25,7 @@
 
     <wizardpage pageid="select-headers" onpageshow="ModifyHeaders.ExportImport.ExportWizard.showSelectHeaders()">
       <description>Step 2: Select headers to include in the export</description>
-      <checkbox id="select-all-headers" label="Select All" onclick="ModifyHeaders.ExportImport.selectAllHeaders(this)"/>
+      <checkbox id="select-all-headers" label="Select All" onclick="ModifyHeaders.ExportImport.ExportWizard.selectAllHeaders(this)"/>
       <tree id="select-headers-tree" hidecolumnpicker="true" flex="1" rows="10" editable="true">
         <treecols>
           <treecol id="col-select" type="checkbox" editable="true" />
