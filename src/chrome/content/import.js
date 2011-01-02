@@ -88,13 +88,10 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 		},
 		
 		isXML: function (data) {
-			alert("Entered isXML");
-			
 			var config = false,
 				header = null,
-				characters = null;
-			
-			var xmlReader = Components.classes["@mozilla.org/saxparser/xmlreader;1"]
+				characters = null,
+				xmlReader = Components.classes["@mozilla.org/saxparser/xmlreader;1"]
 				.createInstance(Components.interfaces.nsISAXXMLReader);
 
 			xmlReader.contentHandler = {
