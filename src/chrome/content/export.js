@@ -28,7 +28,7 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 	        fpicker.init(window, fpHeadStr, mode);
 		    
 	        var showResult = fpicker.show();
-	        if (showResult == fpicker.returnOK) {
+	        if (showResult == fpicker.returnOK || showResult == fpicker.returnReplace) {
 	        	ModifyHeaders.ExportImport.theFile = fpicker.file;
 		        document.getElementById("file-path").value = ModifyHeaders.ExportImport.theFile.path;
 		        ModifyHeaders.ExportImport.wizard.canAdvance = true;
