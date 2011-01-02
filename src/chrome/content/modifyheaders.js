@@ -123,6 +123,7 @@ var ModifyHeaders = {
   },
   
   toggleWindow: function () {
+	document.getElementById("modifyheaders-window").lastSelected = "paneHeaders";
     this.modifyheadersService.windowOpen = !this.modifyheadersService.windowOpen;
   },
   

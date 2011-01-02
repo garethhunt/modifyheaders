@@ -256,7 +256,6 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 		},
 		
 		showConfirm: function () {
-			// TODO Modify the view to include the selected file path and list of selected headers
 			var count = 0;
 			for (var i = 0; i < ModifyHeaders.ExportImport.ImportWizard.importedConfig.length; i++) {
 				if (ModifyHeaders.ExportImport.ImportWizard.selectedRows[i]) {
@@ -278,7 +277,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 		
 		import: function () {
 			var importHeaders = [],
-				exportHeadersJson = ""
+				exportHeadersJson = "",
 				count = 0;
 			
 			for (var i = 0; i < ModifyHeaders.ExportImport.ImportWizard.importedConfig.length; i++) {

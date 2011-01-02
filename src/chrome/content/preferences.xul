@@ -4,7 +4,7 @@
 <!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 
 <prefwindow id="modifyheaders-window"
-    button="help"
+    buttons="accept"
     title="&modifyheaders.extension.name;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     ondialoghelp="ModifyHeaders.openHelp()"
