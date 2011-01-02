@@ -90,7 +90,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 		isXML: function (data) {
 			var config = false,
 				header = null,
-				characters = null,
+				characters = "",
 				xmlReader = Components.classes["@mozilla.org/saxparser/xmlreader;1"]
 				.createInstance(Components.interfaces.nsISAXXMLReader);
 
@@ -110,7 +110,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 						case "name":
 						case "value":
 						case "comment":
-							characters = null;
+							characters = "";
 							break;
 						default:
 							throw "Invalid element: " + localName;
@@ -127,6 +127,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 							} else {
 								throw "No configuration to add header";
 							}
+							break;
 						case "action":
 							this.addHeaderProperty("action");
 							break;
@@ -173,7 +174,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 			try {
 				xmlReader.parseFromString(data, "text/xml");
 			} catch (e) {
-				alert(e.message);
+                Components.utils.reportError(e);
 			}
 			
 			return config;
