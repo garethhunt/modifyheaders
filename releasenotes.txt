@@ -1,5 +1,13 @@
 -- Release Notes --
 
+Release 0.6.8
+
+* Added support for Firefox 4.0
+* Improved header export/import
+* Changed export format to JSON
+
+--
+
 Release 0.6.7, 12 October 2010
 
 * Added support for Firefox 4.0b6
