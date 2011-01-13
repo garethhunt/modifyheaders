@@ -98,6 +98,14 @@ ModifyHeadersService.prototype = {
     this.preferencesUtil.setPreference("bool", PreferencesUtil.prefAlwaysOn, alwaysOn);
   },
   
+  get openAsTab() {
+	return this.preferencesUtil.getPreference("bool", PreferencesUtil.prefOpenAsTab);
+  },
+	  
+  set openAsTab(openAsTab) {
+    this.preferencesUtil.setPreference("bool", PreferencesUtil.prefOpenAsTab, openAsTab);
+  },
+  
   get windowOpen() {
     return this.winOpen;
   },
@@ -385,7 +393,7 @@ PreferencesUtil.prefHeaderName    = "modifyheaders.headers.name";
 PreferencesUtil.prefHeaderValue   = "modifyheaders.headers.value";
 PreferencesUtil.prefHeaderComment = "modifyheaders.headers.comment";
 PreferencesUtil.prefLogMsgs       = "modifyheaders.config.logMsgs";
-//PreferencesUtil.prefOpenAsTab     = "modifyheaders.config.openNewTab";
+PreferencesUtil.prefOpenAsTab     = "modifyheaders.config.openNewTab";
 
 // Convenience method to get a user preference value
 PreferencesUtil.prototype.getPreference = function(type, name) {

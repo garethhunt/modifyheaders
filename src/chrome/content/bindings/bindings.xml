@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl">
+  <binding id="prefwindow" extends="chrome://global/content/bindings/preferences.xml#prefwindow">
+    <implementation>
+      <property name="_shouldAnimate">
+        <getter>
+          <![CDATA[
+            return false;
+          ]]>
+        </getter>
+      </property>
+    </implementation>
+  </binding>
+</bindings>

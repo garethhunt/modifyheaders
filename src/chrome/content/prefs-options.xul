@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://modifyheaders/content/config/config.css" type="text/css"?>
 <!DOCTYPE page SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 <overlay id="modifyheaders-headers-overlay"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" flex="1">
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   
-  <prefpane id="paneOptions" label="Options" flex="1">
+  <prefpane id="paneOptions" label="Options">
     <preferences>
       <preference id="always-on" name="modifyheaders.config.alwaysOn" type="bool" />
+      <preference id="open-as-tab" name="modifyheaders.config.openNewTab" type="bool" />
     </preferences>
     <stringbundleset>
       <stringbundle id="stringResources"
@@ -19,8 +19,8 @@
     </hbox>
     <groupbox>
       <caption label="&modifyheaders.config.general.label;"/>
-      <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;"
-        preference="always-on" />
+      <checkbox id="modifyheaders-always-on" label="&modifyheaders.config.general.always.on;" preference="always-on" />
+      <checkbox id="modifyheaders-open-as-tab" label="&modifyheaders.config.general.open.in.tab;" preference="open-as-tab" />
     </groupbox>
 
     <groupbox flex="1">

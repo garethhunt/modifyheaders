@@ -19,10 +19,14 @@
 
 var ModifyHeaders = {
   open: function () {
-	  
-    if (!this.modifyheadersService.windowOpen) {
-      // Open Modify Headers in a global window
-      this.mhWindow = window.open("chrome://modifyheaders/content/preferences.xul", "modifyheaders", "chrome,titlebar,toolbar,resizeable,centerscreen,dialog=no");
+    if (this.modifyheadersService.openAsTab) {
+      // Open modifyheaders in a new tab
+      // TODO Determine if Modify Headers is already open and shift to its tab if appropriate
+      gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/preferences-tab.xul');
+      //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
+    } else if (!this.modifyheadersService.windowOpen) {
+      // Open Modify Headers in a resizable dialog
+      this.mhWindow = window.openDialog("chrome://modifyheaders/content/preferences.xul", "modifyheaders", "chrome,all,dialog=no");
     } else {
       // The window is open, so shift focus to it
       this.mhWindow.focus()

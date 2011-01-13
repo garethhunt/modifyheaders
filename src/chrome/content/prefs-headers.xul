@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://modifyheaders/content/modifyheaders.css" type="text/css"?>
 <!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 <overlay id="modifyheaders-headers-overlay"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" flex="1">
-  <prefpane id="paneHeaders" label="Headers" flex="1">
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <prefpane id="paneHeaders" label="Headers">
     <preferences/>
     
   <vbox flex="1">
@@ -71,6 +70,7 @@
             </vbox>
             <description value="Disabled"/>
           </hbox>
+          <spacer flex="1"/>
         </vbox>
       </hbox>
     </vbox>

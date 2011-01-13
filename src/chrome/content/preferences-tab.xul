@@ -10,12 +10,12 @@
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     ondialoghelp="ModifyHeaders.openHelp()"
     onload="ModifyHeaders.toggleWindow()"
-    onunload="ModifyHeaders.toggleWindow()"
-    persist="screenX screenY width height sizemode">
-
+    onunload="ModifyHeaders.toggleWindow()">
     <prefpane id="paneHeaders" label="Headers" selected="true" onpaneload="ModifyHeaders.start()"
+        insertbefore="modifyheaders-window-sizetocontent"
         src="chrome://modifyheaders/content/prefs-headers.xul" flex="1"/>
     <prefpane id="paneOptions" label="Options"
+        insertbefore="modifyheaders-window-sizetocontent"
         src="chrome://modifyheaders/content/prefs-options.xul" flex="1"/>
     
     <command id="addHeader" oncommand="ModifyHeaders.addHeader();"/>
@@ -31,6 +31,9 @@
     <command id="openConfig" oncommand="ModifyHeaders.openConfig();"/>
     <command id="openHelp" oncommand="ModifyHeaders.openHelp()"/>
 
+    <script id="modifyheaders-window-sizetocontent" type="application/x-javascript"><![CDATA[
+        window.sizeToContent = function () {};
+    ]]></script>
     <script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js"/>
     <script type="application/x-javascript" src="chrome://modifyheaders/content/preferences.js"/>
 </prefwindow>
