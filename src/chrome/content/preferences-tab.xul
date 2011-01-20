@@ -11,12 +11,16 @@
     ondialoghelp="ModifyHeaders.openHelp()"
     onload="ModifyHeaders.toggleWindow()"
     onunload="ModifyHeaders.toggleWindow()">
+    
     <prefpane id="paneHeaders" label="Headers" selected="true" onpaneload="ModifyHeaders.start()"
         insertbefore="modifyheaders-window-sizetocontent"
         src="chrome://modifyheaders/content/prefs-headers.xul" flex="1"/>
     <prefpane id="paneOptions" label="Options"
         insertbefore="modifyheaders-window-sizetocontent"
         src="chrome://modifyheaders/content/prefs-options.xul" flex="1"/>
+    <prefpane id="paneAbout" label="About"
+        insertbefore="modifyheaders-window-sizetocontent"
+        src="chrome://modifyheaders/content/prefs-about.xul" flex="1"/>
     
     <command id="addHeader" oncommand="ModifyHeaders.addHeader();"/>
     <command id="editHeader" oncommand="ModifyHeaders.editHeader();"/>

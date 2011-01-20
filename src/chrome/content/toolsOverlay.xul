@@ -10,16 +10,16 @@
 	<!-- Add a menu item to the 'tools' menu -->
 	<!-- Firefox / Flock -->
 	<menupopup id="menu_ToolsPopup">
-    	<menuitem id="menu_ToolsPopup_modifyheaders" insertbefore="sanitizeSeparator" label="&modifyheaders.menu.label;" oncommand="ModifyHeaders.open()" />
+    	<menuitem id="menu_ToolsPopup_modifyheaders" insertbefore="sanitizeSeparator" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
 	</menupopup>
   
   <!-- Firefox 4 App Menu -->
   <menupopup id="appmenu_webDeveloper_popup">
-      <menuitem id="appmenu_modifyheaders" insertafter="appmenu_pageSource" label="&modifyheaders.menu.label;" oncommand="ModifyHeaders.open()" />
+      <menuitem id="appmenu_modifyheaders" insertafter="appmenu_pageSource" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
   </menupopup>
 
     <!-- Mozilla Suite / Seamonkey -->
 	<menupopup id="taskPopup">
-    	<menuitem id="taskPopup_modifyheaders" label="&modifyheaders.menu.label;" oncommand="ModifyHeaders.open()" />
+    	<menuitem id="taskPopup_modifyheaders" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
 	</menupopup>
 </overlay>

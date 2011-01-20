@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE page SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
+<overlay id="modifyheaders-about-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <prefpane id="paneAbout" label="About">
+    <preferences>
+    </preferences>
+    <stringbundleset>
+      <stringbundle id="stringResources"
+        src="chrome://modifyheaders/locale/modifyheaders.properties"/>
+    </stringbundleset>
+
+    <hbox>
+      <spacer flex="1"/>
+      <button label="&modifyheaders.button.help;" command="openHelp" flex="0"/>
+    </hbox>
+    
+    <groupbox>
+      <!-- <image src="chrome://modifyheaders/content/logo.gif" width="64" height="64"/> -->
+      <!-- <separator flex="1" orient="horizontal"/> -->
+      <caption>&modifyheaders.caption.about;</caption>
+      <description class="title">&modifyheaders.label.version;: &modifyheaders.extension.version;</description>
+      <description class="title">&modifyheaders.label.author;: &modifyheaders.author.name;</description>
+      
+      <separator flex="1" orient="horizontal"/>
+      <description value="&modifyheaders.label.homepage;" class="title"/>
+      <label class="text-link" href="&modifyheaders.url.homepage;" value="&modifyheaders.url.homepage;"/>
+      
+      <separator flex="1" orient="horizontal"/>
+      <description class="title">&modifyheaders.label.defects.description;</description>
+      <label class="text-link" href="&modifyheaders.url.defects;" value="&modifyheaders.url.defects;"/>
+      
+      <separator flex="1" orient="horizontal"/>
+      <description class="title">&modifyheaders.label.twitter.description;</description>
+      <label class="text-link" href="&modifyheaders.url.twitter;" value="&modifyheaders.url.twitter;"/>
+    </groupbox>
+    
+    <groupbox>
+      <caption>&modifyheaders.caption.contribute;</caption>
+      <description class="title">&modifyheaders.label.contribute.description;</description>
+      <label class="text-link" href="&modifyheaders.url.contribute;" value="&modifyheaders.label.contribute;"/>
+    </groupbox>
+
+  </prefpane>
+</overlay>

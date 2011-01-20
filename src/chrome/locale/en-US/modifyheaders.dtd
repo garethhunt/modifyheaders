@@ -1,72 +1,66 @@
+<!-- <!ENTITY ""> -->
+
 <!-- Common -->
-<!ENTITY modifyheaders.key "A">
+<!-- <!ENTITY modifyheaders.key "A"> -->
 <!ENTITY modifyheaders.label "Header">
 <!ENTITY modifyheaders.extension.name "Modify Headers">
 <!ENTITY modifyheaders.extension.version "@build.version@">
 <!ENTITY modifyheaders.author.name "Gareth Hunt">
 
-<!-- About -->
-<!ENTITY modifyheaders.about.author.label "Author">
-<!ENTITY modifyheaders.about.home.page "Home Page">
-<!ENTITY modifyheaders.about.title "About Modify Headers">
-<!ENTITY modifyheaders.about.url "http://modifyheaders.mozdev.org/">
+<!-- Buttons -->
+<!ENTITY modifyheaders.button.delete "Delete">
+<!ENTITY modifyheaders.button.edit "Edit">
+<!ENTITY modifyheaders.button.enable "Enable/Disable">
+<!ENTITY modifyheaders.button.enableall "Enable All">
+<!ENTITY modifyheaders.button.disableall "Disable All">
+<!ENTITY modifyheaders.button.headers.add "Add">
+<!ENTITY modifyheaders.button.headers.reset "Reset">
+<!ENTITY modifyheaders.button.headers.save "Save">
+<!ENTITY modifyheaders.button.help "Open Help">
+<!ENTITY modifyheaders.button.export "Export Headers">
+<!ENTITY modifyheaders.button.import "Import Headers">
+<!ENTITY modifyheaders.button.movedown "Move Down">
+<!ENTITY modifyheaders.button.moveup "Move Up">
 
-<!-- Help -->
-<!ENTITY modifyheaders.help.button "Open Help">
-<!ENTITY modifyheaders.help.title "Modify Headers">
+<!-- Captions -->
+<!ENTITY modifyheaders.caption.about "About Modify Headers">
+<!ENTITY modifyheaders.caption.contribute "Contribute">
+<!ENTITY modifyheaders.caption.options.general "General">
+<!ENTITY modifyheaders.caption.options.export-import "Export/Import">
 
-<!-- Menu -->
-<!ENTITY modifyheaders.menu.label "Modify Headers">
+<!-- Labels -->
+<!ENTITY modifyheaders.label.author "Author">
+<!ENTITY modifyheaders.label.defects.description "If you have found a defect, please log it at this URL:">
+<!ENTITY modifyheaders.label.homepage "Home Page">
+<!ENTITY modifyheaders.label.version "Version">
+<!ENTITY modifyheaders.label.contribute "Make a contribution">
+<!ENTITY modifyheaders.label.contribute.description "Click the link below to make a contribution for the addon:">
+<!ENTITY modifyheaders.label.headers "Headers">
+<!ENTITY modifyheaders.label.options "Options">
+<!ENTITY modifyheaders.label.options.alwayson "Always On">
+<!ENTITY modifyheaders.label.options.openintab "Open in Tab">
+<!ENTITY modifyheaders.label.twitter.description "Follow me on twitter for occasional updates:">
 
-<!-- Tabs -->
-<!ENTITY modifyheaders.tabs.headers.label "Headers">
-<!ENTITY modifyheaders.tabs.config.label "Configuration">
-<!ENTITY modifyheaders.tabs.help.label "Help">
+<!-- Menu Items -->
+<!ENTITY modifyheaders.menuitem.tools.label "Modify Headers">
+<!ENTITY modifyheaders.menuitem.action.add "Add">
+<!ENTITY modifyheaders.menuitem.action.modify "Modify">
+<!ENTITY modifyheaders.menuitem.action.filter "Filter">
 
-<!-- Config -->
-<!ENTITY modifyheaders.config.button "Configuration">
-<!ENTITY modifyheaders.config.title "Modify Headers Configuration">
-<!ENTITY modifyheaders.config.general.label "General">
-<!ENTITY modifyheaders.config.general.always.on "Always On: Enable Modify Headers when the window/tab is closed.">
-<!ENTITY modifyheaders.config.general.open.in.tab "Open Modify Headers in a new tab?">
-<!ENTITY modifyheaders.config.general.uncheck.onclose "Deselect all selected headers when browser is closed?">
-<!ENTITY modifyheaders.config.export.button "Export">
-<!ENTITY modifyheaders.config.import.export "Export/Import">
-<!ENTITY modifyheaders.config.import.button "Import">
+<!-- Tooltips -->
+<!ENTITY modifyheaders.tooltip.action "Select an action from: Add, Modify and Filter">
+<!ENTITY modifyheaders.tooltip.name "Enter the header name">
+<!ENTITY modifyheaders.tooltip.value "Enter the header value">
+<!ENTITY modifyheaders.tooltip.comment "Enter a comment to describe this header">
 
-<!-- Import/Export window -->
-<!ENTITY modifyheaders.import.export.title "Import/Export Headers">
-<!ENTITY modifyheaders.import.export.button.cancel "Cancel">
-<!ENTITY modifyheaders.import.export.button.finish "Finish">
-<!ENTITY modifyheaders.import.export.button.next "Next &gt;">
+<!-- Treecol -->
+<!ENTITY modifyheaders.treecol.action "Action">
+<!ENTITY modifyheaders.treecol.name "Name">
+<!ENTITY modifyheaders.treecol.value "Value">
+<!ENTITY modifyheaders.treecol.comment "Comment">
 
-<!-- Options -->
-<!ENTITY modifyheaders.options.title "Modify Headers Options">
-<!ENTITY modifyheaders.options.headers.action.label "Action">
-<!ENTITY modifyheaders.options.headers.headername.label "Name">
-<!ENTITY modifyheaders.options.headers.headervalue.label "Value">
-<!ENTITY modifyheaders.options.headers.headercomment.label "Comment">
-<!ENTITY modifyheaders.options.headers.enable "Enable/Disable">
-<!ENTITY modifyheaders.options.headers.enable.all "Enable All">
-<!ENTITY modifyheaders.options.headers.disable.all "Disable All">
-<!ENTITY modifyheaders.options.headers.move.down "Move Down">
-<!ENTITY modifyheaders.options.headers.move.up "Move Up">
-<!ENTITY modifyheaders.options.headers.add "Add">
-<!ENTITY modifyheaders.options.headers.delete "Delete">
-<!ENTITY modifyheaders.options.headers.edit "Edit">
-<!ENTITY modifyheaders.options.headers.reset "Reset">
-<!ENTITY modifyheaders.options.headers.save "Save">
-<!ENTITY modifyheaders.options.headers.label "Headers">
-
-<!-- Add/Edit/Delete Headers dialog -->
-<!ENTITY modifyheaders.dialog.header.action.add "Add">
-<!ENTITY modifyheaders.dialog.header.action.modify "Modify">
-<!ENTITY modifyheaders.dialog.header.action.filter "Filter">
-<!ENTITY modifyheaders.dialog.header.action.label "Action">
-<!ENTITY modifyheaders.dialog.header.name.label "Name">
-<!ENTITY modifyheaders.dialog.header.value.label "Value">
-<!ENTITY modifyheaders.dialog.header.comment.label "Comment">
-<!ENTITY modifyheaders.dialog.header.tooltip.action "Select an action from: Add, Modify and Filter">
-<!ENTITY modifyheaders.dialog.header.tooltip.name "Enter the header name">
-<!ENTITY modifyheaders.dialog.header.tooltip.value "Enter the header value">
-<!ENTITY modifyheaders.dialog.header.tooltip.comment "Enter a comment to describe this header">
+<!-- URLs -->
+<!ENTITY modifyheaders.url.homepage "http://www.garethhunt.com/modifyheaders/">
+<!ENTITY modifyheaders.url.defects "http://modifyheaders.mozdev.org/bugs.html">
+<!ENTITY modifyheaders.url.twitter "http://twitter.com/byGarethHunt">
+<!ENTITY modifyheaders.url.contribute "https://addons.mozilla.org/en-US/firefox/addon/modify-headers/">

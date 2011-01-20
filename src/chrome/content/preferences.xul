@@ -17,6 +17,8 @@
         src="chrome://modifyheaders/content/prefs-headers.xul" flex="1"/>
     <prefpane id="paneOptions" label="Options"
         src="chrome://modifyheaders/content/prefs-options.xul" flex="1"/>
+    <prefpane id="paneAbout" label="About"
+        src="chrome://modifyheaders/content/prefs-about.xul" flex="1"/>
     
     <command id="addHeader" oncommand="ModifyHeaders.addHeader();"/>
     <command id="editHeader" oncommand="ModifyHeaders.editHeader();"/>
