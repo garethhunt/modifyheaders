@@ -8,6 +8,7 @@
 <!ENTITY modifyheaders.author.name "Gareth Hunt">
 
 <!-- Buttons -->
+<!ENTITY modifyheaders.button.browse "Browse...">
 <!ENTITY modifyheaders.button.delete "Delete">
 <!ENTITY modifyheaders.button.edit "Edit">
 <!ENTITY modifyheaders.button.enable "Enable/Disable">
@@ -28,10 +29,27 @@
 <!ENTITY modifyheaders.caption.options.general "General">
 <!ENTITY modifyheaders.caption.options.export-import "Export/Import">
 
+<!-- Check box -->
+<!ENTITY modifyheaders.checkbox.selectall "Select All">
+
+<!-- Description -->
+<!ENTITY modifyheaders.description.import.complete "Your import of Modify Headers configuration is complete.">
+<!ENTITY modifyheaders.description.import.confirm1 "You will import ">
+<!ENTITY modifyheaders.description.import.confirm2 " headers from ">
+<!ENTITY modifyheaders.description.import.confirm3 ".">
+<!ENTITY modifyheaders.description.import.selectfile "Step 1: Select the location of the configuration file to import:">
+<!ENTITY modifyheaders.description.import.selectheaders "Step 2: Select headers to be imported">
+
+<!-- Error -->
+<!ENTITY modifyheaders.error.import.selectfile "There was an error importing the configuration.  Please check the file format before trying again.">
+
 <!-- Labels -->
 <!ENTITY modifyheaders.label.author "Author">
 <!ENTITY modifyheaders.label.defects.description "If you have found a defect, please log it at this URL:">
 <!ENTITY modifyheaders.label.homepage "Home Page">
+<!ENTITY modifyheaders.label.import.confirm "Confirm import selection">
+<!ENTITY modifyheaders.label.import.file "Select file to import">
+<!ENTITY modifyheaders.label.import.selectheaders "Select headers">
 <!ENTITY modifyheaders.label.version "Version">
 <!ENTITY modifyheaders.label.contribute "Make a contribution">
 <!ENTITY modifyheaders.label.contribute.description "Click the link below to make a contribution for the addon:">
@@ -46,6 +64,9 @@
 <!ENTITY modifyheaders.menuitem.action.add "Add">
 <!ENTITY modifyheaders.menuitem.action.modify "Modify">
 <!ENTITY modifyheaders.menuitem.action.filter "Filter">
+
+<!-- Title -->
+<!ENTITY modifyheaders.title.import "Modify Headers Import Wizard">
 
 <!-- Tooltips -->
 <!ENTITY modifyheaders.tooltip.action "Select an action from: Add, Modify and Filter">

@@ -2,8 +2,10 @@
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 <?xml-stylesheet href="chrome://modifyheaders/content/modifyheaders.css" type="text/css"?>
 
+<!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
+
 <wizard id="modifyheaders-import-wizard"
-    title="Modify Headers Import Wizard"
+    title="&modifyheaders.title.import;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     buttons="accept,cancel"
     height="500"
@@ -13,38 +15,38 @@
     <script type="application/x-javascript" src="chrome://modifyheaders/content/exportimport.js"/>
     <script type="application/x-javascript" src="chrome://modifyheaders/content/import.js"/>
 
-    <wizardpage pageid="select-import-file" label="Select file to import" onpageadvanced="return ModifyHeaders.ExportImport.ImportWizard.loadHeaders()">
-        <description>Step 1: Select the location of the configuration file to import:</description>
-        <description id="error" hidden="true">There was an error importing the configuration.  Please check the file format before trying again.</description>
+    <wizardpage pageid="select-import-file" label="&modifyheaders.label.import.file;" onpageadvanced="return ModifyHeaders.ExportImport.ImportWizard.loadHeaders()">
+        <description>&modifyheaders.description.import.selectfile;</description>
+        <description id="error" hidden="true">&modifyheaders.error.import.selectfile;</description>
         
         <hbox>
             <textbox id="file-path" readonly="true" flex="1"/>
-            <button id="browse-file-btn" oncommand="ModifyHeaders.ExportImport.ImportWizard.openFileBrowser()" label="Browse..."/>
+            <button id="browse-file-btn" oncommand="ModifyHeaders.ExportImport.ImportWizard.openFileBrowser()" label="&modifyheaders.button.browse;"/>
         </hbox>
     </wizardpage>
 
-    <wizardpage pageid="select-headers" onpageshow="ModifyHeaders.ExportImport.ImportWizard.showSelectHeaders()">
-      <description>Step 2: Select headers to be imported</description>
-      <checkbox id="select-all-headers" label="Select All" onclick="ModifyHeaders.ExportImport.ImportWizard.selectAllHeaders(this)"/>
+    <wizardpage pageid="select-headers" label="&modifyheaders.label.import.selectheaders;" onpageshow="ModifyHeaders.ExportImport.ImportWizard.showSelectHeaders()">
+      <description>&modifyheaders.description.import.selectheaders;</description>
+      <checkbox id="select-all-headers" label="&modifyheaders.checkbox.selectall;" onclick="ModifyHeaders.ExportImport.ImportWizard.selectAllHeaders(this)"/>
       <tree id="select-headers-tree" hidecolumnpicker="true" flex="1" rows="10" editable="true">
         <treecols>
           <treecol id="col-select" type="checkbox" editable="true" />
-          <treecol id="col-action" label="Action" flex="1"/>
-          <treecol id="col-header-name" label="Name" flex="1"/>
-          <treecol id="col-header-value" label="Value" flex="1"/>
-          <treecol id="col-comment" label="Comment" flex="1"/>
+          <treecol id="col-action" label="modifyheaders.treecol.action" flex="1"/>
+          <treecol id="col-header-name" label="modifyheaders.treecol.name" flex="1"/>
+          <treecol id="col-header-value" label="modifyheaders.treecol.value" flex="1"/>
+          <treecol id="col-comment" label="modifyheaders.treecol.comment" flex="1"/>
         </treecols>
         <treechildren />
       </tree>
     </wizardpage>
 
-    <wizardpage pageid="confirm-import" label="Confirm import selection" onpageshow="ModifyHeaders.ExportImport.ImportWizard.showConfirm()" onpageadvanced="ModifyHeaders.ExportImport.ImportWizard.import()">
-        <description>You will import <span id="confirm-header-count"></span> headers from <span id="confirm-file-path" style="font-weight: bold"></span>.</description>
+    <wizardpage pageid="confirm-import" label="&modifyheaders.label.import.confirm;" onpageshow="ModifyHeaders.ExportImport.ImportWizard.showConfirm()" onpageadvanced="ModifyHeaders.ExportImport.ImportWizard.import()">
+        <description>&modifyheaders.description.import.confirm1;<span id="confirm-header-count"></span>&modifyheaders.description.import.confirm2;<span id="confirm-file-path" style="font-weight: bold"></span>&modifyheaders.description.import.confirm3;</description>
         <description></description>
     </wizardpage>
 
     <wizardpage pageid="import-complete">
-        <description value="Your import of Modify Headers configuration is complete."/>
+        <description value="&modifyheaders.description.import.complete;"/>
     </wizardpage>
 </wizard>
 
