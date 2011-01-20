@@ -35,13 +35,16 @@
         <vbox flex="1">
           <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1" ondblclick="ModifyHeaders.enableHeader();">
             <treecols>
-              <treecol id="actioncol" label="&modifyheaders.treecol.action;" ignoreincolumnpicker="true"/>
-              <treecol id="namecol" label="&modifyheaders.treecol.name;" flex="1" sortActive="true" ignoreincolumnpicker="true"/>
-              <treecol id="valuecol" label="&modifyheaders.treecol.value;" flex="1" ignoreincolumnpicker="true"/>
-              <treecol id="commentcol" label="&modifyheaders.treecol.comment;" flex="1" ignoreincolumnpicker="true"/>
-              <treecol id="enabledcol" width="20" ignoreincolumnpicker="true"/>
+              <treecol id="actioncol" label="&modifyheaders.treecol.action;" fixed="true" ignoreincolumnpicker="true"/>
+              <treecol id="namecol" label="&modifyheaders.treecol.name;" flex="1" persist="width" ignoreincolumnpicker="true"/>
+              <splitter class="tree-splitter" />
+              <treecol id="valuecol" label="&modifyheaders.treecol.value;" flex="1" persist="width" ignoreincolumnpicker="true"/>
+              <splitter class="tree-splitter" />
+              <treecol id="commentcol" label="&modifyheaders.treecol.comment;" flex="1" persist="width" ignoreincolumnpicker="true"/>
+              <splitter class="tree-splitter" />
+              <treecol id="enabledcol" width="20" fixed="true" ignoreincolumnpicker="true"/>
               <!-- sbcol provides space for a scrollbar if one appears -->
-              <treecol id="sbcol" width="14" ignoreincolumnpicker="true"/>
+              <treecol id="sbcol" width="14" fixed="true" ignoreincolumnpicker="true"/>
             </treecols>
             <treechildren flex="1"/>
           </tree>
