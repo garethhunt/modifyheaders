@@ -2,8 +2,10 @@
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 <?xml-stylesheet href="chrome://modifyheaders/content/modifyheaders.css" type="text/css"?>
 
+<!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
+
 <wizard id="modifyheaders-export-wizard"
-    title="Modify Headers Export Wizard"
+    title="&modifyheaders.title.export;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     buttons="accept,cancel"
     height="500"
@@ -13,38 +15,38 @@
     <script type="application/x-javascript" src="chrome://modifyheaders/content/exportimport.js"/>
     <script type="application/x-javascript" src="chrome://modifyheaders/content/export.js"/>
 
-    <wizardpage pageid="select-export-file" label="Select location to save export">
-        <description>Step 1: Select the location to save the exported configuration:</description>
-        <description id="error" hidden="true">There was an error: details to be added.</description>
+    <wizardpage pageid="select-export-file" label="&modifyheaders.label.export.file;">
+        <description>&modifyheaders.description.export.selectfile;</description>
+        <description id="error" hidden="true">&modifyheaders.error.export.selectfile;</description>
         
         <hbox>
             <textbox id="file-path" readonly="true" flex="1"/>
-            <button id="browse-file-btn" oncommand="ModifyHeaders.ExportImport.ExportWizard.openFileBrowser()" label="Browse..."/>
+            <button id="browse-file-btn" oncommand="ModifyHeaders.ExportImport.ExportWizard.openFileBrowser()" label="&modifyheaders.button.browse;"/>
         </hbox>
     </wizardpage>
 
-    <wizardpage pageid="select-headers" onpageshow="ModifyHeaders.ExportImport.ExportWizard.showSelectHeaders()">
-      <description>Step 2: Select headers to include in the export</description>
-      <checkbox id="select-all-headers" label="Select All" onclick="ModifyHeaders.ExportImport.ExportWizard.selectAllHeaders(this)"/>
+    <wizardpage pageid="select-headers" label="&modifyheaders.label.export.selectheaders;" onpageshow="ModifyHeaders.ExportImport.ExportWizard.showSelectHeaders()">
+      <description>&modifyheaders.description.export.selectheaders;</description>
+      <checkbox id="select-all-headers" label="&modifyheaders.checkbox.selectall;" onclick="ModifyHeaders.ExportImport.ExportWizard.selectAllHeaders(this)"/>
       <tree id="select-headers-tree" hidecolumnpicker="true" flex="1" rows="10" editable="true">
         <treecols>
           <treecol id="col-select" type="checkbox" editable="true" />
-          <treecol id="col-action" label="Action" flex="1"/>
-          <treecol id="col-header-name" label="Name" flex="1"/>
-          <treecol id="col-header-value" label="Value" flex="1"/>
-          <treecol id="col-comment" label="Comment" flex="1"/>
+          <treecol id="col-action" label="&modifyheaders.treecol.action;" flex="1"/>
+          <treecol id="col-header-name" label="&modifyheaders.treecol.name;" flex="1"/>
+          <treecol id="col-header-value" label="&modifyheaders.treecol.value;" flex="1"/>
+          <treecol id="col-comment" label="&modifyheaders.treecol.comment;" flex="1"/>
         </treecols>
         <treechildren />
       </tree>
     </wizardpage>
 
-    <wizardpage pageid="confirm-export" label="Confirm export selection" onpageshow="ModifyHeaders.ExportImport.ExportWizard.showConfirm()" onpageadvanced="ModifyHeaders.ExportImport.ExportWizard.saveConfiguration()">
-        <description>You will export <span id="confirm-header-count"></span> headers to <span id="confirm-file-path" style="font-weight: bold"></span>.</description>
+    <wizardpage pageid="confirm-export" label="&modifyheaders.label.export.confirm;" onpageshow="ModifyHeaders.ExportImport.ExportWizard.showConfirm()" onpageadvanced="ModifyHeaders.ExportImport.ExportWizard.saveConfiguration()">
+        <description>&modifyheaders.description.export.confirm1;<span id="confirm-header-count"></span>&modifyheaders.description.export.confirm2;<span id="confirm-file-path" style="font-weight: bold"></span>&modifyheaders.description.export.confirm3;</description>
         <description></description>
     </wizardpage>
 
     <wizardpage pageid="export-complete">
-        <description value="Your export of Modify Headers configuration is complete."/>
+        <description value="&modifyheaders.description.export.complete;"/>
     </wizardpage>
 </wizard>
 

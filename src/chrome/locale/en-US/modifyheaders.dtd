@@ -33,6 +33,12 @@
 <!ENTITY modifyheaders.checkbox.selectall "Select All">
 
 <!-- Description -->
+<!ENTITY modifyheaders.description.export.complete "Your export of Modify Headers configuration is complete.">
+<!ENTITY modifyheaders.description.export.confirm1 "You will export ">
+<!ENTITY modifyheaders.description.export.confirm2 " headers to ">
+<!ENTITY modifyheaders.description.export.confirm3 ".">
+<!ENTITY modifyheaders.description.export.selectfile "Step 1: Select the location to save the exported configuration:">
+<!ENTITY modifyheaders.description.export.selectheaders "Step 2: Select headers to include in the export">
 <!ENTITY modifyheaders.description.import.complete "Your import of Modify Headers configuration is complete.">
 <!ENTITY modifyheaders.description.import.confirm1 "You will import ">
 <!ENTITY modifyheaders.description.import.confirm2 " headers from ">
@@ -41,12 +47,16 @@
 <!ENTITY modifyheaders.description.import.selectheaders "Step 2: Select headers to be imported">
 
 <!-- Error -->
+<!ENTITY modifyheaders.error.export.selectfile "There was an error exporting the configuration.  Please check the file location before trying again.">
 <!ENTITY modifyheaders.error.import.selectfile "There was an error importing the configuration.  Please check the file format before trying again.">
 
 <!-- Labels -->
 <!ENTITY modifyheaders.label.author "Author">
 <!ENTITY modifyheaders.label.defects.description "If you have found a defect, please log it at this URL:">
 <!ENTITY modifyheaders.label.homepage "Home Page">
+<!ENTITY modifyheaders.label.export.confirm "Confirm export selection">
+<!ENTITY modifyheaders.label.export.file "Select location to save export">
+<!ENTITY modifyheaders.label.export.selectheaders "Select headers">
 <!ENTITY modifyheaders.label.import.confirm "Confirm import selection">
 <!ENTITY modifyheaders.label.import.file "Select file to import">
 <!ENTITY modifyheaders.label.import.selectheaders "Select headers">
@@ -66,6 +76,7 @@
 <!ENTITY modifyheaders.menuitem.action.filter "Filter">
 
 <!-- Title -->
+<!ENTITY modifyheaders.title.export "Modify Headers Export Wizard">
 <!ENTITY modifyheaders.title.import "Modify Headers Import Wizard">
 
 <!-- Tooltips -->
