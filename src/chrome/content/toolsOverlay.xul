@@ -18,8 +18,8 @@
       <menuitem id="appmenu_modifyheaders" insertafter="appmenu_pageSource" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
   </menupopup>
 
-    <!-- Mozilla Suite / Seamonkey -->
-	<menupopup id="taskPopup">
-    	<menuitem id="taskPopup_modifyheaders" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
+  <!-- Seamonkey 2.0 -->
+	<menupopup id="toolsPopup">
+    	<menuitem id="toolsPopup_modifyheaders" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
 	</menupopup>
 </overlay>

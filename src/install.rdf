@@ -34,26 +34,17 @@
         <em:targetApplication>
             <Description>
                 <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
-                <em:minVersion>0.4</em:minVersion>
-                <em:maxVersion>1.0</em:maxVersion>
-            </Description>
-        </em:targetApplication>        
-        
-        <!-- SeaMonkey -->
-        <em:targetApplication>
-            <Description>
-                <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
-                <em:minVersion>1.0</em:minVersion>
-                <em:maxVersion>1.0.*</em:maxVersion>
+                <em:minVersion>2.0</em:minVersion>
+                <em:maxVersion>2.*</em:maxVersion>
             </Description>
         </em:targetApplication>
         
-        <!-- Mozilla Suite -->
+        <!-- Seamonkey 2.0 -->
         <em:targetApplication>
             <Description>
-                <em:id>{86c18b42-e466-45a9-ae7a-9b95ba6f5640}</em:id>
-                <em:minVersion>1.7</em:minVersion>
-                <em:maxVersion>1.8</em:maxVersion>
+                <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
+                <em:minVersion>2.0</em:minVersion>
+                <em:maxVersion>2.0.*</em:maxVersion>
             </Description>
         </em:targetApplication>
     </Description>
