@@ -4,9 +4,8 @@ overlay	chrome://browser/content/browser.xul	chrome://modifyheaders/content/tool
 # Seamonkey
 overlay chrome://navigator/content/navigator.xul  chrome://modifyheaders/content/toolsOverlay.xul
 
-content	modifyheaders	jar:chrome/modifyheaders.jar!/content/
-
-locale	modifyheaders	en-US	jar:chrome/modifyheaders.jar!/locale/en-US/
+content	modifyheaders	chrome/content/
+locale	modifyheaders	en-US	chrome/locale/en-US/
 
 interfaces components/mhIHeader.xpt
 interfaces components/nsIModifyheaders.xpt
@@ -19,5 +18,6 @@ contract @modifyheaders.mozdev.org/service;1 {feb80fc3-9e72-4fc5-bc72-986957ada6
 
 component {0eff9eeb-c51a-4f07-9823-27bc32fdae13} components/modifyheaders-service.js
 contract @modifyheaders.mozdev.org/proxy;1 {0eff9eeb-c51a-4f07-9823-27bc32fdae13}
+
 # The category registration is required for the Proxy service
 category profile-after-change ModifyHeadersProxy @modifyheaders.mozdev.org/proxy;1

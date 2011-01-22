@@ -4,22 +4,16 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
     <Description about="urn:mozilla:install-manifest">
-        <em:aboutURL>chrome://modifyheaders/content/about/about.xul</em:aboutURL>
         <em:creator>Gareth Hunt</em:creator>
-        <em:description>Add, modify and filter http request headers</em:description>
-        <em:homepageURL>http://www.garethhunt.com/</em:homepageURL>
+        <em:description>Add, modify and filter HTTP request headers</em:description>
+        <em:homepageURL>http://www.garethhunt.com/modifyheaders/</em:homepageURL>
         <!-- <em:iconURL>chrome://modifyheaders/content/logo.gif</em:iconURL> -->
         <em:iconURL></em:iconURL>
         <em:id>{b749fc7c-e949-447f-926c-3f4eed6accfe}</em:id>
         <em:name>Modify Headers</em:name>
         <em:optionsURL>chrome://modifyheaders/content/preferences.xul</em:optionsURL>
         <em:version>@build.version@</em:version>
-        <em:file>
-            <Description about="urn:mozilla:extension:file:modifyheaders.jar">
-                <em:locale>locale/en-US/</em:locale>
-                <em:package>content/</em:package>
-            </Description>
-        </em:file>
+        
         <!-- Firefox 3.* - 4.0 -->
         <!-- Due to changes in XPCOM, Firefox prior to version 3 is no longer supported -->
         <em:targetApplication>

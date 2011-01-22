@@ -50,8 +50,9 @@
 	<target name="prepare" depends="clean" description="Ensures that the required target directories are created">
 		<mkdir dir="${build.targetdir}"/>
 		<mkdir dir="${build.targetdir}/interface"/>
-		<mkdir dir="${build.targetdir}/jar/chrome"/>
-		<mkdir dir="${build.targetdir}/jar/components"/>
+		<mkdir dir="${build.targetdir}/unpacked"/>
+		<!-- <mkdir dir="${build.targetdir}/jar/chrome"/>
+		<mkdir dir="${build.targetdir}/jar/components"/> -->
 		<mkdir dir="${build.targetdir}/xpi"/>
 	</target>
 	
@@ -100,8 +101,24 @@
 			</fileset>
 		</copy>
 	</target>
+	
+	<target name="aggregate" depends="compile" description="Aggregates all elements into the unpacked directory">
+		
+    <copy todir="${build.targetdir}/unpacked/" filtering="true">
+      <fileset dir="${build.srcdir}" includes="*.*"/>
+    </copy>
+		
+    <copy todir="${build.targetdir}/unpacked/chrome/" filtering="false">
+      <fileset dir="${build.targetdir}/chrome/"></fileset>
+    </copy>
+    
+    <copy todir="${build.targetdir}/unpacked/components">
+      <fileset dir="${build.srcdir}/components"></fileset>
+      <fileset dir="${build.targetdir}/interface"></fileset>
+    </copy>
+	</target>
 
-	<target name="jar" depends="compile" description="Creates the extension jar">
+	<!-- <target name="jar" depends="compile" description="Creates the extension jar">
         <jar destfile="${build.targetdir}/jar/chrome/${build.mozilla.firefox.extension.name}.jar"
         	 basedir="${build.targetdir}/chrome"
         	 includes="**"/>
@@ -114,34 +131,37 @@
 		</copy>
 		
 		<antcall target="jar-app-specific"/>
-    </target>
+    </target>-->
 
-	<target name="jar-app-specific" if="build.mozilla.application.srcdir" description="If required, copies application specific src over the Firefox src">
+	<!-- <target name="jar-app-specific" if="build.mozilla.application.srcdir" description="If required, copies application specific src over the Firefox src">
 		<echo message="Adding application specific elements to jar dir"/>
 		
 		<copy todir="${build.targetdir}/jar/" filtering="true" overwrite="true">
 			<fileset dir="${build.mozilla.application.srcdir}" includes="*.*"/>
 		</copy>
-	</target>
+	</target> -->
 
     <!-- ================================= 
           target: default              
          ================================= -->
-	<target name="xpi" depends="jar" description="Creates the xpi file that includes the extension jar and install scripts">
+	<!-- <target name="xpi" depends="jar" description="Creates the xpi file that includes the extension jar and install scripts"> -->
+	<target name="xpi" depends="aggregate" description="Creates the xpi file that includes the extension jar and install scripts">
 		<!-- Zip the jar file and the installation scripts into the xpi file -->
 		<zip destfile="${build.targetdir}/xpi/${build.mozilla.firefox.extension.name}-${build.version}.xpi">
-			<!-- <fileset dir="${build.targetdir}/jar" includes="*.*"/> -->
-			<fileset dir="${build.targetdir}/jar" includes="**/*.*"/>
+			<!-- <fileset dir="${build.targetdir}/jar" includes="*.*"/>
+			<fileset dir="${build.targetdir}/unpacked" includes="**/*.*"/> -->
+			<fileset dir="${build.targetdir}/unpacked"/>
 		</zip>
     </target>
 
 	<!-- Deploy the contents of the src directory to the extension directory -->
-	<target name="debug" depends="jar">
+	<!-- <target name="debug" depends="jar"> -->
+	<!-- <target name="debug" depends="aggregate">
 		<echo>Debug deployment</echo>
 		
 	    <copy todir="${build.mozilla.firefox.extension.home}/${build.mozilla.firefox.extension.uuid}" overwrite="true">
 	      <fileset dir="${build.targetdir}/jar"/>
 	    </copy>           
 		
-	</target>
+	</target> -->
 </project>
