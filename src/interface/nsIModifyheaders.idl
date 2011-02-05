@@ -11,7 +11,6 @@ interface nsIModifyheaders : nsISupports
 	attribute boolean windowOpen;
 
     void getHeaders(out unsigned long count, [retval, array, size_is(count)] out mhIHeader headers);
-    string getHeadersAsXML(in string headerIndices);
     void addHeader(in string name, in string value, in string action, in string comment, in boolean enabled);
     void setHeader(in unsigned long index, in string name, in string value, in string action, in string comment, in boolean enabled);
     boolean isHeaderEnabled(in unsigned long index);
