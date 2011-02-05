@@ -68,10 +68,6 @@ if (!ModifyHeaders.Service) {
 	ModifyHeaders.Service = function () {
 		this.headers = new Array();
 		this.preferencesUtil = new ModifyHeaders.PreferencesUtil();
-		
-		// Observer service is used to notify observing ModifyHeadersProxy objects that the headers have been updated
-		this.observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-		
 		this.initiated = false;
 		this.winOpen = false;
 	};
