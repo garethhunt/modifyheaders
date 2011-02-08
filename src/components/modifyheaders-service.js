@@ -38,25 +38,25 @@ if (!ModifyHeaders.Header) {
 		
 		QueryInterface: XPCOMUtils.generateQI([Components.interfaces.mhIHeader]),
 
-		get action() { return this.aAction },
-		set action(action) { this.aAction = action },
+		get action () { return this.aAction },
+		set action (action) { this.aAction = action },
 		
-		get name() { return this.aName },
-		set name(name) { this.aName = name },
+		get name () { return this.aName },
+		set name (name) { this.aName = name },
 		
-		get value() { return this.aValue },
-		set value(value) { this.aValue = value },
+		get value () { return this.aValue },
+		set value (value) { this.aValue = value },
 		 
-		get comment() { return this.aComment },
-		set comment(comment) { this.aComment = comment },
+		get comment () { return this.aComment },
+		set comment (comment) { this.aComment = comment },
 		
-		get enabled() { return this.aEnabled },
-		set enabled(enabled) { this.aEnabled = enabled },
+		get enabled () { return this.aEnabled },
+		set enabled (enabled) { this.aEnabled = enabled },
 		
-		get selected() { return this.aSelected },
-		set selected(selected) { this.aSelected = selected },
+		get selected () { return this.aSelected },
+		set selected (selected) { this.aSelected = selected },
 		
-		equals: function(obj) {
+		equals: function (obj) {
 			return (this.action.toLowerCase() == obj.action.toLowerCase() && this.name.toLowerCase() == obj.name.toLowerCase() && this.value.toLowerCase() == obj.value.toLowerCase()) ? true : false;
 		}
 	};
@@ -66,7 +66,9 @@ if (!ModifyHeaders.Service) {
 	Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 	
 	ModifyHeaders.Service = function () {
-		this.headers = new Array();
+		this.configuration = {
+			headers: []
+		};
 		this.preferencesUtil = new ModifyHeaders.PreferencesUtil();
 		this.initiated = false;
 		this.winOpen = false;
@@ -79,77 +81,134 @@ if (!ModifyHeaders.Service) {
 		
 		QueryInterface: XPCOMUtils.generateQI([Components.interfaces.nsIModifyheaders]),
 		
-		get count() {
+		get count () {
 			if (!this.initiated) {
 				this.init();
 			}
-			return this.headers.length;
+			return this.configuration.headers.length;
 		},
-		set count(c) { /* Do nothing */ },
+		set count (c) { /* Do nothing */ },
 		
-		get alwaysOn() {
+		get alwaysOn () {
 			return this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefAlwaysOn);
 		},
 		
-		set alwaysOn(alwaysOn) {
+		set alwaysOn (alwaysOn) {
 			this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefAlwaysOn, alwaysOn);
 		},
 		
-		get openAsTab() {
+		get openAsTab () {
 			return this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefOpenAsTab);
 		},
 		 
-		set openAsTab(openAsTab) {
+		set openAsTab (openAsTab) {
 			this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefOpenAsTab, openAsTab);
 		},
 		
-		get windowOpen() {
+		get windowOpen () {
 			return this.winOpen;
 		},
 		
-		set windowOpen(winOpen) {
+		set windowOpen (winOpen) {
 			this.winOpen = winOpen;
 		},
 		
 		// Load the headers from the preferences
-		init: function() {
-			this.headers = new Array();
+		init: function () {
+			if (!this.initiated) {
+				var profileDir = Components.classes["@mozilla.org/file/directory_service;1"].
+				getService(Components.interfaces.nsIProperties).
+				get("ProfD", Components.interfaces.nsIFile);
+				
+				// Get the modifyheaders configuration file
+				this.configFile = this.initConfigFile();
+				
+				// Load the configuration data
+				if (this.configFile.exists()) {
+					try {
+						var data = new String();
+						var fiStream = Components.classes["@mozilla.org/network/file-input-stream;1"].
+							createInstance(Components.interfaces.nsIFileInputStream);
+						var siStream = Components.classes["@mozilla.org/scriptableinputstream;1"].
+							createInstance(Components.interfaces.nsIScriptableInputStream);
+						fiStream.init(this.configFile, 1, 0, false);
+						siStream.init(fiStream);
+						data += siStream.read(-1);
+						siStream.close();
+						fiStream.close();
+						this.configuration = JSON.parse(data);
+					} catch(e) {
+						Components.utils.reportError(e);
+					}
+				}
+				
+				// Attempt to migrate headers if none found before
+				if (this.configuration.headers.length == 0 && !this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefMigratedHeaders)) {
+					this.migrateHeaders();
+				}
+				
+				this.initiated = true;
+			}
+		},
 		
-			// Load the headers from the preferences
-			var enabled;
-			var action;
-			var name;
-			var value;
-			var comment;
+		initConfigFile: function () {
+			dump("\nEntered ModifyHeaders.initConfigFile()");
+	        // Get the configuration file
+			var theFile = null;
+			
+	        try {
+	            theFile = Components.classes["@mozilla.org/file/directory_service;1"].
+	                     getService(Components.interfaces.nsIProperties).
+	                     get("ProfD", Components.interfaces.nsIFile);
+	            theFile.append("modifyheaders.conf");
+	        } catch (e) {
+	            Components.utils.reportError(e);
+	        }
+
+	        return theFile;
+	        dump("\nExiting ModifyHeaders.initConfigFile()");
+		},
 		
-			// Read preferences into headersArray
+		migrateHeaders: function () {
+			// Read the preferences
+			var headers = new Array();
 			var headerCount = this.preferencesUtil.getPreference("int", this.preferencesUtil.prefHeaderCount);
 		
 			for (var i=0; i < headerCount; i++) {
-				name = this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderName + i);
-				value = this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderValue + i);
-				action = this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderAction + i);
-				comment = this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderComment + i);
-				enabled = this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefHeaderEnabled + i);
-		
-				this.addHeader(name, value, action, comment, enabled);
+				var header = {
+					name: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderName + i),
+					value: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderValue + i),
+					action: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderAction + i),
+					comment: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderComment + i),
+					enabled: this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefHeaderEnabled + i)
+				};
+				
+				// Write to headers array
+				headers.push(header);
 			}
 			
-			this.initiated = true;
+			// Write to configuration
+			this.configuration.headers = headers;
+			
+			// Write to file
+			this.saveConfiguration();
+			
+			// Set migrated preference
+			this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefMigratedHeaders, true)
 		},
 		  
-		getHeader: function(index) {
+		getHeader: function (index) {
 			var objHeader = Components.classes["@modifyheaders.mozdev.org/header;1"].createInstance(Components.interfaces.mhIHeader);
-			objHeader.action = this.headers[index]["action"];
-			objHeader.name = this.headers[index]["name"];
-			objHeader.value = this.headers[index]["value"];
-			objHeader.comment = this.headers[index]["comment"];
-			objHeader.enabled = this.headers[index]["enabled"];
+			objHeader.action = this.configuration.headers[index]["action"];
+			objHeader.name = this.configuration.headers[index]["name"];
+			objHeader.value = this.configuration.headers[index]["value"];
+			objHeader.comment = this.configuration.headers[index]["comment"];
+			objHeader.enabled = this.configuration.headers[index]["enabled"];
 			
 			return objHeader;
 		}, 
 		
-		getHeaders: function(count) {
+		getHeaders: function (count) {
 			var objHeader = null;
 			var aHeaders = new Array();
 			
@@ -163,75 +222,104 @@ if (!ModifyHeaders.Service) {
 		},
 		
 		// Adds a header to the headers array
-		addHeader: function(name, value, action, comment, enabled) {
+		addHeader: function (name, value, action, comment, enabled) {
 			// TODO Validate the arguments
 			
 			// Add the header to the Array
-			var header = new Array();
+			/* var header = new Array();
 			header["enabled"] = enabled;
 			header["action"]  = action;
 			header["name"]    = name;
 			header["value"]   = value;
-			header["comment"] = comment;
+			header["comment"] = comment; */
+			var header = {
+				enabled: enabled,
+				action: action,
+				name: name,
+				value: value,
+				comment: comment
+			};
 			
-			this.headers.push(header);
+			this.configuration.headers.push(header);
 			
-			this.savePreferences();
+			//this.savePreferences();
+			this.saveConfiguration();
 		},
 		
-		setHeader: function(index, name, value, action, comment, enabled) {
+		setHeader: function (index, name, value, action, comment, enabled) {
 			// TODO Validate the arguments
 			
 			// Update the values
-			this.headers[index]["enabled"] = enabled;
-			this.headers[index]["action"]  = action;
-			this.headers[index]["name"]    = name;
-			this.headers[index]["value"]   = value;
-			this.headers[index]["comment"] = comment;
+			this.configuration.headers[index]["enabled"] = enabled;
+			this.configuration.headers[index]["action"]  = action;
+			this.configuration.headers[index]["name"]    = name;
+			this.configuration.headers[index]["value"]   = value;
+			this.configuration.headers[index]["comment"] = comment;
 			
-			this.savePreferences();
+			//this.savePreferences();
+			this.saveConfiguration();
 		},
 		
 		// Remove the header with the specified index
-		removeHeader: function(index) {
-			this.headers.splice(index, 1);
-			this.savePreferences();
+		removeHeader: function (index) {
+			this.configuration.headers.splice(index, 1);
+			//this.savePreferences();
+			this.saveConfiguration();
 		},
 		
-		isHeaderEnabled: function(index) {
-			return this.headers[index]["enabled"];
+		isHeaderEnabled: function (index) {
+			return this.configuration.headers[index]["enabled"];
 		},
 		
-		setHeaderEnabled: function(index, enabled) {
-			this.headers[index]["enabled"] = enabled;
-			this.savePreferences();
+		setHeaderEnabled: function (index, enabled) {
+			this.configuration.headers[index]["enabled"] = enabled;
+			//this.savePreferences();
+			this.saveConfiguration();
 		},
 		
-		getHeaderAction: function(index) {
-			return this.headers[index]["action"];
+		getHeaderAction: function (index) {
+			return this.configuration.headers[index]["action"];
 		},
 		
-		getHeaderName: function(index) {
-			return this.headers[index]["name"];
+		getHeaderName: function (index) {
+			return this.configuration.headers[index]["name"];
 		},
 		
-		getHeaderValue: function(index) {
-			return this.headers[index]["value"];
+		getHeaderValue: function (index) {
+			return this.configuration.headers[index]["value"];
 		},
 		
-		getHeaderComment: function(index) {
-			return this.headers[index]["comment"];
+		getHeaderComment: function (index) {
+			return this.configuration.headers[index]["comment"];
 		},
 		
-		switchHeaders: function(index1, index2) {
-			var header = this.headers[index1];
-			this.headers[index1] = this.headers[index2];
-			this.headers[index2] = header;
-			this.savePreferences();
+		switchHeaders: function (index1, index2) {
+			var header = this.configuration.headers[index1];
+			this.configuration.headers[index1] = this.headers[index2];
+			this.configuration.headers[index2] = header;
+			//this.savePreferences();
+			this.saveConfiguration();
+		},
+		
+		// Save configuration file
+		saveConfiguration: function () {
+			var data = JSON.stringify(this.configuration);
+
+	        try {
+	            var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].
+	                createInstance(Components.interfaces.nsIFileOutputStream);
+	            var flags = 0x02 | 0x08 | 0x20; // wronly | create | truncate
+	            foStream.init(this.configFile, flags, 0664, 0);
+	            foStream.write(data, data.length);
+	            foStream.close();
+	    	} catch (e) {
+	    		// TODO Work out a way of handling or reporting the error
+	            Components.utils.reportError(e);
+		    }
 		},
 		
 		// Persist the headers to the preferences.
-		savePreferences: function() {
+		/*savePreferences: function () {
 			// Only save headers if the service has been initiated
 			if (this.initiated) {
 				// TODO Clear the preferences first
@@ -249,10 +337,10 @@ if (!ModifyHeaders.Service) {
 				
 				this.preferencesUtil.setPreference("int", this.preferencesUtil.prefHeaderCount, this.count);
 			}
-		},
+		},*/
 
 		// Clear the headers from their preferences
-		clearPreferences: function() {
+		/*clearPreferences: function () {
 			// Loop over the headers
 			for (var i=0; i < this.count; i++) {
 				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderAction + i);
@@ -261,7 +349,7 @@ if (!ModifyHeaders.Service) {
 				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderValue + i);
 				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderComment + i);
 			}
-		}
+		}*/
 	};
 }
 
@@ -285,7 +373,7 @@ if (!ModifyHeaders.Proxy) {
 		}],
 					
 		// nsIObserver interface method
-		observe: function(subject, topic, data) {
+		observe: function (subject, topic, data) {
 			if (topic == 'http-on-modify-request') {
 				subject.QueryInterface(Components.interfaces.nsIHttpChannel);
 				
@@ -331,18 +419,19 @@ if (!ModifyHeaders.PreferencesUtil) {
 	ModifyHeaders.PreferencesUtil = function () {
 		this.prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
 		this.prefService = this.prefService.getBranch("");
-		this.prefAlwaysOn      = "modifyheaders.config.alwaysOn";
-		this.prefHeaderCount   = "modifyheaders.headers.count";
-		this.prefHeaderAction  = "modifyheaders.headers.action";
-		this.prefHeaderEnabled = "modifyheaders.headers.enabled";
-		this.prefHeaderName    = "modifyheaders.headers.name";
-		this.prefHeaderValue   = "modifyheaders.headers.value";
-		this.prefHeaderComment = "modifyheaders.headers.comment";
-		this.prefOpenAsTab     = "modifyheaders.config.openNewTab";
+		this.prefAlwaysOn        = "modifyheaders.config.alwaysOn";
+		this.prefHeaderCount     = "modifyheaders.headers.count";
+		this.prefHeaderAction    = "modifyheaders.headers.action";
+		this.prefHeaderEnabled   = "modifyheaders.headers.enabled";
+		this.prefHeaderName      = "modifyheaders.headers.name";
+		this.prefHeaderValue     = "modifyheaders.headers.value";
+		this.prefHeaderComment   = "modifyheaders.headers.comment";
+		this.prefMigratedHeaders = "modifyheaders.config.migrated";
+		this.prefOpenAsTab       = "modifyheaders.config.openNewTab";
 	};
 	
 	ModifyHeaders.PreferencesUtil.prototype = {
-		getPreference: function(type, name) {
+		getPreference: function (type, name) {
 			var prefValue;
 			
 			if (this.prefService.prefHasUserValue(name)) {
@@ -372,7 +461,7 @@ if (!ModifyHeaders.PreferencesUtil) {
 		},
 
 		// Convenience method to set a user preference
-		setPreference: function(type, name, value) {
+		setPreference: function (type, name, value) {
 			if (type=='bool') {
 				this.prefService.setBoolPref(name, value);
 			} else if (type=='char') {
@@ -382,7 +471,7 @@ if (!ModifyHeaders.PreferencesUtil) {
 			}
 		},
 		
-		deletePreference: function(name) {
+		deletePreference: function (name) {
 			this.prefService.clearUserPref(name);
 		}
 	};
