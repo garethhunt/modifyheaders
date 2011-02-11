@@ -63,7 +63,7 @@
 <!ENTITY modifyheaders.label.import.selectheaders "Select headers">
 <!ENTITY modifyheaders.label.version "Version">
 <!ENTITY modifyheaders.label.contribute "Make a contribution">
-<!ENTITY modifyheaders.label.contribute.description "If you wish to show your support, please consider making a contribution.  This helps to cover the small costs incurred.">
+<!ENTITY modifyheaders.label.contribute.description "If you wish to show your support, please consider making a contribution.  This helps to cover the costs incurred.">
 <!ENTITY modifyheaders.label.headers "Headers">
 <!ENTITY modifyheaders.label.icons1 "David Ferreira">
 <!ENTITY modifyheaders.label.icons2 "wpzoom.com">
