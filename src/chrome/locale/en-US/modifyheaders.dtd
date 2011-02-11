@@ -28,6 +28,7 @@
 <!ENTITY modifyheaders.caption.contribute "Contribute">
 <!ENTITY modifyheaders.caption.options.general "General">
 <!ENTITY modifyheaders.caption.options.export-import "Export/Import">
+<!ENTITY modifyheaders.caption.thankyou "Thank You">
 
 <!-- Check box -->
 <!ENTITY modifyheaders.checkbox.selectall "Select All">
@@ -62,8 +63,11 @@
 <!ENTITY modifyheaders.label.import.selectheaders "Select headers">
 <!ENTITY modifyheaders.label.version "Version">
 <!ENTITY modifyheaders.label.contribute "Make a contribution">
-<!ENTITY modifyheaders.label.contribute.description "Click the link below to make a contribution for the addon:">
+<!ENTITY modifyheaders.label.contribute.description "If you wish to show your support, please consider making a contribution.  This helps to cover the small costs incurred.">
 <!ENTITY modifyheaders.label.headers "Headers">
+<!ENTITY modifyheaders.label.icons1 "David Ferreira">
+<!ENTITY modifyheaders.label.icons2 "wpzoom.com">
+<!ENTITY modifyheaders.label.icons.description "Thank you to wpzoom and David Ferreira for the fantastic icons.">
 <!ENTITY modifyheaders.label.options "Options">
 <!ENTITY modifyheaders.label.options.alwayson "Always On">
 <!ENTITY modifyheaders.label.options.openintab "Open in Tab">
@@ -93,6 +97,8 @@
 
 <!-- URLs -->
 <!ENTITY modifyheaders.url.homepage "http://www.garethhunt.com/modifyheaders/">
+<!ENTITY modifyheaders.url.icons1 "http://cargocollective.com/davidferreira">
+<!ENTITY modifyheaders.url.icons2 "http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/">
 <!ENTITY modifyheaders.url.defects "http://modifyheaders.mozdev.org/bugs.html">
 <!ENTITY modifyheaders.url.twitter "http://twitter.com/modifyheaders">
 <!ENTITY modifyheaders.url.contribute "https://addons.mozilla.org/en-US/firefox/addon/modify-headers/">

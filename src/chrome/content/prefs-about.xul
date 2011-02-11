@@ -20,27 +20,81 @@
       <!-- <image src="chrome://modifyheaders/content/logo.gif" width="64" height="64"/> -->
       <!-- <separator flex="1" orient="horizontal"/> -->
       <caption>&modifyheaders.caption.about;</caption>
-      <description class="title">&modifyheaders.label.version;: &modifyheaders.extension.version;</description>
-      <description class="title">&modifyheaders.label.author;: &modifyheaders.author.name;</description>
+      <hbox>
+        <vbox>
+          <image src="chrome://modifyheaders/content/icons/star.png" />
+        </vbox>
+        <separator orient="vertical"/>
+        <vbox>
+          <description class="title">&modifyheaders.label.version;: &modifyheaders.extension.version;</description>
+          <description class="title">&modifyheaders.label.author;: &modifyheaders.author.name;</description>
+        </vbox>
+      </hbox>
       
       <separator flex="1" orient="horizontal"/>
-      <description value="&modifyheaders.label.homepage;" class="title"/>
-      <label class="text-link" href="&modifyheaders.url.homepage;" value="&modifyheaders.url.homepage;"/>
+      <hbox>
+        <vbox>
+          <image src="chrome://modifyheaders/content/icons/globe.png" />
+        </vbox>
+        <separator orient="vertical"/>
+        <vbox>
+          <description value="&modifyheaders.label.homepage;" class="title"/>
+          <label class="text-link" href="&modifyheaders.url.homepage;" value="&modifyheaders.url.homepage;"/>
+        </vbox>
+      </hbox>
       
       <separator flex="1" orient="horizontal"/>
-      <description class="title">&modifyheaders.label.defects.description;</description>
-      <label class="text-link" href="&modifyheaders.url.defects;" value="&modifyheaders.url.defects;"/>
+      <hbox>
+        <vbox>
+          <image src="chrome://modifyheaders/content/icons/bug.png" />
+        </vbox>
+        <separator orient="vertical"/>
+        <vbox>
+          <description class="title">&modifyheaders.label.defects.description;</description>
+          <label class="text-link" href="&modifyheaders.url.defects;" value="&modifyheaders.url.defects;"/>
+        </vbox>
+      </hbox>
       
       <separator flex="1" orient="horizontal"/>
-      <description class="title">&modifyheaders.label.twitter.description;</description>
-      <label class="text-link" href="&modifyheaders.url.twitter;" value="&modifyheaders.url.twitter;"/>
+      <hbox>
+        <vbox>
+          <image src="chrome://modifyheaders/content/icons/twitter.png" />
+        </vbox>
+        <separator orient="vertical"/>
+        <vbox>
+          <description class="title">&modifyheaders.label.twitter.description;</description>
+          <label class="text-link" href="&modifyheaders.url.twitter;" value="&modifyheaders.url.twitter;"/>
+        </vbox>
+      </hbox>
     </groupbox>
     
     <groupbox>
       <caption>&modifyheaders.caption.contribute;</caption>
-      <description class="title">&modifyheaders.label.contribute.description;</description>
-      <label class="text-link" href="&modifyheaders.url.contribute;" value="&modifyheaders.label.contribute;"/>
+      <hbox>
+        <vbox>
+          <image src="chrome://modifyheaders/content/icons/thumbs-up.png" />
+        </vbox>
+        <separator orient="vertical"/>
+        <vbox>
+          <description class="title">&modifyheaders.label.contribute.description;</description>
+          <label class="text-link" href="&modifyheaders.url.contribute;" value="&modifyheaders.label.contribute;"/>
+        </vbox>
+      </hbox>
     </groupbox>
 
+    <groupbox>
+      <caption>&modifyheaders.caption.thankyou;</caption>
+      <hbox>
+        <vbox>
+          <image src="chrome://modifyheaders/content/icons/badge.png" />
+        </vbox>
+        <separator orient="vertical"/>
+        <vbox>
+          <description class="title">&modifyheaders.label.icons.description;</description>
+          <label class="text-link" href="&modifyheaders.url.icons1;" value="&modifyheaders.label.icons1;"/>
+          <label class="text-link" href="&modifyheaders.url.icons2;" value="&modifyheaders.label.icons2;"/>
+        </vbox>
+      </hbox>
+    </groupbox>
   </prefpane>
 </overlay>
