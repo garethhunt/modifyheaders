@@ -22,6 +22,9 @@
         insertbefore="modifyheaders-window-sizetocontent"
         src="chrome://modifyheaders/content/prefs-about.xul" flex="1"/>
     
+    <stringbundleset>
+      <stringbundle id="modifyheadersStringResources" src="chrome://modifyheaders/locale/modifyheaders.properties"/>
+    </stringbundleset>
     <command id="addHeader" oncommand="ModifyHeaders.addHeader();"/>
     <command id="editHeader" oncommand="ModifyHeaders.editHeader();"/>
     <command id="deleteHeader" oncommand="ModifyHeaders.deleteHeader();"/>

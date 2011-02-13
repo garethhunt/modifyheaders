@@ -2,81 +2,78 @@
 <!DOCTYPE window SYSTEM "chrome://modifyheaders/locale/modifyheaders.dtd">
 <overlay id="modifyheaders-headers-overlay"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
   <prefpane id="paneHeaders" label="&modifyheaders.label.headers;">
     <preferences/>
-    
-  <vbox flex="1">
-    <hbox>
-      <spacer flex="1"/>
-      <button label="&modifyheaders.button.help;" command="openHelp" flex="0"/>
-    </hbox>
-    <vbox flex="1">
-      <groupbox>
-        <hbox>
-          <menulist id="action-menulist" tooltiptext="&modifyheaders.tooltip.action;">
-            <menupopup onpopuphidden="ModifyHeaders.actionSelected()">
-              <menuitem label="" value=""/>
-              <menuitem label="&modifyheaders.menuitem.action.add;" value="&modifyheaders.menuitem.action.add;"/>
-              <menuitem label="&modifyheaders.menuitem.action.modify;" value="&modifyheaders.menuitem.action.modify;"/>
-              <menuitem label="&modifyheaders.menuitem.action.filter;" value="&modifyheaders.menuitem.action.filter;"/>
-            </menupopup>
-          </menulist>
-          <textbox id="headername-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.name;"/>
-          <textbox id="headervalue-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.value;"/>
-          <textbox id="headercomment-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.comment;"/>
-          <button id="add-header-button" label="&modifyheaders.button.headers.add;" command="addHeader" flex="0" hidden="false" disabled="true"/>
-          <button id="save-header-button" label="&modifyheaders.button.headers.save;" command="saveHeader" flex="0" hidden="true"/>
-          <button id="reset-form-button" label="&modifyheaders.button.headers.reset;" command="resetHeaderForm" flex="0" hidden="false"/>
-        </hbox>
-      </groupbox>
 
-      <!-- List of headers that can be enabled/disabled -->
-      <hbox flex="1" xxonkeypress="ModifyHeaders.listKeyControl(event);">
-        <vbox flex="1">
-          <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1" ondblclick="ModifyHeaders.enableHeader();">
-            <treecols>
-              <treecol id="actioncol" label="&modifyheaders.treecol.action;" fixed="true" ignoreincolumnpicker="true"/>
-              <treecol id="namecol" label="&modifyheaders.treecol.name;" flex="1" persist="width" ignoreincolumnpicker="true"/>
-              <splitter class="tree-splitter" />
-              <treecol id="valuecol" label="&modifyheaders.treecol.value;" flex="1" persist="width" ignoreincolumnpicker="true"/>
-              <splitter class="tree-splitter" />
-              <treecol id="commentcol" label="&modifyheaders.treecol.comment;" flex="1" persist="width" ignoreincolumnpicker="true"/>
-              <splitter class="tree-splitter" />
-              <treecol id="enabledcol" width="20" fixed="true" ignoreincolumnpicker="true"/>
-              <!-- sbcol provides space for a scrollbar if one appears -->
-              <treecol id="sbcol" width="14" fixed="true" ignoreincolumnpicker="true"/>
-            </treecols>
-            <treechildren flex="1"/>
-          </tree>
-        </vbox>
-        
-        <vbox>
-          <button label="&modifyheaders.button.edit;" command="editHeader" flex="0"/>
-          <button label="&modifyheaders.button.delete;" command="deleteHeader" flex="0"/>
-          <separator orient="horizontal"/>
-          <button label="&modifyheaders.button.moveup;" command="moveRowUp"/>
-          <button label="&modifyheaders.button.movedown;" command="moveRowDown"/>
-          <separator orient="horizontal"/>
-          <button label="&modifyheaders.button.enable;" command="enableHeader" flex="0"/>
-          <button label="&modifyheaders.button.enableall;" command="enableAllHeaders" flex="0"/>
-          <button label="&modifyheaders.button.disableall;" command="disableAllHeaders" flex="0"/>
-          <separator orient="horizontal"/>
+    <vbox flex="1">
+      <vbox flex="1">
+        <groupbox>
           <hbox>
-            <vbox>
-              <image src="chrome://modifyheaders/content/enabled.gif"/>
-            </vbox>
-            <description flex="1" value="Enabled"/>
+            <menulist id="action-menulist" tooltiptext="&modifyheaders.tooltip.action;">
+              <menupopup onpopuphidden="ModifyHeaders.actionSelected()">
+                <menuitem label="" value="" />
+                <menuitem label="&modifyheaders.menuitem.action.add;" value="&modifyheaders.menuitem.action.add;" />
+                <menuitem label="&modifyheaders.menuitem.action.modify;" value="&modifyheaders.menuitem.action.modify;" />
+                <menuitem label="&modifyheaders.menuitem.action.filter;" value="&modifyheaders.menuitem.action.filter;" />
+              </menupopup>
+            </menulist>
+            <textbox id="headername-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.name;" />
+            <textbox id="headervalue-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.value;" />
+            <textbox id="headercomment-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.comment;" />
+            <button id="add-header-button" label="&modifyheaders.button.headers.add;" command="addHeader" flex="0" hidden="false" disabled="true" />
+            <button id="save-header-button" label="&modifyheaders.button.headers.save;" command="saveHeader" flex="0" hidden="true" />
+            <button id="reset-form-button" label="&modifyheaders.button.headers.reset;" command="resetHeaderForm" flex="0" hidden="false" />
           </hbox>
-          <hbox>
-            <vbox>
-              <image src="chrome://modifyheaders/content/disabled.gif"/>
-            </vbox>
-            <description value="Disabled"/>
-          </hbox>
-          <spacer flex="1"/>
-        </vbox>
-      </hbox>
+        </groupbox>
+
+        <!-- List of headers that can be enabled/disabled -->
+        <hbox flex="1" xxonkeypress="ModifyHeaders.listKeyControl(event);">
+          <vbox flex="1">
+            <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1" ondblclick="ModifyHeaders.enableHeader();">
+              <treecols>
+                <treecol id="actioncol" label="&modifyheaders.treecol.action;" fixed="true" ignoreincolumnpicker="true" />
+                <treecol id="namecol" label="&modifyheaders.treecol.name;" flex="1" persist="width" ignoreincolumnpicker="true" />
+                <splitter class="tree-splitter" />
+                <treecol id="valuecol" label="&modifyheaders.treecol.value;" flex="1" persist="width" ignoreincolumnpicker="true" />
+                <splitter class="tree-splitter" />
+                <treecol id="commentcol" label="&modifyheaders.treecol.comment;" flex="1" persist="width" ignoreincolumnpicker="true" />
+                <splitter class="tree-splitter" />
+                <treecol id="enabledcol" width="20" fixed="true" ignoreincolumnpicker="true" />
+                <!-- sbcol provides space for a scrollbar if one appears -->
+                <treecol id="sbcol" width="14" fixed="true" ignoreincolumnpicker="true" />
+              </treecols>
+              <treechildren flex="1" />
+            </tree>
+          </vbox>
+
+          <vbox>
+            <button label="&modifyheaders.button.edit;" command="editHeader" flex="0" />
+            <button label="&modifyheaders.button.delete;" command="deleteHeader" flex="0" />
+            <separator orient="horizontal" />
+            <button label="&modifyheaders.button.moveup;" command="moveRowUp" />
+            <button label="&modifyheaders.button.movedown;" command="moveRowDown" />
+            <separator orient="horizontal" />
+            <button label="&modifyheaders.button.enable;" command="enableHeader" flex="0" />
+            <button label="&modifyheaders.button.enableall;" command="enableAllHeaders" flex="0" />
+            <button label="&modifyheaders.button.disableall;" command="disableAllHeaders" flex="0" />
+            <separator orient="horizontal" />
+            <hbox>
+              <vbox>
+                <image src="chrome://modifyheaders/content/enabled.gif" />
+              </vbox>
+              <description flex="1" value="Enabled" />
+            </hbox>
+            <hbox>
+              <vbox>
+                <image src="chrome://modifyheaders/content/disabled.gif" />
+              </vbox>
+              <description value="Disabled" />
+            </hbox>
+            <spacer flex="1" />
+          </vbox>
+        </hbox>
+      </vbox>
     </vbox>
-  </vbox>
   </prefpane>
 </overlay>

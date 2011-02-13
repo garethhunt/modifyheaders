@@ -33,14 +33,6 @@ prefwindow {
   -moz-binding: url("chrome://modifyheaders/content/bindings/bindings.xml#prefwindow");
 }
 
-/*.paneSelector {
-  list-style-image: url("chrome://browser/skin/preferences/Options.png");
-}
-
-radio[pane=paneAbout] {
-  -moz-image-region: rect(0px, 32px, 32px, 0px);
-} */
-
 radio[pane=paneHeaders] {
   list-style-image:url("chrome://modifyheaders/content/icons/user.png");
 }
@@ -49,4 +41,11 @@ radio[pane=paneOptions] {
 }
 radio[pane=paneAbout] {
   list-style-image:url("chrome://modifyheaders/content/icons/info.png");
-},
+}
+radio#modifyheaders-help-button {
+	text-align: end;
+	list-style-image:url("chrome://modifyheaders/content/icons/first-aid-kit.png");
+  -moz-binding: url(chrome://global/content/bindings/preferences.xml#panebutton);
+  -moz-box-orient: vertical;
+  -moz-box-align: center
+}

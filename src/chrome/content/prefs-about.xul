@@ -4,17 +4,7 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   
   <prefpane id="paneAbout" label="About">
-    <preferences>
-    </preferences>
-    <stringbundleset>
-      <stringbundle id="stringResources"
-        src="chrome://modifyheaders/locale/modifyheaders.properties"/>
-    </stringbundleset>
-
-    <hbox>
-      <spacer flex="1"/>
-      <button label="&modifyheaders.button.help;" command="openHelp" flex="0"/>
-    </hbox>
+    <preferences/>
     
     <groupbox>
       <!-- <image src="chrome://modifyheaders/content/logo.gif" width="64" height="64"/> -->

@@ -8,15 +8,7 @@
       <preference id="always-on" name="modifyheaders.config.alwaysOn" type="bool" />
       <preference id="open-as-tab" name="modifyheaders.config.openNewTab" type="bool" />
     </preferences>
-    <stringbundleset>
-      <stringbundle id="stringResources"
-        src="chrome://modifyheaders/locale/modifyheaders.properties"/>
-    </stringbundleset>
 
-    <hbox>
-      <spacer flex="1"/>
-      <button label="&modifyheaders.button.help;" command="openHelp" flex="0"/>
-    </hbox>
     <groupbox>
       <caption label="&modifyheaders.caption.options.general;"/>
       <checkbox id="modifyheaders-always-on" label="&modifyheaders.label.options.alwayson;" preference="always-on" />

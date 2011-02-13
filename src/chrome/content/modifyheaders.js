@@ -121,6 +121,20 @@ var ModifyHeaders = {
     this.addButton = document.getElementById("add-header-button");
     this.saveButton = document.getElementById("save-header-button");
     
+    // Add help radio button to toolbar radiogroup
+    // TODO Use an overlay or XBL
+    var helpRadio = document.createElement("radio");
+    helpRadio.setAttribute("id", "modifyheaders-help-button");
+    helpRadio.setAttribute("label", document.getElementById("modifyheadersStringResources").getString("modifyheaders.button.help"));
+    helpRadio.setAttribute("oncommand", "ModifyHeaders.openHelp(); return false;");
+    
+    var helpSeparator = document.createElement("separator");
+    helpSeparator.setAttribute("class", "thin");
+    helpSeparator.setAttribute("orient", "vertical");
+    
+    document.documentElement._selector.appendChild(helpSeparator);
+    document.documentElement._selector.appendChild(helpRadio);
+    
     // Set this view for the treeBoxObject
     this.headersTree.treeBoxObject.view = this;
     this.initialized = true;

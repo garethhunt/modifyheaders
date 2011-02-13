@@ -1,7 +1,7 @@
 #
 # build.debug - Copies the extension code to the correct extension directory in your Firefox profile
 #
-build.version=0.6.10beta1
+build.version=0.6.10
 
 build.debug=true
 build.basedir=.

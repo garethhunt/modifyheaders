@@ -17,7 +17,6 @@
 <!ENTITY modifyheaders.button.headers.add "Add">
 <!ENTITY modifyheaders.button.headers.reset "Reset">
 <!ENTITY modifyheaders.button.headers.save "Save">
-<!ENTITY modifyheaders.button.help "Open Help">
 <!ENTITY modifyheaders.button.export "Export Headers">
 <!ENTITY modifyheaders.button.import "Import Headers">
 <!ENTITY modifyheaders.button.movedown "Move Down">
