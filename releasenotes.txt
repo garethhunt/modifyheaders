@@ -1,6 +1,23 @@
 -- Release Notes --
 
-Release 0.6.8
+Release 0.6.10, 12 February 2011
+
+* Added support for Seamonkey 2.0.
+* Fixed defect 32612: Cannot resize columns in header window.
+* Modified all XUL files to use entities in preparation for localization.
+* Added icons to make UI more attractive.
+
+--
+
+Release 0.6.9, 12 January 2011
+
+* Two problems introduce with version 0.6.8 have been fixed:
+ 1. Unable to resize the Modify Headers window.
+ 2. Unable to open Modify Headers in a new tab.
+
+--
+
+Release 0.6.8, 6 January 2011
 
 * Added support for Firefox 4.0
 * Improved header export/import
