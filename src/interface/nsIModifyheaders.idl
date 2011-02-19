@@ -20,5 +20,6 @@ interface nsIModifyheaders : nsISupports
     string getHeaderComment(in unsigned long index);
     void setHeaderEnabled(in unsigned long index, in boolean enabled);
     void removeHeader(in unsigned long index);
+    void moveHeader(in unsigned long sourceRowID, in unsigned long targetRowID, in short orientation);
     void switchHeaders(in unsigned long index1, in unsigned long index2);
 };

@@ -49,3 +49,7 @@ radio#modifyheaders-help-button {
   -moz-box-orient: vertical;
   -moz-box-align: center
 }
+
+treechildren::-moz-tree-drop-feedback(dropAfter) {
+  border-bottom: 2px solid black;
+}

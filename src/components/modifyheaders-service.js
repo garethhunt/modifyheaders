@@ -226,7 +226,7 @@ if (!ModifyHeaders.Service) {
 			// TODO Validate the arguments
 			
 			// Add the header to the Array
-			/* var header = new Array();
+			/* TODO Remove var header = new Array();
 			header["enabled"] = enabled;
 			header["action"]  = action;
 			header["name"]    = name;
@@ -291,6 +291,37 @@ if (!ModifyHeaders.Service) {
 		
 		getHeaderComment: function (index) {
 			return this.configuration.headers[index]["comment"];
+		},
+		
+		moveHeader: function (sourceRowID, targetRowID, orientation) {
+			var sourceHeader;
+			var sourceHeaderRemoved = false;
+			
+			if (sourceRowID > targetRowID) {
+				var removedHeaders = this.configuration.headers.splice(sourceRowID, 1);
+				sourceHeader = removedHeaders[0];
+				sourceHeaderRemoved = true;
+			} else {
+				sourceHeader = this.configuration.headers[sourceRowID];
+			}
+			
+			if (orientation == Components.interfaces.nsITreeView.DROP_BEFORE) {
+				this.configuration.headers.splice(targetRowID, 0, sourceHeader);
+			} else if (orientation == Components.interfaces.nsITreeView.DROP_AFTER) {
+				this.configuration.headers.splice((targetRowID+1), 0, sourceHeader);
+			} else if (orientation == Components.interfaces.nsITreeView.DROP_ON) {
+				Components.utils.reportError("nsITreeView.DROP_ON not supported.");
+				// TODO Throw an error ? 
+			} else {
+				Components.utils.reportError("Incorrect orientation after drop: " + orientation);
+				// TODO Throw an error ? 
+			}
+			
+			if (!sourceHeaderRemoved) {
+				this.configuration.headers.splice(sourceRowID, 1);
+			}
+			
+			this.saveConfiguration();
 		},
 		
 		switchHeaders: function (index1, index2) {

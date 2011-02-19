@@ -30,7 +30,9 @@
         <!-- List of headers that can be enabled/disabled -->
         <hbox flex="1" xxonkeypress="ModifyHeaders.listKeyControl(event);">
           <vbox flex="1">
-            <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1" ondblclick="ModifyHeaders.enableHeader();">
+            <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1"
+                ondblclick="ModifyHeaders.enableHeader();"
+                ondragstart="ModifyHeaders.dragDrop.dragStart(event)">
               <treecols>
                 <treecol id="actioncol" label="&modifyheaders.treecol.action;" fixed="true" ignoreincolumnpicker="true" />
                 <treecol id="namecol" label="&modifyheaders.treecol.name;" flex="1" persist="width" ignoreincolumnpicker="true" />
