@@ -295,7 +295,7 @@ if (!ModifyHeaders.Service) {
 		
 		switchHeaders: function (index1, index2) {
 			var header = this.configuration.headers[index1];
-			this.configuration.headers[index1] = this.headers[index2];
+			this.configuration.headers[index1] = this.configuration.headers[index2];
 			this.configuration.headers[index2] = header;
 			//this.savePreferences();
 			this.saveConfiguration();
