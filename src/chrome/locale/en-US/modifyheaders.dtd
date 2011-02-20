@@ -52,7 +52,7 @@
 
 <!-- Labels -->
 <!ENTITY modifyheaders.label.author "Author">
-<!ENTITY modifyheaders.label.defects.description "If you have found a defect, please log it at this URL:">
+<!ENTITY modifyheaders.label.defects.description "If you have found a defect or have a feature or enhancement suggestion, please log it here:">
 <!ENTITY modifyheaders.label.homepage "Home Page">
 <!ENTITY modifyheaders.label.export.confirm "Confirm export selection">
 <!ENTITY modifyheaders.label.export.file "Select location to save export">
@@ -62,7 +62,7 @@
 <!ENTITY modifyheaders.label.import.selectheaders "Select headers">
 <!ENTITY modifyheaders.label.version "Version">
 <!ENTITY modifyheaders.label.contribute "Make a contribution">
-<!ENTITY modifyheaders.label.contribute.description "If you wish to show your support, please consider making a contribution.  This helps to cover the costs incurred.">
+<!ENTITY modifyheaders.label.contribute.description "Please consider making a contribution to help cover the development and support costs.">
 <!ENTITY modifyheaders.label.headers "Headers">
 <!ENTITY modifyheaders.label.icons1 "David Ferreira">
 <!ENTITY modifyheaders.label.icons2 "wpzoom.com">
