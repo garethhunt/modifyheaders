@@ -225,13 +225,6 @@ if (!ModifyHeaders.Service) {
 		addHeader: function (name, value, action, comment, enabled) {
 			// TODO Validate the arguments
 			
-			// Add the header to the Array
-			/* TODO Remove var header = new Array();
-			header["enabled"] = enabled;
-			header["action"]  = action;
-			header["name"]    = name;
-			header["value"]   = value;
-			header["comment"] = comment; */
 			var header = {
 				enabled: enabled,
 				action: action,
@@ -242,7 +235,6 @@ if (!ModifyHeaders.Service) {
 			
 			this.configuration.headers.push(header);
 			
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
@@ -256,14 +248,12 @@ if (!ModifyHeaders.Service) {
 			this.configuration.headers[index]["value"]   = value;
 			this.configuration.headers[index]["comment"] = comment;
 			
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
 		// Remove the header with the specified index
 		removeHeader: function (index) {
 			this.configuration.headers.splice(index, 1);
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
@@ -273,7 +263,6 @@ if (!ModifyHeaders.Service) {
 		
 		setHeaderEnabled: function (index, enabled) {
 			this.configuration.headers[index]["enabled"] = enabled;
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
@@ -326,9 +315,8 @@ if (!ModifyHeaders.Service) {
 		
 		switchHeaders: function (index1, index2) {
 			var header = this.configuration.headers[index1];
-			this.configuration.headers[index1] = this.headers[index2];
+			this.configuration.headers[index1] = this.configuration.headers[index2];
 			this.configuration.headers[index2] = header;
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
@@ -347,40 +335,7 @@ if (!ModifyHeaders.Service) {
 	    		// TODO Work out a way of handling or reporting the error
 	            Components.utils.reportError(e);
 		    }
-		},
-		
-		// Persist the headers to the preferences.
-		/*savePreferences: function () {
-			// Only save headers if the service has been initiated
-			if (this.initiated) {
-				// TODO Clear the preferences first
-				// This ensures old headers are not maintained in the preferences
-				// I'm sure there is a better way than this
-				
-				// Loop over the headers
-				for (var i=0; i < this.count; i++) {
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderAction + i, this.headers[i]["action"]);
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderName + i, this.headers[i]["name"]);
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderValue + i, this.headers[i]["value"]);
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderComment + i, this.headers[i]["comment"]);
-					this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefHeaderEnabled + i, this.headers[i]["enabled"]);
-				}
-				
-				this.preferencesUtil.setPreference("int", this.preferencesUtil.prefHeaderCount, this.count);
-			}
-		},*/
-
-		// Clear the headers from their preferences
-		/*clearPreferences: function () {
-			// Loop over the headers
-			for (var i=0; i < this.count; i++) {
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderAction + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderEnabled + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderName + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderValue + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderComment + i);
-			}
-		}*/
+		}
 	};
 }
 
