@@ -12,15 +12,15 @@
           <hbox>
             <menulist id="action-menulist" tooltiptext="&modifyheaders.tooltip.action;">
               <menupopup onpopuphidden="ModifyHeaders.actionSelected()">
-                <menuitem label="" value="" />
+                <menuitem label="&modifyheaders.menuitem.action.select;" value="" />
                 <menuitem label="&modifyheaders.menuitem.action.add;" value="&modifyheaders.menuitem.action.add;" />
                 <menuitem label="&modifyheaders.menuitem.action.modify;" value="&modifyheaders.menuitem.action.modify;" />
                 <menuitem label="&modifyheaders.menuitem.action.filter;" value="&modifyheaders.menuitem.action.filter;" />
               </menupopup>
             </menulist>
-            <textbox id="headername-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.name;" />
-            <textbox id="headervalue-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.value;" />
-            <textbox id="headercomment-text-box" flex="1" disabled="true" tooltiptext="&modifyheaders.tooltip.comment;" />
+            <textbox id="headername-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.name;" tooltiptext="&modifyheaders.tooltip.name;" />
+            <textbox id="headervalue-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.value;" tooltiptext="&modifyheaders.tooltip.value;" />
+            <textbox id="headercomment-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.comment;" tooltiptext="&modifyheaders.tooltip.comment;" />
             <button id="add-header-button" label="&modifyheaders.button.headers.add;" command="addHeader" flex="0" hidden="false" disabled="true" />
             <button id="save-header-button" label="&modifyheaders.button.headers.save;" command="saveHeader" flex="0" hidden="true" />
             <button id="reset-form-button" label="&modifyheaders.button.headers.reset;" command="resetHeaderForm" flex="0" hidden="false" />

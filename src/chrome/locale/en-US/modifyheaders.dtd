@@ -75,8 +75,14 @@
 <!-- Menu Items -->
 <!ENTITY modifyheaders.menuitem.tools.label "Modify Headers">
 <!ENTITY modifyheaders.menuitem.action.add "Add">
-<!ENTITY modifyheaders.menuitem.action.modify "Modify">
 <!ENTITY modifyheaders.menuitem.action.filter "Filter">
+<!ENTITY modifyheaders.menuitem.action.modify "Modify">
+<!ENTITY modifyheaders.menuitem.action.select "Select action">
+
+<!-- Place holder -->
+<!ENTITY modifyheaders.placeholder.name "Header name (e.g. user-agent)">
+<!ENTITY modifyheaders.placeholder.value "Header value">
+<!ENTITY modifyheaders.placeholder.comment "Descriptive comment">
 
 <!-- Title -->
 <!ENTITY modifyheaders.title.export "Modify Headers Export Wizard">
