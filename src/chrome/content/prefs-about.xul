@@ -29,7 +29,7 @@
         <separator orient="vertical"/>
         <vbox>
           <description value="&modifyheaders.label.homepage;" class="title"/>
-          <label class="text-link" href="&modifyheaders.url.homepage;" value="&modifyheaders.url.homepage;"/>
+          <label class="text-link" href="&modifyheaders.url.homepage.v;" value="&modifyheaders.url.homepage;"/>
         </vbox>
       </hbox>
       

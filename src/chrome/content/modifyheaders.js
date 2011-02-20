@@ -362,7 +362,7 @@ var ModifyHeaders = {
   openHelp: function() {
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]. getService(Components.interfaces.nsIWindowMediator);
     var mrw = wm.getMostRecentWindow("navigator:browser");
-    mrw.gBrowser.selectedTab = mrw.gBrowser.addTab("http://www.garethhunt.com/modifyheaders/help/");
+    mrw.gBrowser.selectedTab = mrw.gBrowser.addTab(document.getElementById("modifyheadersStringResources").getString("modifyheaders.url.help"));
   },
   
   // TODO Remove openConfig as it is no longer required
