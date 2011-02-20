@@ -1,5 +1,11 @@
 -- Release Notes --
 
+Release 0.6.11, 20 February 2011
+
+* Fixed a bug related to sorting headers
+
+--
+
 Release 0.6.10, 12 February 2011
 
 * Added support for Seamonkey 2.0.
