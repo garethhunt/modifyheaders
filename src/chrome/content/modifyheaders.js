@@ -45,89 +45,82 @@ var ModifyHeaders = {
   commentTextbox: null,
   addButton: null,
   saveButton: null,
-
-  // nsITreeView interface properties
-  treeSelection: null, // nsiTreeSelection
-  treeBox: null, // The tree
-  editedRowID: null, // The row currently being edited
   
-  // Getters and Setters
-  set rowCount(i) { throw "rowCount is a readonly property"; },
-  get rowCount() { return this.modifyheadersService.count; },
-  
-  set selection(s) { this.treeSelection = s; },
-  get selection() { return this.treeSelection; },
-  
-  // START nsITreeView interface methods
-  canDrop: function (index, orientation) {
-    return true;
-  },
-  // cycleCell : function(row, columnID) { /* do nothing */ },
-  cycleHeader: function(columnID, element) {
-    /* do nothing */
-  },
-  
-  dragDrop: {
+  // nsITreeView
+  headerListTreeView: {
+    treeBox: null, // The tree
+    editedRowID: null, // The row currently being edited
+    selection: null, //nsITreeSelection
+    
+    // Getters and Setters
+    set rowCount(i) { throw "rowCount is a readonly property"; },
+    get rowCount() { return ModifyHeaders.modifyheadersService.count; },
+    
+    // START nsITreeView interface methods
+    canDrop: function (index, orientation) {
+      return true;
+    },
+    // cycleCell : function(row, columnID) { /* do nothing */ },
+    cycleHeader: function(columnID, element) {
+      /* do nothing */
+    },
+    
     dragStart: function (event) {
-      var index = ModifyHeaders.treeSelection.currentIndex;
+      var index = ModifyHeaders.headersListTreeView.treeSelection.currentIndex;
       if (index > -1) { 
         event.dataTransfer.setData("text/plain", index);
       }
       event.stopPropagation();
-    }
-  },
-  
-  drop: function(targetRowID, orientation, dataTransfer) {
+    },
+    drop: function(targetRowID, orientation, dataTransfer) {
     var sourceRowID = dataTransfer.getData("text/plain");
-    this.modifyheadersService.moveHeader(sourceRowID, targetRowID, orientation);
+    ModifyHeaders.modifyheadersService.moveHeader(sourceRowID, targetRowID, orientation);
     // TODO Handle any errors
-  },
-  
-  // drop: function(row, orientation) { /* do nothing */ return false; },
-  getCellProperties: function(row, columnID, properties) { /* do nothing */ },
-  getCellText: function(row, column) {
+    },
+    getCellProperties: function(row, columnID, properties) { /* do nothing */ },
+    getCellText: function(row, column) {
     if (column == "actioncol" || column.id == "actioncol") {
-      return this.modifyheadersService.getHeaderAction(row);
-    } else if (column == "namecol" || column.id == "namecol") {
-      return this.modifyheadersService.getHeaderName(row);
-    } else if (column == "valuecol" || column.id == "valuecol") {
-      return this.modifyheadersService.getHeaderValue(row);
-    } else if (column == "commentcol" || column.id == "commentcol") {
-      return this.modifyheadersService.getHeaderComment(row);
-    }
-    return null;
-  },
-//  getCellValue: function(row, columnID) { /* return null; */ },
-  getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
-  getImageSrc: function(rowIndex, column) {
-    if (column == "enabledcol" || column.id == "enabledcol") {
-      if (this.modifyheadersService.isHeaderEnabled(rowIndex)) {
-        return "chrome://modifyheaders/content/enabled.gif";
-      } else {
-        return "chrome://modifyheaders/content/disabled.gif";
+      return ModifyHeaders.modifyheadersService.getHeaderAction(row);
+      } else if (column == "namecol" || column.id == "namecol") {
+        return ModifyHeaders.modifyheadersService.getHeaderName(row);
+      } else if (column == "valuecol" || column.id == "valuecol") {
+        return ModifyHeaders.modifyheadersService.getHeaderValue(row);
+      } else if (column == "commentcol" || column.id == "commentcol") {
+        return ModifyHeaders.modifyheadersService.getHeaderComment(row);
       }
-    }
-    return null;
+      return null;
+    },
+  //  getCellValue: function(row, columnID) { /* return null; */ },
+    getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
+    getImageSrc: function(rowIndex, column) {
+      if (column == "enabledcol" || column.id == "enabledcol") {
+        if (ModifyHeaders.modifyheadersService.isHeaderEnabled(rowIndex)) {
+          return "chrome://modifyheaders/content/enabled.gif";
+        } else {
+          return "chrome://modifyheaders/content/disabled.gif";
+        }
+      }
+      return null;
+    },
+    getLevel: function (index) { return 0; },
+    getParentIndex: function (rowIndex) { return -1; },
+//    getProgressMode: function(rowIndex, columnID) { /* return 0; */ },
+    getRowProperties: function(rowIndex, properties) { /* do nothing */ },
+//    hasNextSibling: function(rowIndex, afterIndex) { return false; },
+    isContainer: function(index) { return false; },
+//    isContainerEmpty: function(index) { return false; },
+//    isContainerOpen: function(index) { /* return false; */ },
+//    isEditable: function(rowIndex, columnID) { return false; },
+    isSeparator: function(index) { return false; },
+    isSorted: function(index) { /* return false; */ },
+//    performAction: function(action) { /* do nothing */ },
+//    performActionOnCell: function(action, rowIndex, columnID) { /* do nothing */ },
+//    performActionOnRow: function(action, rowIndex) { /* do nothing */ },
+//    selectionChanged: function() { /* do nothing */ },
+//    setCellText: function(rowIndex, columnID, value) { /* do nothing */ },
+    setTree: function(tree) { this.treeBox=tree; },
+//    toggleOpenState: function(index) { /* do nothing */ },
   },
-  getLevel: function (index) { return 0; },
-  getParentIndex: function (rowIndex) { return -1; },
-//  getProgressMode: function(rowIndex, columnID) { /* return 0; */ },
-  getRowProperties: function(rowIndex, properties) { /* do nothing */ },
-//  hasNextSibling: function(rowIndex, afterIndex) { return false; },
-  isContainer: function(index) { return false; },
-//  isContainerEmpty: function(index) { return false; },
-//  isContainerOpen: function(index) { /* return false; */ },
-//  isEditable: function(rowIndex, columnID) { return false; },
-  isSeparator: function(index) { return false; },
-  isSorted: function(index) { /* return false; */ },
-//  performAction: function(action) { /* do nothing */ },
-//  performActionOnCell: function(action, rowIndex, columnID) { /* do nothing */ },
-//  performActionOnRow: function(action, rowIndex) { /* do nothing */ },
-//  selectionChanged: function() { /* do nothing */ },
-//  setCellText: function(rowIndex, columnID, value) { /* do nothing */ },
-  setTree: function(tree) { this.treeBox=tree; },
-//  toggleOpenState: function(index) { /* do nothing */ },
-  // END nsITreeView interface methods
     
   start: function() {
     // Initialize the form controls
@@ -154,7 +147,7 @@ var ModifyHeaders = {
     document.documentElement._selector.appendChild(helpRadio);
     
     // Set this view for the treeBoxObject
-    this.headersTree.treeBoxObject.view = this;
+    this.headersTree.treeBoxObject.view = this.headerListTreeView;
     this.initialized = true;
   },
   
@@ -164,8 +157,8 @@ var ModifyHeaders = {
   },
   
   refresh: function(index, count) {
-    this.treeBox.rowCountChanged(index, count);
-    this.treeSelection.select(this.rowCount-1);
+    this.headerListTreeView.treeBox.rowCountChanged(index, count);
+    this.headerListTreeView.selection.select(this.rowCount-1);
   },
   
   addHeader: function() {
@@ -181,26 +174,25 @@ var ModifyHeaders = {
     
     // Notify the treeBoxObject that a row has been added,
     // Select the row
-    this.treeBox.rowCountChanged(this.rowCount-1, 1);
-    this.treeSelection.select(this.rowCount-1);
+    this.headerListTreeView.treeBox.rowCountChanged(this.rowCount-1, 1);
+    this.headerListTreeView.selection.select(this.rowCount-1);
     
     this.clearForm();
   },
   
   // Delete the header from the list
   deleteHeader: function() {
-    var deleteIndex = this.treeSelection.currentIndex;
-    
+    var deleteIndex = this.headerListTreeView.selection.currentIndex;
     this.modifyheadersService.removeHeader(deleteIndex);
     
     // Notify the treeBoxObject that a row has been deleted
     // Select the next row if there is one
-    this.treeBox.rowCountChanged(deleteIndex, -1);
-    this.treeSelection.select(deleteIndex);
+    this.headerListTreeView.treeBox.rowCountChanged(deleteIndex, -1);
+    this.headerListTreeView.selection.select(deleteIndex);
   },
     
   editHeader: function() {
-    var selectedRowIndex = this.treeSelection.currentIndex
+    var selectedRowIndex = this.headerListTreeView.selection.currentIndex
     
     // Set the form values to the value of the selected item
     if (selectedRowIndex > -1) {
@@ -213,7 +205,7 @@ var ModifyHeaders = {
         this.commentTextbox.value = this.modifyheadersService.getHeaderComment(selectedRowIndex);
       }
       
-      this.editedRowID = selectedRowIndex;
+      this.headerListTreeView.editedRowID = selectedRowIndex;
       
       // Hide the add button and display the save button
       this.addButton.setAttribute("hidden", "true");
@@ -231,8 +223,8 @@ var ModifyHeaders = {
   
   saveHeader: function() {
   
-    if (this.editedRowID != null) {
-      var index = this.editedRowID;
+    if (this.headerListTreeView.editedRowID != null) {
+      var index = this.headerListTreeView.editedRowID;
       var name = this.nameTextbox.value;
       var value = this.valueTextbox.value;
       var comment = this.commentTextbox.value;
@@ -242,13 +234,13 @@ var ModifyHeaders = {
       this.modifyheadersService.setHeader(index, name, value, action, comment, enabled);
       
       // Notify the treeBoxObject that a row has been edited
-      this.treeBox.invalidateRow(this.editedRowID);
+      this.headerListTreeView.treeBox.invalidateRow(this.editedRowID);
       
       // Select the row
-      this.treeSelection.select(this.editedRowID);
+      this.headerListTreeView.selection.select(this.editedRowID);
       
       // Set the editedRow to null
-      this.editedRowID = null;
+      this.headerListTreeView.editedRowID = null;
       
       this.clearForm();
     }
@@ -268,71 +260,67 @@ var ModifyHeaders = {
     this.saveButton.setAttribute("hidden", "true");
     this.addButton.disabled = true;
     this.saveButton.disabled = true;
-    
-    // Ensure that the selected index is set back to null
-    var selectedRowIndex = null;
   },
   
   enableHeader: function() {
     // Change the enabled parameter to true
-    var enabled = this.modifyheadersService.isHeaderEnabled(this.treeSelection.currentIndex);
-    
-    this.modifyheadersService.setHeaderEnabled(this.treeSelection.currentIndex, !enabled);
+    var enabled = this.modifyheadersService.isHeaderEnabled(this.headerListTreeView.selection.currentIndex);
+    this.modifyheadersService.setHeaderEnabled(this.headerListTreeView.selection.currentIndex, !enabled);
       
     // Notify the treeBoxObject that a row has been edited
-    this.treeBox.invalidateRow(this.treeSelection.currentIndex);
+    this.headerListTreeView.treeBox.invalidateRow(this.headerListTreeView.selection.currentIndex);
   },
   
   enableAllHeaders: function() {
-    var tempSelectedIndex = this.treeSelection.currentIndex;
+    var selectedIndex = this.headerListTreeView.selection.currentIndex;
     
     for (var i=0; i < this.modifyheadersService.count; i++) {
       this.modifyheadersService.setHeaderEnabled(i, true);
       
       // Notify the treeBoxObject that a row has been edited
-      this.treeSelection.select(i);
-      this.treeBox.rowCountChanged(i, 0);
+      this.headerListTreeView.selection.select(i);
+      this.headerListTreeView.treeBox.rowCountChanged(i, 0);
     }
     
     // Revert to the previous selectedIndex
-    this.treeSelection.select(tempSelectedIndex);
+    this.headerListTreeView.selection.select(selectedIndex);
   },
   
   disableAllHeaders: function() {
-    var tempSelectedIndex = this.treeSelection.currentIndex;
+    var tempSelectedIndex = this.headerListTreeView.selection.currentIndex;
     
     for (var i=0; i < this.modifyheadersService.count; i++) {
       this.modifyheadersService.setHeaderEnabled(i, false);
       
       // Notify the treeBoxObject that a row has been edited
-      this.treeSelection.select(i);
-      this.treeBox.rowCountChanged(i, 0);
+      this.headerListTreeView.selection.select(i);
+      this.headerListTreeView.treeBox.rowCountChanged(i, 0);
     }
     
     // Revert to the previous selectedIndex
-    this.treeSelection.select(tempSelectedIndex);
+    this.headerListTreeView.selection.select(tempSelectedIndex);
   },
   
   // TODO Remove moveRowDown once drag/drop is implemented
   moveRowDown: function() {
-    if (this.treeSelection && this.treeSelection.currentIndex != this.rowCount - 1) {
-      var selectedIndex = this.treeSelection.currentIndex;
+    if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != this.headerListTreeView.rowCount - 1) {
+      var selectedIndex = this.headerListTreeView.selection.currentIndex;
       this.modifyheadersService.switchHeaders(selectedIndex, selectedIndex + 1);
       
       // Change the selection
-      this.treeSelection.select(this.treeSelection.currentIndex + 1);
-      this.treeBox.rowCountChanged(this.selection.currentIndex, 0);
+      this.headerListTreeView.selection.select(this.headerListTreeView.selection.currentIndex + 1);
+      this.headerListTreeView.treeBox.rowCountChanged(this.headerListTreeView.selection.currentIndex, 0);
     }
   },
   
   // TODO Remove moveRowUp once drag/drop is implemented
   moveRowUp: function() {
-    if (this.treeSelection && this.treeSelection.currentIndex != 0) {
+    if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != 0) {
     
-      var selectedIndex = this.treeSelection.currentIndex;
+      var selectedIndex = this.headerListTreeView.selection.currentIndex;
       this.modifyheadersService.switchHeaders(selectedIndex, selectedIndex - 1);
-      this.treeSelection.select(this.treeSelection.currentIndex - 1);
-      this.treeBox.rowCountChanged(this.selection.currentIndex-1, 0);
+      this.headerListTreeView.selection.select(this.headerListTreeView.selection.currentIndex - 1);
+      this.headerListTreeView.treeBox.rowCountChanged(this.headerListTreeView.selection.currentIndex-1, 0);
     }
   },
   
