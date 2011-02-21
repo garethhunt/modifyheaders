@@ -209,6 +209,9 @@ if (!ModifyHeaders.Service) {
 		},
 		
 		getHeaders: function () {
+			if (!this.initiated) {
+				this.init();
+			}
 			if (this.configuration && this.configuration.headers) {
 				return JSON.stringify(this.configuration.headers);
 			} else {
@@ -223,6 +226,7 @@ if (!ModifyHeaders.Service) {
 			} else {
 				Components.utils.reportError("Unable to saveHeaders(), headers argument is null");
 			}
+			this.saveConfiguration();
 		},
 		
 		/* getHeaders: function (count) {
