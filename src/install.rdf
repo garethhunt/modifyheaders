@@ -12,6 +12,7 @@
         <em:id>{b749fc7c-e949-447f-926c-3f4eed6accfe}</em:id>
         <em:name>Modify Headers</em:name>
         <em:optionsURL>chrome://modifyheaders/content/preferences.xul</em:optionsURL>
+        <em:type>2</em:type>
         <em:version>@build.version@</em:version>
         
         <!-- Firefox 3.* - 4.0 -->
@@ -19,7 +20,7 @@
         <em:targetApplication>
             <Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:minVersion>3.0</em:minVersion>
+                <em:minVersion>3.5</em:minVersion>
                 <em:maxVersion>4.0.*</em:maxVersion>
             </Description>
         </em:targetApplication>
