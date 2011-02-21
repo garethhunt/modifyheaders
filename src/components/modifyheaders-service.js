@@ -206,9 +206,26 @@ if (!ModifyHeaders.Service) {
 			objHeader.enabled = this.configuration.headers[index]["enabled"];
 			
 			return objHeader;
-		}, 
+		},
 		
-		getHeaders: function (count) {
+		getHeaders: function () {
+			if (this.configuration && this.configuration.headers) {
+				return JSON.stringify(this.configuration.headers);
+			} else {
+				Components.utils.reportError("Unable to getHeaders(), this.configuration.headers is null");
+				return null;
+			}
+		},
+		
+		saveHeaders: function (headers) {
+			if (headers != null) {
+				this.configuration.headers = JSON.parse(headers);
+			} else {
+				Components.utils.reportError("Unable to saveHeaders(), headers argument is null");
+			}
+		},
+		
+		/* getHeaders: function (count) {
 			var objHeader = null;
 			var aHeaders = new Array();
 			
@@ -219,7 +236,7 @@ if (!ModifyHeaders.Service) {
 			
 			count.value = aHeaders.length;
 			return aHeaders;
-		},
+		}, */
 		
 		// Adds a header to the headers array
 		addHeader: function (name, value, action, comment, enabled) {
