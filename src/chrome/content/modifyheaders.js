@@ -48,13 +48,14 @@ var ModifyHeaders = {
   
   // nsITreeView
   headerListTreeView: {
-    treeBox: null, // The tree
+    data: null,        // Tree data
+    treeBox: null,     // The tree
     editedRowID: null, // The row currently being edited
-    selection: null, //nsITreeSelection
+    selection: null,   // nsITreeSelection
     
     // Getters and Setters
     set rowCount(i) { throw "rowCount is a readonly property"; },
-    get rowCount() { return ModifyHeaders.modifyheadersService.count; },
+    get rowCount() { return this.data.length; },
     
     // START nsITreeView interface methods
     canDrop: function (index, orientation) {
@@ -66,27 +67,55 @@ var ModifyHeaders = {
     },
     
     dragStart: function (event) {
-      var index = ModifyHeaders.headersListTreeView.treeSelection.currentIndex;
+      var index = ModifyHeaders.headerListTreeView.selection.currentIndex;
       if (index > -1) { 
         event.dataTransfer.setData("text/plain", index);
       }
       event.stopPropagation();
     },
+    
     drop: function(targetRowID, orientation, dataTransfer) {
-    var sourceRowID = dataTransfer.getData("text/plain");
-    ModifyHeaders.modifyheadersService.moveHeader(sourceRowID, targetRowID, orientation);
-    // TODO Handle any errors
+      var sourceRowID = dataTransfer.getData("text/plain");
+      var sourceHeader;
+	  var sourceHeaderRemoved = false;
+	
+	  if (sourceRowID > targetRowID) {
+		var removedHeaders = this.data.splice(sourceRowID, 1);
+		sourceHeader = removedHeaders[0];
+		sourceHeaderRemoved = true;
+	  } else {
+		sourceHeader = this.data[sourceRowID];
+	  }
+	
+	  if (orientation == Components.interfaces.nsITreeView.DROP_BEFORE) {
+	    this.data.splice(targetRowID, 0, sourceHeader);
+	  } else if (orientation == Components.interfaces.nsITreeView.DROP_AFTER) {
+		this.data.splice((targetRowID+1), 0, sourceHeader);
+	  } else if (orientation == Components.interfaces.nsITreeView.DROP_ON) {
+		Components.utils.reportError("nsITreeView.DROP_ON not supported.");
+		// TODO Throw an error ? 
+	  } else {
+		Components.utils.reportError("Incorrect orientation after drop: " + orientation);
+		// TODO Throw an error ? 
+	  }
+	
+	  if (!sourceHeaderRemoved) {
+		this.data.splice(sourceRowID, 1);
+	  }
+	
+      ModifyHeaders.storeHeaders();
     },
+    
     getCellProperties: function(row, columnID, properties) { /* do nothing */ },
     getCellText: function(row, column) {
-    if (column == "actioncol" || column.id == "actioncol") {
-      return ModifyHeaders.modifyheadersService.getHeaderAction(row);
+      if (column == "actioncol" || column.id == "actioncol") {
+    	return this.data[row].action;
       } else if (column == "namecol" || column.id == "namecol") {
-        return ModifyHeaders.modifyheadersService.getHeaderName(row);
+    	return this.data[row].name;
       } else if (column == "valuecol" || column.id == "valuecol") {
-        return ModifyHeaders.modifyheadersService.getHeaderValue(row);
+    	return this.data[row].value;
       } else if (column == "commentcol" || column.id == "commentcol") {
-        return ModifyHeaders.modifyheadersService.getHeaderComment(row);
+    	return this.data[row].comment;
       }
       return null;
     },
@@ -94,7 +123,7 @@ var ModifyHeaders = {
     getColumnProperties: function(columnID, element, properties) { /* do nothing */ },
     getImageSrc: function(rowIndex, column) {
       if (column == "enabledcol" || column.id == "enabledcol") {
-        if (ModifyHeaders.modifyheadersService.isHeaderEnabled(rowIndex)) {
+        if (this.data[rowIndex].enabled) {
           return "chrome://modifyheaders/content/enabled.gif";
         } else {
           return "chrome://modifyheaders/content/disabled.gif";
@@ -146,6 +175,9 @@ var ModifyHeaders = {
     document.documentElement._selector.appendChild(helpSeparator);
     document.documentElement._selector.appendChild(helpRadio);
     
+    // Set the data for the treeView
+    this.headerListTreeView.data = JSON.parse(this.modifyheadersService.getHeaders());
+    
     // Set this view for the treeBoxObject
     this.headersTree.treeBoxObject.view = this.headerListTreeView;
     this.initialized = true;
@@ -162,33 +194,37 @@ var ModifyHeaders = {
   },
   
   addHeader: function() {
-    // Values
     // TODO Make the enabled default value a preference, true for now
-    var enabled = true;
-    var action = document.getElementById("action-menulist").selectedItem.label;
-    var name = document.getElementById("headername-text-box").value;
-    var value = document.getElementById("headervalue-text-box").value;
-    var comment = document.getElementById("headercomment-text-box").value;
-    
-    this.modifyheadersService.addHeader(name, value, action, comment, enabled);
+    var header = {
+      "action" : document.getElementById("action-menulist").selectedItem.label,
+      "name"   : document.getElementById("headername-text-box").value,
+      "value"  : document.getElementById("headervalue-text-box").value,
+      "comment": document.getElementById("headercomment-text-box").value,
+      "enabled": true
+    }
+    this.headerListTreeView.data.push(header);
     
     // Notify the treeBoxObject that a row has been added,
     // Select the row
-    this.headerListTreeView.treeBox.rowCountChanged(this.rowCount-1, 1);
-    this.headerListTreeView.selection.select(this.rowCount-1);
+    this.headerListTreeView.treeBox.rowCountChanged(this.headerListTreeView.rowCount-1, 1);
+    this.headerListTreeView.selection.select(this.headerListTreeView.rowCount-1);
     
     this.clearForm();
+    this.storeHeaders();
   },
   
   // Delete the header from the list
   deleteHeader: function() {
     var deleteIndex = this.headerListTreeView.selection.currentIndex;
-    this.modifyheadersService.removeHeader(deleteIndex);
+    
+    this.headerListTreeView.data.splice(deleteIndex, 1);
     
     // Notify the treeBoxObject that a row has been deleted
     // Select the next row if there is one
     this.headerListTreeView.treeBox.rowCountChanged(deleteIndex, -1);
     this.headerListTreeView.selection.select(deleteIndex);
+    
+    this.storeHeaders();
   },
     
   editHeader: function() {
@@ -196,13 +232,14 @@ var ModifyHeaders = {
     
     // Set the form values to the value of the selected item
     if (selectedRowIndex > -1) {
-      this.actionMenuList.value = this.modifyheadersService.getHeaderAction(selectedRowIndex);
-      this.nameTextbox.value = this.modifyheadersService.getHeaderName(selectedRowIndex);
-      if (this.modifyheadersService.getHeaderValue(selectedRowIndex) != "") {
-        this.valueTextbox.value = this.modifyheadersService.getHeaderValue(selectedRowIndex);
+      this.actionMenuList.value = this.headerListTreeView.data[selectedRowIndex].action;
+      this.nameTextbox.value = this.headerListTreeView.data[selectedRowIndex].name;
+      
+      if (this.headerListTreeView.data[selectedRowIndex].value != "") {
+        this.valueTextbox.value = this.headerListTreeView.data[selectedRowIndex].value;
       }
-      if (this.modifyheadersService.getHeaderComment(selectedRowIndex) != "") {
-        this.commentTextbox.value = this.modifyheadersService.getHeaderComment(selectedRowIndex);
+      if (this.headerListTreeView.data[selectedRowIndex].comment != "") {
+        this.commentTextbox.value = this.headerListTreeView.data[selectedRowIndex].comment;
       }
       
       this.headerListTreeView.editedRowID = selectedRowIndex;
@@ -222,28 +259,34 @@ var ModifyHeaders = {
   },
   
   saveHeader: function() {
-  
     if (this.headerListTreeView.editedRowID != null) {
-      var index = this.headerListTreeView.editedRowID;
-      var name = this.nameTextbox.value;
-      var value = this.valueTextbox.value;
-      var comment = this.commentTextbox.value;
-      var action = this.actionMenuList.selectedItem.label;
-      var enabled = this.modifyheadersService.isHeaderEnabled(index);
-      
-      this.modifyheadersService.setHeader(index, name, value, action, comment, enabled);
+    	
+      var header = {
+        "action" : this.actionMenuList.selectedItem.label,
+        "name"   : this.nameTextbox.value,
+        "value"  : this.valueTextbox.value,
+        "comment": this.commentTextbox.value,
+        "enabled": this.headerListTreeView.data[this.headerListTreeView.editedRowID].enabled
+      }
+      this.headerListTreeView.data[this.headerListTreeView.editedRowID] = header;
       
       // Notify the treeBoxObject that a row has been edited
-      this.headerListTreeView.treeBox.invalidateRow(this.editedRowID);
+      this.headerListTreeView.treeBox.invalidateRow(this.headerListTreeView.editedRowID);
       
       // Select the row
-      this.headerListTreeView.selection.select(this.editedRowID);
+      this.headerListTreeView.selection.select(this.headerListTreeView.editedRowID);
       
       // Set the editedRow to null
       this.headerListTreeView.editedRowID = null;
       
       this.clearForm();
+      this.storeHeaders();
     }
+  },
+  
+  storeHeaders: function () {
+	var data = JSON.stringify(this.headerListTreeView.data);
+	this.modifyheadersService.saveHeaders(data);
   },
   
   clearForm: function() {
@@ -264,18 +307,20 @@ var ModifyHeaders = {
   
   enableHeader: function() {
     // Change the enabled parameter to true
-    var enabled = this.modifyheadersService.isHeaderEnabled(this.headerListTreeView.selection.currentIndex);
-    this.modifyheadersService.setHeaderEnabled(this.headerListTreeView.selection.currentIndex, !enabled);
+    var enabled = this.headerListTreeView.data[this.headerListTreeView.selection.currentIndex].enabled;
+    this.headerListTreeView.data[this.headerListTreeView.selection.currentIndex].enabled = !enabled;
       
     // Notify the treeBoxObject that a row has been edited
     this.headerListTreeView.treeBox.invalidateRow(this.headerListTreeView.selection.currentIndex);
+    this.storeHeaders();
   },
   
+  // TODO Combine enableAllHeaders and disableAllHeaders into a single method
   enableAllHeaders: function() {
     var selectedIndex = this.headerListTreeView.selection.currentIndex;
     
-    for (var i=0; i < this.modifyheadersService.count; i++) {
-      this.modifyheadersService.setHeaderEnabled(i, true);
+    for (var i=0; i < this.headerListTreeView.rowCount; i++) {
+      this.headerListTreeView.data[i].enabled = true;
       
       // Notify the treeBoxObject that a row has been edited
       this.headerListTreeView.selection.select(i);
@@ -284,13 +329,14 @@ var ModifyHeaders = {
     
     // Revert to the previous selectedIndex
     this.headerListTreeView.selection.select(selectedIndex);
+    this.storeHeaders();
   },
   
   disableAllHeaders: function() {
     var tempSelectedIndex = this.headerListTreeView.selection.currentIndex;
     
-    for (var i=0; i < this.modifyheadersService.count; i++) {
-      this.modifyheadersService.setHeaderEnabled(i, false);
+    for (var i=0; i < this.headerListTreeView.rowCount; i++) {
+      this.headerListTreeView.data[i].enabled = false;
       
       // Notify the treeBoxObject that a row has been edited
       this.headerListTreeView.selection.select(i);
@@ -299,13 +345,14 @@ var ModifyHeaders = {
     
     // Revert to the previous selectedIndex
     this.headerListTreeView.selection.select(tempSelectedIndex);
+    this.storeHeaders();
   },
   
   // TODO Remove moveRowDown once drag/drop is implemented
   moveRowDown: function() {
     if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != this.headerListTreeView.rowCount - 1) {
       var selectedIndex = this.headerListTreeView.selection.currentIndex;
-      this.modifyheadersService.switchHeaders(selectedIndex, selectedIndex + 1);
+      this.switchHeaders(selectedIndex, selectedIndex + 1);
       
       // Change the selection
       this.headerListTreeView.selection.select(this.headerListTreeView.selection.currentIndex + 1);
@@ -318,10 +365,17 @@ var ModifyHeaders = {
     if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != 0) {
     
       var selectedIndex = this.headerListTreeView.selection.currentIndex;
-      this.modifyheadersService.switchHeaders(selectedIndex, selectedIndex - 1);
+      this.switchHeaders(selectedIndex, selectedIndex - 1);
       this.headerListTreeView.selection.select(this.headerListTreeView.selection.currentIndex - 1);
       this.headerListTreeView.treeBox.rowCountChanged(this.headerListTreeView.selection.currentIndex-1, 0);
     }
+  },
+  
+  switchHeaders: function (index1, index2) {
+    var header = this.headerListTreeView.data[index1];
+    this.headerListTreeView.data[index1] = this.headerListTreeView.data[index2];
+    this.headerListTreeView.data[index2] = header;
+    this.storeHeaders();
   },
   
   actionSelected: function() {

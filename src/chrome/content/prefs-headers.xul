@@ -32,7 +32,7 @@
           <vbox flex="1">
             <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1"
                 ondblclick="ModifyHeaders.enableHeader();"
-                ondragstart="ModifyHeaders.dragDrop.dragStart(event)">
+                ondragstart="ModifyHeaders.headerListTreeView.dragStart(event)">
               <treecols>
                 <treecol id="actioncol" label="&modifyheaders.treecol.action;" fixed="true" ignoreincolumnpicker="true" />
                 <treecol id="namecol" label="&modifyheaders.treecol.name;" flex="1" persist="width" ignoreincolumnpicker="true" />

@@ -197,17 +197,6 @@ if (!ModifyHeaders.Service) {
 			this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefMigratedHeaders, true)
 		},
 		  
-		getHeader: function (index) {
-			var objHeader = Components.classes["@modifyheaders.mozdev.org/header;1"].createInstance(Components.interfaces.mhIHeader);
-			objHeader.action = this.configuration.headers[index]["action"];
-			objHeader.name = this.configuration.headers[index]["name"];
-			objHeader.value = this.configuration.headers[index]["value"];
-			objHeader.comment = this.configuration.headers[index]["comment"];
-			objHeader.enabled = this.configuration.headers[index]["enabled"];
-			
-			return objHeader;
-		},
-		
 		getHeaders: function () {
 			if (!this.initiated) {
 				this.init();
@@ -226,118 +215,6 @@ if (!ModifyHeaders.Service) {
 			} else {
 				Components.utils.reportError("Unable to saveHeaders(), headers argument is null");
 			}
-			this.saveConfiguration();
-		},
-		
-		/* getHeaders: function (count) {
-			var objHeader = null;
-			var aHeaders = new Array();
-			
-			for (var i=0; i < this.headers.length; i++) {
-				objHeader = this.getHeader(i);
-				aHeaders[i] = objHeader;
-			}
-			
-			count.value = aHeaders.length;
-			return aHeaders;
-		}, */
-		
-		// Adds a header to the headers array
-		addHeader: function (name, value, action, comment, enabled) {
-			// TODO Validate the arguments
-			
-			var header = {
-				enabled: enabled,
-				action: action,
-				name: name,
-				value: value,
-				comment: comment
-			};
-			
-			this.configuration.headers.push(header);
-			
-			this.saveConfiguration();
-		},
-		
-		setHeader: function (index, name, value, action, comment, enabled) {
-			// TODO Validate the arguments
-			
-			// Update the values
-			this.configuration.headers[index]["enabled"] = enabled;
-			this.configuration.headers[index]["action"]  = action;
-			this.configuration.headers[index]["name"]    = name;
-			this.configuration.headers[index]["value"]   = value;
-			this.configuration.headers[index]["comment"] = comment;
-			
-			this.saveConfiguration();
-		},
-		
-		// Remove the header with the specified index
-		removeHeader: function (index) {
-			this.configuration.headers.splice(index, 1);
-			this.saveConfiguration();
-		},
-		
-		isHeaderEnabled: function (index) {
-			return this.configuration.headers[index]["enabled"];
-		},
-		
-		setHeaderEnabled: function (index, enabled) {
-			this.configuration.headers[index]["enabled"] = enabled;
-			this.saveConfiguration();
-		},
-		
-		getHeaderAction: function (index) {
-			return this.configuration.headers[index]["action"];
-		},
-		
-		getHeaderName: function (index) {
-			return this.configuration.headers[index]["name"];
-		},
-		
-		getHeaderValue: function (index) {
-			return this.configuration.headers[index]["value"];
-		},
-		
-		getHeaderComment: function (index) {
-			return this.configuration.headers[index]["comment"];
-		},
-		
-		moveHeader: function (sourceRowID, targetRowID, orientation) {
-			var sourceHeader;
-			var sourceHeaderRemoved = false;
-			
-			if (sourceRowID > targetRowID) {
-				var removedHeaders = this.configuration.headers.splice(sourceRowID, 1);
-				sourceHeader = removedHeaders[0];
-				sourceHeaderRemoved = true;
-			} else {
-				sourceHeader = this.configuration.headers[sourceRowID];
-			}
-			
-			if (orientation == Components.interfaces.nsITreeView.DROP_BEFORE) {
-				this.configuration.headers.splice(targetRowID, 0, sourceHeader);
-			} else if (orientation == Components.interfaces.nsITreeView.DROP_AFTER) {
-				this.configuration.headers.splice((targetRowID+1), 0, sourceHeader);
-			} else if (orientation == Components.interfaces.nsITreeView.DROP_ON) {
-				Components.utils.reportError("nsITreeView.DROP_ON not supported.");
-				// TODO Throw an error ? 
-			} else {
-				Components.utils.reportError("Incorrect orientation after drop: " + orientation);
-				// TODO Throw an error ? 
-			}
-			
-			if (!sourceHeaderRemoved) {
-				this.configuration.headers.splice(sourceRowID, 1);
-			}
-			
-			this.saveConfiguration();
-		},
-		
-		switchHeaders: function (index1, index2) {
-			var header = this.configuration.headers[index1];
-			this.configuration.headers[index1] = this.configuration.headers[index2];
-			this.configuration.headers[index2] = header;
 			this.saveConfiguration();
 		},
 		
@@ -385,19 +262,21 @@ if (!ModifyHeaders.Proxy) {
 				subject.QueryInterface(Components.interfaces.nsIHttpChannel);
 				
 				if (this.modifyheadersService.windowOpen || this.modifyheadersService.alwaysOn) {
-					var headerCount = this.modifyheadersService.count;
+					// TODO Fetch only enabled headers
+					var headers = JSON.parse(this.modifyheadersService.getHeaders());
 					
-					for (var i=0; i < headerCount; i++) {
-						if (this.modifyheadersService.isHeaderEnabled(i)) {
-							var headerName = this.modifyheadersService.getHeaderName(i);
+					// TODO See if a foreach is better here
+					for (var i=0; i < headers.length; i++) {
+						if (headers[i].enabled) {
+							var headerName = headers[i].name;
 							
 							// This is the default for action = Modify
-							var headerValue = this.modifyheadersService.getHeaderValue(i);
+							var headerValue = headers[i].value;
 							var headerAppend = false;
 							
-							if (this.modifyheadersService.getHeaderAction(i) == "Add") {
+							if (headers[i].action == "Add") {
 								headerAppend = true;
-							} else if (this.modifyheadersService.getHeaderAction(i) == "Filter") {
+							} else if (headers[i].action == "Filter") {
 								headerValue = "";
 							}
 							subject.setRequestHeader(headerName, headerValue, headerAppend);
