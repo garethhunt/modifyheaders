@@ -41,7 +41,7 @@
         <separator orient="vertical"/>
         <vbox>
           <description class="title">&modifyheaders.label.defects.description;</description>
-          <label class="text-link" href="&modifyheaders.url.defects;" value="&modifyheaders.url.defects;"/>
+          <label class="text-link" href="&modifyheaders.url.defects.v;" value="&modifyheaders.url.defects;"/>
         </vbox>
       </hbox>
       

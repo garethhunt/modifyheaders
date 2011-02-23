@@ -106,5 +106,6 @@
 <!ENTITY modifyheaders.url.icons1 "http://cargocollective.com/davidferreira">
 <!ENTITY modifyheaders.url.icons2 "http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/">
 <!ENTITY modifyheaders.url.defects "http://modifyheaders.mozdev.org/bugs.html">
+<!ENTITY modifyheaders.url.defects.v "http://modifyheaders.mozdev.org/bugs.html?v=@build.version@">
 <!ENTITY modifyheaders.url.twitter "http://twitter.com/modifyheaders">
 <!ENTITY modifyheaders.url.contribute "https://addons.mozilla.org/en-US/firefox/addon/modify-headers/">
