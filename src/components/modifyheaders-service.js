@@ -19,6 +19,9 @@
 if (!ModifyHeaders)
 	var ModifyHeaders = {};
 
+if (!ModifyHeaders.JSON)
+	ModifyHeaders.JSON = null;
+
 if (!ModifyHeaders.Header) {
 	Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 	
@@ -116,6 +119,7 @@ if (!ModifyHeaders.Service) {
 		// Load the headers from the preferences
 		init: function () {
 			if (!this.initiated) {
+				Components.utils.import("resource://modifyheaders/JSON.js", ModifyHeaders);
 				var profileDir = Components.classes["@mozilla.org/file/directory_service;1"].
 				getService(Components.interfaces.nsIProperties).
 				get("ProfD", Components.interfaces.nsIFile);
@@ -136,7 +140,7 @@ if (!ModifyHeaders.Service) {
 						data += siStream.read(-1);
 						siStream.close();
 						fiStream.close();
-						this.configuration = JSON.parse(data);
+						this.configuration = ModifyHeaders.JSON.parse(data);
 					} catch(e) {
 						Components.utils.reportError(e);
 					}
@@ -224,14 +228,6 @@ if (!ModifyHeaders.Service) {
 		// Adds a header to the headers array
 		addHeader: function (name, value, action, comment, enabled) {
 			// TODO Validate the arguments
-			
-			// Add the header to the Array
-			/* var header = new Array();
-			header["enabled"] = enabled;
-			header["action"]  = action;
-			header["name"]    = name;
-			header["value"]   = value;
-			header["comment"] = comment; */
 			var header = {
 				enabled: enabled,
 				action: action,
@@ -241,8 +237,6 @@ if (!ModifyHeaders.Service) {
 			};
 			
 			this.configuration.headers.push(header);
-			
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
@@ -256,14 +250,12 @@ if (!ModifyHeaders.Service) {
 			this.configuration.headers[index]["value"]   = value;
 			this.configuration.headers[index]["comment"] = comment;
 			
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
 		// Remove the header with the specified index
 		removeHeader: function (index) {
 			this.configuration.headers.splice(index, 1);
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
@@ -273,7 +265,6 @@ if (!ModifyHeaders.Service) {
 		
 		setHeaderEnabled: function (index, enabled) {
 			this.configuration.headers[index]["enabled"] = enabled;
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
@@ -297,13 +288,12 @@ if (!ModifyHeaders.Service) {
 			var header = this.configuration.headers[index1];
 			this.configuration.headers[index1] = this.configuration.headers[index2];
 			this.configuration.headers[index2] = header;
-			//this.savePreferences();
 			this.saveConfiguration();
 		},
 		
 		// Save configuration file
 		saveConfiguration: function () {
-			var data = JSON.stringify(this.configuration);
+			var data = ModifyHeaders.JSON.stringify(this.configuration);
 
 	        try {
 	            var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].
@@ -317,39 +307,6 @@ if (!ModifyHeaders.Service) {
 	            Components.utils.reportError(e);
 		    }
 		},
-		
-		// Persist the headers to the preferences.
-		/*savePreferences: function () {
-			// Only save headers if the service has been initiated
-			if (this.initiated) {
-				// TODO Clear the preferences first
-				// This ensures old headers are not maintained in the preferences
-				// I'm sure there is a better way than this
-				
-				// Loop over the headers
-				for (var i=0; i < this.count; i++) {
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderAction + i, this.headers[i]["action"]);
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderName + i, this.headers[i]["name"]);
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderValue + i, this.headers[i]["value"]);
-					this.preferencesUtil.setPreference("char", this.preferencesUtil.prefHeaderComment + i, this.headers[i]["comment"]);
-					this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefHeaderEnabled + i, this.headers[i]["enabled"]);
-				}
-				
-				this.preferencesUtil.setPreference("int", this.preferencesUtil.prefHeaderCount, this.count);
-			}
-		},*/
-
-		// Clear the headers from their preferences
-		/*clearPreferences: function () {
-			// Loop over the headers
-			for (var i=0; i < this.count; i++) {
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderAction + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderEnabled + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderName + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderValue + i);
-				this.preferencesUtil.deletePreference(this.preferencesUtil.prefHeaderComment + i);
-			}
-		}*/
 	};
 }
 
