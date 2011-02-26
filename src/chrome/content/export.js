@@ -83,7 +83,7 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 			var exportHeaders = [],
 				exportHeadersJson = "";
 			
-			for (var i = 0; i < ModifyHeaders.ExportImport.modifyheadersService.count; i++) {
+			for (var i = 0; i < ModifyHeaders.ExportImport.ExportWizard.selectHeadersTreeView.rowCount; i++) {
 				// If selected, get the header from the service
 				if (ModifyHeaders.ExportImport.ExportWizard.selectedRows[i]) {
 					var header =  {
@@ -95,7 +95,7 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 					exportHeaders.push(header);
 				}
 			}
-			exportHeadersJson = JSON.stringify(exportHeaders);
+			exportHeadersJson = ModifyHeaders.ExportImport.JSON.stringify(exportHeaders);
 			
 			// Save the JS object to the specified file
 			try {
