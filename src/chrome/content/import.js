@@ -79,7 +79,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 			var config = false;
 			
 			try {
-				config = JSON.parse(data);
+				config = ModifyHeaders.ExportImport.JSON.parse(data);
 			} catch (e) {
 				// Do nothing
 			}
@@ -276,9 +276,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 		},
 		
 		import: function () {
-			var importHeaders = [],
-				exportHeadersJson = "",
-				count = 0;
+			var count = 0;
 			
 			for (var i = 0; i < ModifyHeaders.ExportImport.ImportWizard.importedConfig.length; i++) {
 				// If selected, get the header from the importedConfig
