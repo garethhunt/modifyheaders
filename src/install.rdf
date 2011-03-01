@@ -15,12 +15,12 @@
         <em:type>2</em:type>
         <em:version>@build.version@</em:version>
         
-        <!-- Firefox 3.* - 4.0 -->
+        <!-- Firefox 3.6.* - 4.0 -->
         <!-- Due to changes in XPCOM, Firefox prior to version 3 is no longer supported -->
         <em:targetApplication>
             <Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:minVersion>3.5</em:minVersion>
+                <em:minVersion>3.6</em:minVersion>
                 <em:maxVersion>4.0.*</em:maxVersion>
             </Description>
         </em:targetApplication>
