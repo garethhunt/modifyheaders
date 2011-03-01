@@ -280,18 +280,22 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 				exportHeadersJson = "",
 				count = 0;
 			
+			var headers = JSON.parse(ModifyHeaders.ExportImport.modifyheadersService.getHeaders());
+			
 			for (var i = 0; i < ModifyHeaders.ExportImport.ImportWizard.importedConfig.length; i++) {
 				// If selected, get the header from the importedConfig
 				if (ModifyHeaders.ExportImport.ImportWizard.selectedRows[i]) {
-					var action  = ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].action,
-						name    = ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].name,
-						value   = ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].value,
-						comment = ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].comment;
-					
-					ModifyHeaders.ExportImport.modifyheadersService.addHeader(name, value, action, comment, false);
+					var header = {
+						action  : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].action,
+						name    : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].name,
+						value   : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].value,
+						comment : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].comment
+					};
+					headers.push(header);
 					count++;
 				}
 			}
+			ModifyHeaders.ExportImport.modifyheadersService.saveHeaders(JSON.stringify(headers));
 			this.retVal.importedHeaderCount = count;
 		}
 	}

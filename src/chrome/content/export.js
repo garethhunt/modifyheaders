@@ -12,6 +12,7 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 				ModifyHeaders.ExportImport.init(this);
 				ModifyHeaders.ExportImport.wizard = document.getElementById("modifyheaders-export-wizard");
 				ModifyHeaders.ExportImport.wizard.canAdvance = false;
+				ModifyHeaders.ExportImport.ExportWizard.selectHeadersTreeView.data = JSON.parse(ModifyHeaders.ExportImport.modifyheadersService.getHeaders());
 				document.getElementById("select-headers-tree").view = ModifyHeaders.ExportImport.ExportWizard.selectHeadersTreeView;
 				this.initiated = true;
 			}
@@ -42,7 +43,7 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 		showConfirm: function () {
 			// TODO Modify the view to include the selected file path and list of selected headers
 			var count = 0;
-			for (var i = 0; i < ModifyHeaders.ExportImport.modifyheadersService.count; i++) {
+			for (var i = 0; i < this.selectHeadersTreeView.rowCount; i++) {
 				if (ModifyHeaders.ExportImport.ExportWizard.selectedRows[i]) {
 					count++;
 				}
@@ -61,7 +62,7 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 		},
 		
 		selectAllHeaders: function (checkBox) {
-			for (var i = 0; i < ModifyHeaders.ExportImport.modifyheadersService.count; i++) {
+			for (var i = 0; i < this.selectHeadersTreeView.rowCount; i++) {
 				ModifyHeaders.ExportImport.ExportWizard.selectedRows[i] = !checkBox.checked;
 			}
 			ModifyHeaders.ExportImport.wizard.canAdvance = !checkBox.checked;
@@ -70,28 +71,23 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 		headersSelected: function () {
 			var trueCount = 0;
 			
-			for (var i = 0; i < ModifyHeaders.ExportImport.modifyheadersService.count; i++) {
+			for (var i = 0; i < this.selectHeadersTreeView.rowCount; i++) {
 				if (ModifyHeaders.ExportImport.ExportWizard.selectedRows[i]) {
 					trueCount++;
 				}
 			}
 			ModifyHeaders.ExportImport.wizard.canAdvance = (trueCount > 0) ? true : false;
-			document.getElementById("select-all-headers").checked = (trueCount == ModifyHeaders.ExportImport.modifyheadersService.count) ? true : false;
+			document.getElementById("select-all-headers").checked = (trueCount == this.selectHeadersTreeView.rowCount) ? true : false;
 		},
 		
 		saveConfiguration: function () {
 			var exportHeaders = [],
 				exportHeadersJson = "";
 			
-			for (var i = 0; i < ModifyHeaders.ExportImport.modifyheadersService.count; i++) {
+			for (var i = 0; i < this.selectHeadersTreeView.rowCount; i++) {
 				// If selected, get the header from the service
 				if (ModifyHeaders.ExportImport.ExportWizard.selectedRows[i]) {
-					var header =  {
-						action:  ModifyHeaders.ExportImport.modifyheadersService.getHeaderAction(i),
-						name:    ModifyHeaders.ExportImport.modifyheadersService.getHeaderName(i),
-						value:   ModifyHeaders.ExportImport.modifyheadersService.getHeaderValue(i),
-						comment: ModifyHeaders.ExportImport.modifyheadersService.getHeaderComment(i)
-					};
+					var header = this.selectHeadersTreeView.data[i];
 					exportHeaders.push(header);
 				}
 			}
@@ -111,21 +107,22 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 		},
 		
 		selectHeadersTreeView: {
+			data: [],
 	        selection: null,
 	        get rowCount() {
-	        	return ModifyHeaders.ExportImport.modifyheadersService.count;
+	        	return this.data.length;
 	        },
 	        getCellText: function(row,column) {
 	        	if (column == "col-select" || column.id == "col-select") {
 	        		return "";
 	        	} else if (column == "col-action" || column.id == "col-action") {
-	                return ModifyHeaders.ExportImport.modifyheadersService.getHeaderAction(row);
+	                return this.data[row].action;
 	            } else if (column == "col-header-name" || column.id == "col-header-name") {
-	                return ModifyHeaders.ExportImport.modifyheadersService.getHeaderName(row);
+	            	return this.data[row].name;
 	            } else if (column == "col-header-value" || column.id == "col-header-value") {
-	                return ModifyHeaders.ExportImport.modifyheadersService.getHeaderValue(row);
+	            	return this.data[row].value;
 	            } else if (column == "col-comment" || column.id == "col-comment") {
-	                return ModifyHeaders.ExportImport.modifyheadersService.getHeaderComment(row);
+	            	return this.data[row].comment
 	            }
 	            return null;
 	        },

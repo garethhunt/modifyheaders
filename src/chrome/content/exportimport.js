@@ -1,7 +1,6 @@
 /**
- * @author gareth
+ * @author Gareth Hunt
  */
-
 var ModifyHeaders = {};
 
 ModifyHeaders.ExportImport = (function () {
@@ -10,7 +9,10 @@ ModifyHeaders.ExportImport = (function () {
 		
 		init: function (action) {
 			this.modifyheadersService = Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders);
-			for (var i = 0; i < this.modifyheadersService.count; i++) {
+			
+			var headers = JSON.parse(this.modifyheadersService.getHeaders());
+			
+			for (var i = 0; i < headers.length; i++) {
 				action.selectedRows[i] = false;
 			}
 		}
