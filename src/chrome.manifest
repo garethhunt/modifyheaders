@@ -21,3 +21,6 @@ contract @modifyheaders.mozdev.org/proxy;1 {0eff9eeb-c51a-4f07-9823-27bc32fdae13
 
 # The category registration is required for the Proxy service
 category profile-after-change ModifyHeadersProxy @modifyheaders.mozdev.org/proxy;1
+
+component {86e57f10-469a-11e0-9207-0800200c9a66} components/modifyheaders-autocomplete.js
+contract @mozilla.org/autocomplete/search;1?name=modifyheaders-autocomplete {86e57f10-469a-11e0-9207-0800200c9a66}

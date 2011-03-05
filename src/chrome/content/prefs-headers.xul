@@ -18,7 +18,7 @@
                 <menuitem label="&modifyheaders.menuitem.action.filter;" value="&modifyheaders.menuitem.action.filter;" />
               </menupopup>
             </menulist>
-            <textbox id="headername-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.name;" tooltiptext="&modifyheaders.tooltip.name;" />
+            <textbox id="headername-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.name;" tooltiptext="&modifyheaders.tooltip.name;" type="autocomplete" autocompletesearch="modifyheaders-autocomplete" />
             <textbox id="headervalue-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.value;" tooltiptext="&modifyheaders.tooltip.value;" />
             <textbox id="headercomment-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.comment;" tooltiptext="&modifyheaders.tooltip.comment;" />
             <button id="add-header-button" label="&modifyheaders.button.headers.add;" command="addHeader" flex="0" hidden="false" disabled="true" />

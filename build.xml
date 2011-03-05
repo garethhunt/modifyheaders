@@ -116,6 +116,10 @@
       <fileset dir="${build.srcdir}/components"></fileset>
       <fileset dir="${build.targetdir}/interface"></fileset>
     </copy>
+		
+    <copy todir="${build.targetdir}/unpacked/defaults/" filtering="false">
+      <fileset dir="${build.srcdir}/defaults/"></fileset>
+    </copy>
 	</target>
 
 	<!-- <target name="jar" depends="compile" description="Creates the extension jar">

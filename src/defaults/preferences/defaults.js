@@ -1,0 +1,1 @@
+pref('modifyheaders.autocomplete.name.defaults', '["Accept","Cache-Control","Cookie","Content-Length","Content-Type","Date","Host","Pragma","Referer","User-Agent","Via","X-Requested-With","X-Forwarded-For","X-Do-Not-Track"]');

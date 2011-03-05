@@ -36,7 +36,9 @@ var ModifyHeaders = {
   modifyheadersService: Components.classes["@modifyheaders.mozdev.org/service;1"].getService(Components.interfaces.nsIModifyheaders),
   initialized: false,
   mhWindow: null,
-
+  
+  preferences: null,
+  
   // Control constants
   headersTree: null,
   actionMenuList: null,
@@ -147,9 +149,9 @@ var ModifyHeaders = {
 //    performActionOnRow: function(action, rowIndex) { /* do nothing */ },
 //    selectionChanged: function() { /* do nothing */ },
 //    setCellText: function(rowIndex, columnID, value) { /* do nothing */ },
-    setTree: function(tree) { this.treeBox=tree; },
+    setTree: function(tree) { this.treeBox=tree; }//,
 //    toggleOpenState: function(index) { /* do nothing */ },
-  },
+  },  // End headerListTreeView
     
   start: function() {
     // Initialize the form controls
@@ -180,6 +182,14 @@ var ModifyHeaders = {
     
     // Set this view for the treeBoxObject
     this.headersTree.treeBoxObject.view = this.headerListTreeView;
+    
+    // Configure the preferences service
+    this.preferences = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("modifyheaders.");
+    this.preferences.QueryInterface(Components.interfaces.nsIPrefBranch2);
+    
+    // Prepare the Header Names Autocomplete
+    this.prepareHeaderNamesList();
+    
     this.initialized = true;
   },
   
@@ -287,6 +297,7 @@ var ModifyHeaders = {
   storeHeaders: function () {
 	var data = JSON.stringify(this.headerListTreeView.data);
 	this.modifyheadersService.saveHeaders(data);
+	this.prepareHeaderNamesList();
   },
   
   clearForm: function() {
@@ -399,6 +410,26 @@ var ModifyHeaders = {
       default:
         this.clearForm();
     }
+  },
+  
+  prepareHeaderNamesList: function () {
+	var headerNames = JSON.parse(this.preferences.getCharPref("autocomplete.name.defaults"));
+	
+	this.headerListTreeView.data.forEach(function (element, index, array) {
+      var name = element.name;
+	  if (headerNames.indexOf(name) == -1 && headerNames.indexOf(name.toLowerCase()) == -1) {
+		headerNames.push(name);
+	  }
+	});
+	
+	// Sort the headers names into alphabetical order
+	headerNames.sort();
+	
+	var headerNamesList = headerNames.map(function (value) {
+		return {"value": value};
+	});
+	
+	this.nameTextbox.searchParam = JSON.stringify(headerNamesList);
   },
   
   openHelp: function() {
