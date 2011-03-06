@@ -19,8 +19,8 @@
 <!ENTITY modifyheaders.button.headers.save "Save">
 <!ENTITY modifyheaders.button.export "Export Headers">
 <!ENTITY modifyheaders.button.import "Import Headers">
-<!ENTITY modifyheaders.button.movedown "Move Down">
-<!ENTITY modifyheaders.button.moveup "Move Up">
+<!ENTITY modifyheaders.button.movebottom "Move to Bottom">
+<!ENTITY modifyheaders.button.movetop "Move to Top">
 
 <!-- Captions -->
 <!ENTITY modifyheaders.caption.about "About Modify Headers">

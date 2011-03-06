@@ -78,34 +78,7 @@ var ModifyHeaders = {
     
     drop: function(targetRowID, orientation, dataTransfer) {
       var sourceRowID = dataTransfer.getData("text/plain");
-      var sourceHeader;
-	  var sourceHeaderRemoved = false;
-	
-	  if (sourceRowID > targetRowID) {
-		var removedHeaders = this.data.splice(sourceRowID, 1);
-		sourceHeader = removedHeaders[0];
-		sourceHeaderRemoved = true;
-	  } else {
-		sourceHeader = this.data[sourceRowID];
-	  }
-	
-	  if (orientation == Components.interfaces.nsITreeView.DROP_BEFORE) {
-	    this.data.splice(targetRowID, 0, sourceHeader);
-	  } else if (orientation == Components.interfaces.nsITreeView.DROP_AFTER) {
-		this.data.splice((targetRowID+1), 0, sourceHeader);
-	  } else if (orientation == Components.interfaces.nsITreeView.DROP_ON) {
-		Components.utils.reportError("nsITreeView.DROP_ON not supported.");
-		// TODO Throw an error ? 
-	  } else {
-		Components.utils.reportError("Incorrect orientation after drop: " + orientation);
-		// TODO Throw an error ? 
-	  }
-	
-	  if (!sourceHeaderRemoved) {
-		this.data.splice(sourceRowID, 1);
-	  }
-	
-      ModifyHeaders.storeHeaders();
+      ModifyHeaders.moveRow(sourceRowID, targetRowID, orientation)
     },
     
     getCellProperties: function(row, columnID, properties) { /* do nothing */ },
@@ -359,36 +332,62 @@ var ModifyHeaders = {
     this.storeHeaders();
   },
   
-  // TODO Remove moveRowDown once drag/drop is implemented
-  moveRowDown: function() {
-    if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != this.headerListTreeView.rowCount - 1) {
-      var selectedIndex = this.headerListTreeView.selection.currentIndex;
-      this.switchHeaders(selectedIndex, selectedIndex + 1);
-      
-      // Change the selection
-      this.headerListTreeView.selection.select(this.headerListTreeView.selection.currentIndex + 1);
-      this.headerListTreeView.treeBox.rowCountChanged(this.headerListTreeView.selection.currentIndex, 0);
-    }
-  },
-  
-  // TODO Remove moveRowUp once drag/drop is implemented
-  moveRowUp: function() {
-    if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != 0) {
+  // Orientation is for drag/drop functionality.
+  // Other Move commands can fake it using:
+  // * Components.interfaces.nsITreeView.DROP_AFTER
+  // * Components.interfaces.nsITreeView.DROP_BEFORE
+  moveRow: function (sourceRowID, targetRowID, orientation) {    
+    var sourceHeader;
+    var sourceHeaderRemoved = false;
     
-      var selectedIndex = this.headerListTreeView.selection.currentIndex;
-      this.switchHeaders(selectedIndex, selectedIndex - 1);
-      this.headerListTreeView.selection.select(this.headerListTreeView.selection.currentIndex - 1);
-      this.headerListTreeView.treeBox.rowCountChanged(this.headerListTreeView.selection.currentIndex-1, 0);
+    if (sourceRowID > targetRowID) {
+      var removedHeaders = this.headerListTreeView.data.splice(sourceRowID, 1);
+      sourceHeader = removedHeaders[0];
+      sourceHeaderRemoved = true;
+    } else {
+      sourceHeader = this.headerListTreeView.data[sourceRowID];
     }
-  },
-  
-  switchHeaders: function (index1, index2) {
-    var header = this.headerListTreeView.data[index1];
-    this.headerListTreeView.data[index1] = this.headerListTreeView.data[index2];
-    this.headerListTreeView.data[index2] = header;
+    
+    if (orientation == Components.interfaces.nsITreeView.DROP_BEFORE) {
+      this.headerListTreeView.data.splice(targetRowID, 0, sourceHeader);
+    } else if (orientation == Components.interfaces.nsITreeView.DROP_AFTER) {
+      this.headerListTreeView.data.splice((targetRowID+1), 0, sourceHeader);
+    } else if (orientation == Components.interfaces.nsITreeView.DROP_ON) {
+      Components.utils.reportError("nsITreeView.DROP_ON not supported.");
+      // TODO Throw an error ? 
+    } else {
+      Components.utils.reportError("Incorrect orientation after drop: " + orientation);
+      // TODO Throw an error ? 
+    }
+  	
+    if (!sourceHeaderRemoved) {
+      this.headerListTreeView.data.splice(sourceRowID, 1);
+    }
+    
+    // Change the selection
+    this.headerListTreeView.selection.select(targetRowID);
+    this.headerListTreeView.treeBox.invalidate();// Redraw all rows in their new order
+    
+    // Store the new header arrangement
     this.storeHeaders();
   },
   
+  moveRowBottom: function () {
+	  if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != this.headerListTreeView.rowCount - 1) {
+        var sourceRowID = this.headerListTreeView.selection.currentIndex;
+        var targetRowID = (this.headerListTreeView.rowCount-1);
+        this.moveRow(sourceRowID, targetRowID, Components.interfaces.nsITreeView.DROP_AFTER);
+	  }
+  },
+  
+  moveRowTop: function () {
+    if (this.headerListTreeView.selection && this.headerListTreeView.selection.currentIndex != 0) {
+      var sourceRowID = this.headerListTreeView.selection.currentIndex;
+      var targetRowID = 0;
+      this.moveRow(sourceRowID, targetRowID, Components.interfaces.nsITreeView.DROP_BEFORE);
+    }
+  },
+    
   actionSelected: function() {
     switch(this.actionMenuList.selectedItem.value) {
       case "Add":

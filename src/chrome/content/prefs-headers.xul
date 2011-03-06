@@ -53,8 +53,8 @@
             <button label="&modifyheaders.button.edit;" command="editHeader" flex="0" />
             <button label="&modifyheaders.button.delete;" command="deleteHeader" flex="0" />
             <separator orient="horizontal" />
-            <button label="&modifyheaders.button.moveup;" command="moveRowUp" />
-            <button label="&modifyheaders.button.movedown;" command="moveRowDown" />
+            <button label="&modifyheaders.button.movetop;" command="moveRowTop" />
+            <button label="&modifyheaders.button.movebottom;" command="moveRowBottom" />
             <separator orient="horizontal" />
             <button label="&modifyheaders.button.enable;" command="enableHeader" flex="0" />
             <button label="&modifyheaders.button.enableall;" command="enableAllHeaders" flex="0" />

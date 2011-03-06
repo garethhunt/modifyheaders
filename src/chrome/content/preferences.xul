@@ -28,8 +28,8 @@
     <command id="deleteHeader" oncommand="ModifyHeaders.deleteHeader();"/>
     <command id="saveHeader" oncommand="ModifyHeaders.saveHeader();"/>
     <command id="resetHeaderForm" oncommand="ModifyHeaders.clearForm();"/>
-    <command id="moveRowUp" oncommand="ModifyHeaders.moveRowUp();"/>
-    <command id="moveRowDown" oncommand="ModifyHeaders.moveRowDown();"/>
+    <command id="moveRowTop" oncommand="ModifyHeaders.moveRowTop();"/>
+    <command id="moveRowBottom" oncommand="ModifyHeaders.moveRowBottom();"/>
     <command id="enableHeader" oncommand="ModifyHeaders.enableHeader();"/>
     <command id="enableAllHeaders" oncommand="ModifyHeaders.enableAllHeaders();"/>
     <command id="disableAllHeaders" oncommand="ModifyHeaders.disableAllHeaders();"/>
