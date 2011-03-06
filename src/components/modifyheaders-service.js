@@ -279,6 +279,23 @@ if (!ModifyHeaders.Proxy) {
 							} else if (headers[i].action == "Filter") {
 								headerValue = "";
 							}
+							
+							// Handle Cookies separately
+							if (headerName.toLowerCase() == "cookie") {
+								headerAppend = false;
+								if (headers[i].action == "Add") {
+									// Throws failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIHttpChannel.getRequestHeader]
+									// if the Cookie is filtered before a new Cookie value is added
+									try {
+										var currentHeaderValue = subject.getRequestHeader(headerName);
+										headerValue = currentHeaderValue + ";" + headerValue;
+									} catch (err) {
+										// Continue after error. Commenting out so the JS console is not spammed 
+										// Components.utils.reportError("Continuing after error: " + err.message);
+									}
+								}
+							}
+							
 							subject.setRequestHeader(headerName, headerValue, headerAppend);
 						}
 					}
