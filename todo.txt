@@ -1,17 +1,14 @@
 -- Todo --
-Version 0.7
-* Add drag/drop to move headers
+Version 0.7.x
 * Other header sort options
 * Multiple select headers to enable/disable together
-* Bugs:
- * 13485: Adding Cookie header is not successful
- * 18885: Use pulldown menu for possible header names
+* Defects/Enhancements:
  * 23472: Status bar icon
  * 23554: Sort headers
 
 Version 0.8
 * Implement facility to modify headers for specific domains/ip's
-* Bugs:
+* Defects/Enhancements:
  * 18585, 23446: Profiles
 
 Version 0.9

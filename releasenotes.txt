@@ -1,5 +1,17 @@
 -- Release Notes --
 
+Release 0.7.0, 6 March 2011
+
+* Headers organized by Drag and Drop
+* Move to Top/Bottom buttons replace Move Up/Down
+* Header name input has auto-complete with pre-defined list of headers
+** Custom headers will be added to the list at runtime
+* Fixed defect 13485: Adding Cookie-Header is not successful
+* Enhancement 18885: Use Pulldown Menu for Possible Header Values
+* Lots of small code optimizations
+
+--
+
 Release 0.6.12, 28 February 2011
 
 * Fixed JSON compatibility with Firefox 3.0
