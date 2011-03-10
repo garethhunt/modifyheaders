@@ -33,7 +33,7 @@
             <tree id="modifyheaders-tree" seltype="single" hidecolumnpicker="true" flex="1"
                 ondblclick="ModifyHeaders.enableHeader();"
                 ondragstart="ModifyHeaders.headerListTreeView.dragStart(event)">
-              <treecols>
+              <treecols ondragstart="event.stopPropagation();">
                 <treecol id="actioncol" label="&modifyheaders.treecol.action;" fixed="true" ignoreincolumnpicker="true" />
                 <treecol id="namecol" label="&modifyheaders.treecol.name;" flex="1" persist="width" ignoreincolumnpicker="true" />
                 <splitter class="tree-splitter" />
