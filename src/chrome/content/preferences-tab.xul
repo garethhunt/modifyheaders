@@ -10,7 +10,8 @@
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     ondialoghelp="ModifyHeaders.openHelp()"
     onload="ModifyHeaders.toggleWindow()"
-    onunload="ModifyHeaders.toggleWindow()">
+    onunload="ModifyHeaders.toggleWindow()"
+    ondrop="event.preventDefault()">
     
     <prefpane id="paneHeaders" label="Headers" selected="true" onpaneload="ModifyHeaders.start()"
         insertbefore="modifyheaders-window-sizetocontent"

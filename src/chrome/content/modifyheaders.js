@@ -78,7 +78,7 @@ var ModifyHeaders = {
     
     drop: function(targetRowID, orientation, dataTransfer) {
       var sourceRowID = dataTransfer.getData("text/plain");
-      ModifyHeaders.moveRow(sourceRowID, targetRowID, orientation)
+      ModifyHeaders.moveRow(sourceRowID, targetRowID, orientation);
     },
     
     getCellProperties: function(row, columnID, properties) { /* do nothing */ },

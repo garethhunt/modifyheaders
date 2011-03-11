@@ -1,5 +1,17 @@
 -- Release Notes --
 
+Release 0.7.0.2, 10 March 2011
+
+* Fixed bug 23754: Redirects to http://<number>/ when moving an item (drag&drop)
+
+--
+
+Release 0.7.0.1, 10 March 2011
+
+* Fixed bug 23612: Cannot resize columns in header window
+
+--
+
 Release 0.7.0, 6 March 2011
 
 * Headers organized by Drag and Drop
