@@ -8,39 +8,29 @@
         <em:description>Add, modify and filter HTTP request headers</em:description>
         <em:homepageURL>http://www.garethhunt.com/modifyheaders/</em:homepageURL>
         <!-- <em:iconURL>chrome://modifyheaders/content/logo.gif</em:iconURL> -->
-        <em:iconURL></em:iconURL>
+        <em:iconURL>chrome://modifyheaders/content/icons/ModifyHeaders-48.png</em:iconURL>
         <em:id>{b749fc7c-e949-447f-926c-3f4eed6accfe}</em:id>
         <em:name>Modify Headers</em:name>
         <em:optionsURL>chrome://modifyheaders/content/preferences.xul</em:optionsURL>
         <em:type>2</em:type>
         <em:version>@build.version@</em:version>
         
-        <!-- Firefox 3.6.* - 4.0 -->
-        <!-- Due to changes in XPCOM, Firefox prior to version 3 is no longer supported -->
+        <!-- Firefox 4.0 - 9.0 -->
         <em:targetApplication>
             <Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:minVersion>3.6</em:minVersion>
-                <em:maxVersion>4.0.*</em:maxVersion>
-            </Description>
-        </em:targetApplication>
-        
-        <!-- Flock -->
-        <em:targetApplication>
-            <Description>
-                <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
-                <em:minVersion>2.0</em:minVersion>
-                <em:maxVersion>2.*</em:maxVersion>
+                <em:minVersion>4.0</em:minVersion>
+                <em:maxVersion>9.0.*</em:maxVersion>
             </Description>
         </em:targetApplication>
         
         <!-- Seamonkey 2.0 -->
-        <em:targetApplication>
+        <!--<em:targetApplication>
             <Description>
                 <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
                 <em:minVersion>2.0</em:minVersion>
                 <em:maxVersion>2.0.*</em:maxVersion>
             </Description>
-        </em:targetApplication>
+        </em:targetApplication>-->
     </Description>
 </RDF>

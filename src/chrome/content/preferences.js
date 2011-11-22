@@ -1,6 +1,8 @@
 /**
- * @author gareth
+ * @author Gareth Hunt
  */
+var ModifyHeaders = ModifyHeaders || {};
+
 ModifyHeaders.Preferences = (function () {
 	return {
 		openExportWizard: function () {
@@ -17,3 +19,27 @@ ModifyHeaders.Preferences = (function () {
 		}
 	}	
 })();
+
+ModifyHeaders.ActivateListener = (function (callback) {
+	var listener = {
+		register: function () {
+			var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+			this._branch = prefService.getBranch("modifyheaders.");
+			this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+			this._branch.addObserver("", this, false);
+		},
+		
+		unregister: function () {
+			if (!this._branch) return;  
+		    this._branch.removeObserver("", this);
+		},
+		
+		observe: function (subject, topic, data) {
+			if (topic == 'nsPref:changed') {
+			    this._callback(this._branch, data);
+			}
+		}
+	}
+	listener._callback = callback;
+	return listener;
+});

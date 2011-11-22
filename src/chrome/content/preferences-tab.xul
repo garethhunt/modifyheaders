@@ -8,10 +8,13 @@
     buttons="accept"
     title="&modifyheaders.extension.name;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    xmlns:html="http://www.w3.org/1999/xhtml"
     ondialoghelp="ModifyHeaders.openHelp()"
     onload="ModifyHeaders.toggleWindow()"
     onunload="ModifyHeaders.toggleWindow()"
     ondrop="event.preventDefault()">
+    
+    <html:link rel="icon" href="chrome://modifyheaders/content/icons/ModifyHeaders-16.png" style="display:none"/>
     
     <prefpane id="paneHeaders" label="Headers" selected="true" onpaneload="ModifyHeaders.start()"
         insertbefore="modifyheaders-window-sizetocontent"

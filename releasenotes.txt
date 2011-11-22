@@ -1,5 +1,16 @@
 -- Release Notes --
 
+Release 0.7.1.0, 23 November 2011
+
+* Added the Modify Headers icon
+* Replaced 'Always On' preference with Start/Stop button
+* Minimum Firefox version required: 4.0
+* Fixed bug #23854: 
+* Enhancements #23473, #24112: Icon/menu available in addon toolbar
+* Removed support for Seamonkey 2.0
+
+--
+
 Release 0.7.0.2, 10 March 2011
 
 * Fixed bug 23754: Redirects to http://<number>/ when moving an item (drag&drop)

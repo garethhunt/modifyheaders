@@ -5,13 +5,11 @@
   
   <prefpane id="paneOptions" label="&modifyheaders.label.options;">
     <preferences>
-      <preference id="always-on" name="modifyheaders.config.alwaysOn" type="bool" />
       <preference id="open-as-tab" name="modifyheaders.config.openNewTab" type="bool" />
     </preferences>
 
     <groupbox>
       <caption label="&modifyheaders.caption.options.general;"/>
-      <checkbox id="modifyheaders-always-on" label="&modifyheaders.label.options.alwayson;" preference="always-on" />
       <checkbox id="modifyheaders-open-as-tab" label="&modifyheaders.label.options.openintab;" preference="open-as-tab" />
     </groupbox>
 

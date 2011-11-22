@@ -19,11 +19,10 @@
 
 var ModifyHeaders = {
   open: function () {
+    // TODO Determine if Modify Headers is already open and shift to its tab/window if appropriate
     if (this.modifyheadersService.openAsTab) {
       // Open modifyheaders in a new tab
-      // TODO Determine if Modify Headers is already open and shift to its tab if appropriate
       gBrowser.selectedTab = gBrowser.addTab('chrome://modifyheaders/content/preferences-tab.xul');
-      //gBrowser.selectedTab.setAttribute("image", "chrome://modifyheaders/skin/favicon.ico");
     } else if (!this.modifyheadersService.windowOpen) {
       // Open Modify Headers in a resizable dialog
       this.mhWindow = window.openDialog("chrome://modifyheaders/content/preferences.xul", "modifyheaders", "chrome,all,dialog=no");
@@ -69,9 +68,12 @@ var ModifyHeaders = {
     },
     
     dragStart: function (event) {
-      var index = ModifyHeaders.headerListTreeView.selection.currentIndex;
-      if (index > -1) { 
-        event.dataTransfer.setData("text/plain", index);
+      // Ensure the scollbar or other tree elements are not selected
+      if (!(event.target.id == "modifyheaders-tree")) {
+          var index = ModifyHeaders.headerListTreeView.selection.currentIndex;
+          if (index > -1) { 
+            event.dataTransfer.setData("text/plain", index);
+          }
       }
       event.stopPropagation();
     },
@@ -125,6 +127,38 @@ var ModifyHeaders = {
     setTree: function(tree) { this.treeBox=tree; }//,
 //    toggleOpenState: function(index) { /* do nothing */ },
   },  // End headerListTreeView
+  
+  activate: function () {
+    this.modifyheadersService.active = !this.modifyheadersService.active;
+  },
+  
+  toggleStartButton: function () {
+    var startButton = document.getElementById("modifyheaders-start-button");
+    
+    if (this.modifyheadersService.active) {
+      startButton.setAttribute("label", document.getElementById("modifyheadersStringResources").getString("modifyheaders.button.stop"));
+      startButton.className = "started";
+    } else {
+      startButton.setAttribute("label", document.getElementById("modifyheadersStringResources").getString("modifyheaders.button.start"));
+      startButton.className = "";
+    }
+  },
+  
+  toggleToolbarButton: function () {
+    var startToolbarButton = document.getElementById("modifyheaders-toolbar-button-start");
+    var stopToolbarButton = document.getElementById("modifyheaders-toolbar-button-stop");
+    var addonToolbarButton = document.getElementById("modifyheaders-addonbar-button");
+    
+    if (this.modifyheadersService.active) {
+        startToolbarButton.hidden = true;
+        stopToolbarButton.hidden = false;
+        addonToolbarButton.image = "chrome://modifyheaders/content/icons/ModifyHeaders-16.png";
+    } else {
+        startToolbarButton.hidden = false;
+        stopToolbarButton.hidden = true;
+        addonToolbarButton.image = "chrome://modifyheaders/content/icons/ModifyHeaders-grey-16.png";
+    }
+  },
     
   start: function() {
     // Initialize the form controls
@@ -135,6 +169,22 @@ var ModifyHeaders = {
     this.commentTextbox = document.getElementById("headercomment-text-box");
     this.addButton = document.getElementById("add-header-button");
     this.saveButton = document.getElementById("save-header-button");
+    
+    // Add the start/stop radio button to the toolbar radiogroup
+    // TODO Use an overlay or XBL
+    var startStopRadio = document.createElement("radio");
+    startStopRadio.setAttribute("id", "modifyheaders-start-button");
+    startStopRadio.setAttribute("oncommand", "ModifyHeaders.activate(); return false;");
+    document.documentElement._selector.insertBefore(startStopRadio, document.documentElement._selector.firstChild);
+    this.toggleStartButton();
+    
+    // Listen for when the 'active' preference changes
+    this.activateListener = new ModifyHeaders.ActivateListener(function (branch, data) {
+      if (data = "config.active") {
+        ModifyHeaders.toggleStartButton();
+      }
+    });
+    this.activateListener.register();
     
     // Add help radio button to toolbar radiogroup
     // TODO Use an overlay or XBL
@@ -166,8 +216,12 @@ var ModifyHeaders = {
     this.initialized = true;
   },
   
+  stop: function () {
+	  this.activateListener.unregister();
+  },
+  
   toggleWindow: function () {
-  document.getElementById("modifyheaders-window").lastSelected = "paneHeaders";
+    document.getElementById("modifyheaders-window").lastSelected = "paneHeaders";
     this.modifyheadersService.windowOpen = !this.modifyheadersService.windowOpen;
   },
   

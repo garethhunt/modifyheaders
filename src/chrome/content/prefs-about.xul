@@ -7,8 +7,6 @@
     <preferences/>
     
     <groupbox>
-      <!-- <image src="chrome://modifyheaders/content/logo.gif" width="64" height="64"/> -->
-      <!-- <separator flex="1" orient="horizontal"/> -->
       <caption>&modifyheaders.caption.about;</caption>
       <hbox>
         <vbox>
@@ -80,6 +78,9 @@
         </vbox>
         <separator orient="vertical"/>
         <vbox>
+          <description class="title">&modifyheaders.label.logo.description;</description>
+          <label class="text-link" href="&modifyheaders.url.logo;" value="&modifyheaders.label.logo;"/>
+          <separator orient="horizontal"/>
           <description class="title">&modifyheaders.label.icons.description;</description>
           <label class="text-link" href="&modifyheaders.url.icons1;" value="&modifyheaders.label.icons1;"/>
           <label class="text-link" href="&modifyheaders.url.icons2;" value="&modifyheaders.label.icons2;"/>

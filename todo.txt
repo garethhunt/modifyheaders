@@ -3,7 +3,6 @@ Version 0.7.x
 * Other header sort options
 * Multiple select headers to enable/disable together
 * Defects/Enhancements:
- * 23472: Status bar icon
  * 23554: Sort headers
 
 Version 0.8

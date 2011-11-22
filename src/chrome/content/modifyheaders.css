@@ -42,12 +42,22 @@ radio[pane=paneOptions] {
 radio[pane=paneAbout] {
   list-style-image:url("chrome://modifyheaders/content/icons/info.png");
 }
-radio#modifyheaders-help-button {
+radio#modifyheaders-help-button, radio#modifyheaders-start-button {
 	text-align: end;
-	list-style-image:url("chrome://modifyheaders/content/icons/first-aid-kit.png");
   -moz-binding: url(chrome://global/content/bindings/preferences.xml#panebutton);
   -moz-box-orient: vertical;
   -moz-box-align: center
+}
+radio#modifyheaders-help-button {
+  list-style-image:url("chrome://modifyheaders/content/icons/first-aid-kit.png");
+}
+radio#modifyheaders-start-button {
+  font-weight: bold;
+  list-style-image:url("chrome://modifyheaders/content/icons/ModifyHeaders-grey-32.png");
+  padding: 0 5px;
+}
+radio#modifyheaders-start-button.started {
+  list-style-image:url("chrome://modifyheaders/content/icons/ModifyHeaders-32.png");
 }
 
 treechildren::-moz-tree-drop-feedback(dropAfter) {

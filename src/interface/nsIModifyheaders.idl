@@ -6,7 +6,7 @@ interface mhIHeader;
 interface nsIModifyheaders : nsISupports
 {
     attribute unsigned long count;
-    attribute boolean alwaysOn;
+    attribute boolean active;
     attribute boolean openAsTab;
     attribute boolean windowOpen;
 

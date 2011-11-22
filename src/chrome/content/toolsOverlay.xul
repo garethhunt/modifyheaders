@@ -5,21 +5,63 @@
 <overlay id="modifyheadersToolsOverlay"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     
-    <script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js"/>
+  <script type="application/x-javascript" src="chrome://modifyheaders/content/modifyheaders.js"/>
+  <script type="application/x-javascript" src="chrome://modifyheaders/content/preferences.js"/>
 
 	<!-- Add a menu item to the 'tools' menu -->
 	<!-- Firefox / Flock -->
-	<menupopup id="menu_ToolsPopup">
-    	<menuitem id="menu_ToolsPopup_modifyheaders" insertbefore="sanitizeSeparator" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
+	<menupopup id="menuWebDeveloperPopup">
+    	<menuitem class="menuitem-iconic" id="menu_WebDeveloperPopup_modifyheaders" image="chrome://modifyheaders/content/icons/ModifyHeaders-16.png" insertbefore="devToolsEndSeparator" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
 	</menupopup>
   
   <!-- Firefox 4 App Menu -->
   <menupopup id="appmenu_webDeveloper_popup">
-      <menuitem id="appmenu_modifyheaders" insertafter="appmenu_pageSource" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
+      <menuitem class="menuitem-iconic" id="appmenu_modifyheaders" image="chrome://modifyheaders/content/icons/ModifyHeaders-16.png" insertafter="appmenu_pageSource" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
   </menupopup>
 
   <!-- Seamonkey 2.0 -->
 	<menupopup id="toolsPopup">
     	<menuitem id="toolsPopup_modifyheaders" label="&modifyheaders.menuitem.tools.label;" oncommand="ModifyHeaders.open()" />
 	</menupopup>
+  
+  <!-- Addon toolbar -->
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton class="toolbarbutton-1 chromeclass-toolbar-additional"
+                 id="modifyheaders-addonbar-button"
+                 image="chrome://modifyheaders/content/icons/ModifyHeaders-16.png"
+                 tooltiptext="&modifyheaders.menuitem.tools.label;"
+                 label="&modifyheaders.menuitem.tools.label;"
+                 type="menu">
+      <menupopup>
+        <menuitem label="Open ModifyHeaders" oncommand="ModifyHeaders.open()"/>
+        <menuitem id="modifyheaders-toolbar-button-start" label="&modifyheaders.button.start;" oncommand="ModifyHeaders.activate()"/>
+        <menuitem id="modifyheaders-toolbar-button-stop" label="&modifyheaders.button.stop;" oncommand="ModifyHeaders.activate()"/>
+      </menupopup>
+    </toolbarbutton>
+  </toolbarpalette>
+  
+  <!-- TODO: Move most of this JS into a separate file -->
+  <script type="application/javascript">
+    window.addEventListener("load",
+      function () {
+        var addonBar = document.getElementById("addon-bar");
+        if (addonBar) {
+          if (!document.getElementById("modifyheaders-addonbar-button")) {
+            var addonBarCloseButton = document.getElementById("addonbar-closebutton");
+            addonBar.insertItem("modifyheaders-addonbar-button", addonBarCloseButton.nextSibling);
+            addonBar.collapsed = false;
+          }
+        }
+        
+        ModifyHeaders.toggleToolbarButton();
+        
+        var activateListener = new ModifyHeaders.ActivateListener(function (branch, data) {
+          if (data = "config.active") {
+            ModifyHeaders.toggleToolbarButton();
+          }
+        });
+        activateListener.register();
+        
+      }, false);
+  </script>
 </overlay>

@@ -89,15 +89,15 @@ if (!ModifyHeaders.Service) {
 		},
 		set count (c) { /* Do nothing */ },
 		
-		get alwaysOn () {
-			return this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefAlwaysOn);
+		get active() {
+			return this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefActive);
 		},
 		
-		set alwaysOn (alwaysOn) {
-			this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefAlwaysOn, alwaysOn);
+		set active (active) {
+			this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefActive, active);
 		},
 		
-		get openAsTab () {
+	    get openAsTab () {
 			return this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefOpenAsTab);
 		},
 		 
@@ -261,7 +261,7 @@ if (!ModifyHeaders.Proxy) {
 			if (topic == 'http-on-modify-request') {
 				subject.QueryInterface(Components.interfaces.nsIHttpChannel);
 				
-				if (this.modifyheadersService.windowOpen || this.modifyheadersService.alwaysOn) {
+				if (this.modifyheadersService.active) {
 					// TODO Fetch only enabled headers
 					var headers = JSON.parse(this.modifyheadersService.getHeaders());
 					
@@ -322,7 +322,7 @@ if (!ModifyHeaders.PreferencesUtil) {
 	ModifyHeaders.PreferencesUtil = function () {
 		this.prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
 		this.prefService = this.prefService.getBranch("");
-		this.prefAlwaysOn        = "modifyheaders.config.alwaysOn";
+		this.prefActive          = "modifyheaders.config.active";
 		this.prefHeaderCount     = "modifyheaders.headers.count";
 		this.prefHeaderAction    = "modifyheaders.headers.action";
 		this.prefHeaderEnabled   = "modifyheaders.headers.enabled";
