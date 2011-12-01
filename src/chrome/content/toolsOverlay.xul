@@ -49,7 +49,6 @@
           if (!document.getElementById("modifyheaders-addonbar-button")) {
             var addonBarCloseButton = document.getElementById("addonbar-closebutton");
             addonBar.insertItem("modifyheaders-addonbar-button", addonBarCloseButton.nextSibling);
-            addonBar.collapsed = false;
           }
         }
         

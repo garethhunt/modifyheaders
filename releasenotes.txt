@@ -1,5 +1,11 @@
 -- Release Notes --
 
+Release 0.7.1.1, 30 November 2011
+
+* Fixed bug 24593: Addon toolbar is displayed every time a new window is opened
+
+--
+
 Release 0.7.1.0, 23 November 2011
 
 * Added the Modify Headers icon
