@@ -1,4 +1,15 @@
 -- Todo --
+
+Version 0.7.2.0
+* Options for toolbar placement:
+ * Tools menu
+ * Web developer toolbar
+ * Addon toolbar
+ 
+Version 0.7.3
+* Firebug integration
+ * Option to include in firebug
+
 Version 0.7.x
 * Other header sort options
 * Multiple select headers to enable/disable together
