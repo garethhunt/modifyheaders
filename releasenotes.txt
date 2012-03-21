@@ -1,5 +1,19 @@
 -- Release Notes --
 
+Release 0.7.1.2, 21 March 2012
+
+* The Modify action now supports replacing a header based on a regex in the value field.
+  Any string in the value for a Modify action which matches the form /foo/bar/ triggers the code.
+  foo can be a regular expression and bar is the string which replaces the match.
+  Example: 
+    Action: Modify
+    Name: Host
+    Value: /^w{0,3}\.?domain.com$/192.168.254.65/
+    This will change www.domain.com and domain.com to 192.168.254.65 if found in the Host header.
+    Warning: This wouldn't work for matching '/' (such as in http://)
+
+--
+
 Release 0.7.1.1, 30 November 2011
 
 * Fixed bug 24593: Addon toolbar is displayed every time a new window is opened
