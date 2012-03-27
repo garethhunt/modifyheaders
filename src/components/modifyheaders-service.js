@@ -276,14 +276,14 @@ if (!ModifyHeaders.Proxy) {
 
 							// Could add a new action "Regex" instead.
 							// For the following code to run, the value supplied by the user
-							// should be of the form:  /foo/bar/
+							// should be of the form:  {foo}{bar}
 							// where 'foo' can be a regular expression
 							// and 'bar' is the string to replace the match with.
 							if(headers[i].action == "Modify") {
-								var isRegex = headerValue.match(/^\/(.*?)\/(.*?)\/$/);
+								var isRegex = headerValue.match(/^\{(.*?)\}\{(.*?)\}$/);
 								if(isRegex.length>0) { // OR == 2 to be stricter
 									var currentHeaderValue = subject.getRequestHeader(headerName);
-									// 0 = /foo/bar/; 1 = foo; 2 = bar;
+									// 0 = {foo}{bar}; 1 = foo; 2 = bar;
 									headerValue = currentHeaderValue.replace(new RegExp(isRegex[1]), isRegex[2]);
 								}
 							} else if (headers[i].action == "Add") {

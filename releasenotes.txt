@@ -8,9 +8,9 @@ Release 0.7.1.2, 21 March 2012
   Example: 
     Action: Modify
     Name: Host
-    Value: /^w{0,3}\.?domain.com$/192.168.254.65/
+    Value: {^w{0,3}\.?domain.com$}{192.168.254.65}
     This will change www.domain.com and domain.com to 192.168.254.65 if found in the Host header.
-    Warning: This wouldn't work for matching '/' (such as in http://)
+	(Updated 28th)
 
 --
 
