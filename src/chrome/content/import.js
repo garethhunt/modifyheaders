@@ -110,6 +110,7 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 						case "name":
 						case "value":
 						case "comment":
+						case "pattern":
 							characters = "";
 							break;
 						default:
@@ -139,6 +140,9 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 							break;
 						case "comment":
 							this.addHeaderProperty("comment");
+							break;
+						case "pattern":
+							this.addHeaderProperty("pattern");
 							break;
 						default:
 							throw "End Element: " + localName;
@@ -220,6 +224,8 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 	        		return ModifyHeaders.ExportImport.ImportWizard.importedConfig[row].value;
 	            } else if (column == "col-comment" || column.id == "col-comment") {
 	        		return ModifyHeaders.ExportImport.ImportWizard.importedConfig[row].comment;
+	            } else if (column == "col-pattern" || column.id == "col-pattern") {
+	        		return ModifyHeaders.ExportImport.ImportWizard.importedConfig[row].pattern;
 	            }
 	            return null;
 	        },
@@ -289,7 +295,8 @@ ModifyHeaders.ExportImport.ImportWizard = (function () {
 						action  : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].action,
 						name    : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].name,
 						value   : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].value,
-						comment : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].comment
+						comment : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].comment,
+						pattern : ModifyHeaders.ExportImport.ImportWizard.importedConfig[i].pattern
 					};
 					headers.push(header);
 					count++;

@@ -35,6 +35,7 @@
           <treecol id="col-header-name" label="modifyheaders.treecol.name" flex="1"/>
           <treecol id="col-header-value" label="modifyheaders.treecol.value" flex="1"/>
           <treecol id="col-comment" label="modifyheaders.treecol.comment" flex="1"/>
+          <treecol id="col-pattern" label="modifyheaders.treecol.pattern" flex="1"/>
         </treecols>
         <treechildren />
       </tree>

@@ -122,7 +122,9 @@ ModifyHeaders.ExportImport.ExportWizard = (function () {
 	            } else if (column == "col-header-value" || column.id == "col-header-value") {
 	            	return this.data[row].value;
 	            } else if (column == "col-comment" || column.id == "col-comment") {
-	            	return this.data[row].comment
+	            	return this.data[row].comment;
+	            } else if (column == "col-pattern" || column.id == "col-pattern") {
+	            	return this.data[row].pattern;
 	            }
 	            return null;
 	        },
