@@ -86,6 +86,7 @@
 <!ENTITY modifyheaders.placeholder.name "Header name (e.g. user-agent)">
 <!ENTITY modifyheaders.placeholder.value "Header value">
 <!ENTITY modifyheaders.placeholder.comment "Descriptive comment">
+<!ENTITY modifyheaders.placeholder.pattern "Pattern">
 
 <!-- Title -->
 <!ENTITY modifyheaders.title.export "Modify Headers Export Wizard">
@@ -96,12 +97,14 @@
 <!ENTITY modifyheaders.tooltip.name "Enter the header name">
 <!ENTITY modifyheaders.tooltip.value "Enter the header value">
 <!ENTITY modifyheaders.tooltip.comment "Enter a comment to describe this header">
+<!ENTITY modifyheaders.tooltip.pattern "Enter a pattern that url should match">
 
 <!-- Treecol -->
 <!ENTITY modifyheaders.treecol.action "Action">
 <!ENTITY modifyheaders.treecol.name "Name">
 <!ENTITY modifyheaders.treecol.value "Value">
 <!ENTITY modifyheaders.treecol.comment "Comment">
+<!ENTITY modifyheaders.treecol.pattern "Pattern">
 
 <!-- URLs -->
 <!ENTITY modifyheaders.url.contribute "https://addons.mozilla.org/en-US/firefox/addon/modify-headers/">

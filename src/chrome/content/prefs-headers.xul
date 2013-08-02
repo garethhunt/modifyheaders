@@ -21,6 +21,7 @@
             <textbox id="headername-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.name;" tooltiptext="&modifyheaders.tooltip.name;" type="autocomplete" autocompletesearch="modifyheaders-autocomplete" />
             <textbox id="headervalue-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.value;" tooltiptext="&modifyheaders.tooltip.value;" />
             <textbox id="headercomment-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.comment;" tooltiptext="&modifyheaders.tooltip.comment;" />
+            <textbox id="headerpattern-text-box" flex="1" disabled="true" placeholder="&modifyheaders.placeholder.pattern;" tooltiptext="&modifyheaders.tooltip.pattern;" />
             <button id="add-header-button" label="&modifyheaders.button.headers.add;" command="addHeader" flex="0" hidden="false" disabled="true" />
             <button id="save-header-button" label="&modifyheaders.button.headers.save;" command="saveHeader" flex="0" hidden="true" />
             <button id="reset-form-button" label="&modifyheaders.button.headers.reset;" command="resetHeaderForm" flex="0" hidden="false" />
@@ -40,6 +41,8 @@
                 <treecol id="valuecol" label="&modifyheaders.treecol.value;" flex="1" persist="width" ignoreincolumnpicker="true" />
                 <splitter class="tree-splitter" />
                 <treecol id="commentcol" label="&modifyheaders.treecol.comment;" flex="1" persist="width" ignoreincolumnpicker="true" />
+                <splitter class="tree-splitter" />
+                <treecol id="patterncol" label="&modifyheaders.treecol.pattern;" flex="1" persist="width" ignoreincolumnpicker="true" />
                 <splitter class="tree-splitter" />
                 <treecol id="enabledcol" width="20" fixed="true" ignoreincolumnpicker="true" />
                 <!-- sbcol provides space for a scrollbar if one appears -->

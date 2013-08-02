@@ -29,6 +29,7 @@ if (!ModifyHeaders.Header) {
 		this.aComment  = "";
 		this.aEnabled  = false;
 		this.aSelected = true;
+		this.pattern  = "";
 	};
 	
 	ModifyHeaders.Header.prototype = {
@@ -56,8 +57,11 @@ if (!ModifyHeaders.Header) {
 		get selected () { return this.aSelected },
 		set selected (selected) { this.aSelected = selected },
 		
+		get pattern () { return this.pattern },
+		set pattern (selected) { this.pattern = pattern },
+		
 		equals: function (obj) {
-			return (this.action.toLowerCase() == obj.action.toLowerCase() && this.name.toLowerCase() == obj.name.toLowerCase() && this.value.toLowerCase() == obj.value.toLowerCase()) ? true : false;
+			return (this.action.toLowerCase() == obj.action.toLowerCase() && this.name.toLowerCase() == obj.name.toLowerCase() && this.value.toLowerCase() == obj.value.toLowerCase() && this.pattern == obj.pattern);
 		}
 	};
 }
@@ -97,7 +101,7 @@ if (!ModifyHeaders.Service) {
 			this.preferencesUtil.setPreference("bool", this.preferencesUtil.prefActive, active);
 		},
 		
-	    get openAsTab () {
+		get openAsTab () {
 			return this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefOpenAsTab);
 		},
 		 
@@ -180,6 +184,7 @@ if (!ModifyHeaders.Service) {
 					value: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderValue + i),
 					action: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderAction + i),
 					comment: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderComment + i),
+					pattern: this.preferencesUtil.getPreference("char", this.preferencesUtil.prefHeaderPattern + i),
 					enabled: this.preferencesUtil.getPreference("bool", this.preferencesUtil.prefHeaderEnabled + i)
 				};
 				
@@ -255,7 +260,19 @@ if (!ModifyHeaders.Proxy) {
 			category: "profile-after-change",
 			entry: "Modify Headers Proxy"
 		}],
-					
+		
+		isPatternMatch: function (header, url) {
+			try {
+				if(!header.pattern || header.pattern.length==0) {
+					return true; // pattern not set so ignore it
+				}
+				var pattern = new RegExp(".*"+header.pattern+".*", "i");
+				return pattern.test(url);
+			} catch(e) {
+				return false; // default if pattern is invalid
+			}
+		},
+		
 		// nsIObserver interface method
 		observe: function (subject, topic, data) {
 			if (topic == 'http-on-modify-request') {
@@ -265,9 +282,11 @@ if (!ModifyHeaders.Proxy) {
 					// TODO Fetch only enabled headers
 					var headers = JSON.parse(this.modifyheadersService.getHeaders());
 					
+					var url = subject.URI.spec;
+
 					// TODO See if a foreach is better here
 					for (var i=0; i < headers.length; i++) {
-						if (headers[i].enabled) {
+						if (headers[i].enabled && this.isPatternMatch(headers[i], url)) {
 							var headerName = headers[i].name;
 							
 							// This is the default for action = Modify
@@ -329,6 +348,7 @@ if (!ModifyHeaders.PreferencesUtil) {
 		this.prefHeaderName      = "modifyheaders.headers.name";
 		this.prefHeaderValue     = "modifyheaders.headers.value";
 		this.prefHeaderComment   = "modifyheaders.headers.comment";
+		this.prefHeaderPattern   = "modifyheaders.headers.pattern";
 		this.prefMigratedHeaders = "modifyheaders.config.migrated";
 		this.prefOpenAsTab       = "modifyheaders.config.openNewTab";
 	};

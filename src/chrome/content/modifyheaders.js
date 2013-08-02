@@ -44,6 +44,7 @@ var ModifyHeaders = {
   nameTextbox: null,
   valueTextbox: null,
   commentTextbox: null,
+  patternTextbox: null,
   addButton: null,
   saveButton: null,
   
@@ -93,6 +94,8 @@ var ModifyHeaders = {
     	return this.data[row].value;
       } else if (column == "commentcol" || column.id == "commentcol") {
     	return this.data[row].comment;
+      } else if (column == "patterncol" || column.id == "patterncol") {
+    	return this.data[row].pattern;
       }
       return null;
     },
@@ -167,6 +170,7 @@ var ModifyHeaders = {
     this.nameTextbox = document.getElementById("headername-text-box");
     this.valueTextbox = document.getElementById("headervalue-text-box");
     this.commentTextbox = document.getElementById("headercomment-text-box");
+    this.patternTextbox = document.getElementById("headerpattern-text-box");
     this.addButton = document.getElementById("add-header-button");
     this.saveButton = document.getElementById("save-header-button");
     
@@ -237,6 +241,7 @@ var ModifyHeaders = {
       "name"   : document.getElementById("headername-text-box").value,
       "value"  : document.getElementById("headervalue-text-box").value,
       "comment": document.getElementById("headercomment-text-box").value,
+      "pattern": document.getElementById("headerpattern-text-box").value,
       "enabled": true
     }
     this.headerListTreeView.data.push(header);
@@ -278,6 +283,9 @@ var ModifyHeaders = {
       if (this.headerListTreeView.data[selectedRowIndex].comment != "") {
         this.commentTextbox.value = this.headerListTreeView.data[selectedRowIndex].comment;
       }
+      if (this.headerListTreeView.data[selectedRowIndex].pattern != "") {
+        this.patternTextbox.value = this.headerListTreeView.data[selectedRowIndex].pattern;
+      }
       
       this.headerListTreeView.editedRowID = selectedRowIndex;
       
@@ -290,6 +298,7 @@ var ModifyHeaders = {
         this.valueTextbox.disabled = false;
       }
       this.commentTextbox.disabled = false;
+      this.patternTextbox.disabled = false;
       this.addButton.disabled = false;
       this.saveButton.disabled = false;
     }
@@ -303,6 +312,7 @@ var ModifyHeaders = {
         "name"   : this.nameTextbox.value,
         "value"  : this.valueTextbox.value,
         "comment": this.commentTextbox.value,
+        "pattern": this.patternTextbox.value,
         "enabled": this.headerListTreeView.data[this.headerListTreeView.editedRowID].enabled
       }
       this.headerListTreeView.data[this.headerListTreeView.editedRowID] = header;
@@ -332,10 +342,12 @@ var ModifyHeaders = {
     this.nameTextbox.value = "";
     this.valueTextbox.value = "";
     this.commentTextbox.value = "";
+    this.patternTextbox.value = "";
     
     this.nameTextbox.disabled = true;
     this.valueTextbox.disabled = true;
     this.commentTextbox.disabled = true;
+    this.patternTextbox.disabled = true;
     
     this.addButton.setAttribute("hidden", "false");
     this.saveButton.setAttribute("hidden", "true");
@@ -449,6 +461,7 @@ var ModifyHeaders = {
         this.nameTextbox.disabled = false;
         this.valueTextbox.disabled = false;
         this.commentTextbox.disabled = false;
+        this.patternTextbox.disabled = false;
         this.addButton.disabled = false;
         this.saveButton.disabled = false;
         break
@@ -457,6 +470,7 @@ var ModifyHeaders = {
         this.valueTextbox.value = "";
         this.valueTextbox.disabled = true;
         this.commentTextbox.disabled = false;
+        this.patternTextbox.disabled = false;
         this.addButton.disabled = false;
         this.saveButton.disabled = false;
         break
